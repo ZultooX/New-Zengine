@@ -12,8 +12,12 @@
 
 #include <ImGui/imgui.h>
 
+#include <Engine/AssetManagement/MeshManager.h>
+
 EngineSettings Engine::Settings;
 IGraphicsAPI* Engine::GraphicsEngine;
+
+MeshManager meshManager;
 
 bool Engine::Initialize()
 {
@@ -21,6 +25,9 @@ bool Engine::Initialize()
 
 	MetaFileRegistry::ValidateFiles();
 	MetaFileRegistry::Load();
+
+	meshManager = {};
+	meshManager.Init();
 
 	return true;
 }
@@ -34,6 +41,8 @@ bool Engine::LateInitialize()
 #endif // USE_DX11
 
 	if (!GraphicsEngine->Initialize()) return false;
+
+	meshManager.Load(ZENGINE_MODELS_PATH "Cube.fbx");
 
 	Editor::Init();
 

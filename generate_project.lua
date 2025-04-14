@@ -8,7 +8,7 @@ Config.Workspace["Architecture"] = "x64"
 Config.Workspace["Defines"] = {
     ["EngineDefines"] = {
         'ZENGINE_ASSETS_PATH=\"' .. path.translate(Dirs.Bin, '/') .. '\"',
-        'ZENGINE_MESHES_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Meshes/', '/') .. '\"',
+        'ZENGINE_MODELS_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Models/', '/') .. '\"',
         'ZENGINE_SETTINGS_PATH=\"' .. path.translate(Dirs.Bin .. 'Settings/', '/') .. '\"',
         -- 'ZENGINE_SHADERS_SOURCE_PATH=\"' .. path.translate(Dirs.Projects, '/Shaders/') .. '\"',
         'USE_DX11',

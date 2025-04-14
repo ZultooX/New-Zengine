@@ -144,4 +144,9 @@ ID3D11Device* DX11GraphicsEngine::GetDevice() { return myDevice; }
 ID3D11RenderTargetView* DX11GraphicsEngine::GetRTV() { return myBackBuffer; }
 ID3D11DepthStencilView* DX11GraphicsEngine::GetDSV() { return myDepthBuffer; }
 ID3D11ShaderResourceView* DX11GraphicsEngine::GetSRV() { return mySRV; }
+
+void DX11GraphicsEngine::CreateBuffer(ID3D11Buffer** aBuffer, const D3D11_BUFFER_DESC& aBufferDescription, const D3D11_SUBRESOURCE_DATA& someData)
+{
+	myDevice->CreateBuffer(&aBufferDescription, &someData, aBuffer);
+}
 #endif // USE_DX11

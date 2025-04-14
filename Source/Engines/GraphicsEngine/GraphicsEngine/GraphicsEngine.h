@@ -23,7 +23,7 @@ class DX11GraphicsEngine final : public IGraphicsAPI
 {
 public:
 	bool Initialize() override;
-
+	
 	void Present() override;
 
 public:
@@ -34,6 +34,8 @@ public:
 	ID3D11RenderTargetView* GetRTV();
 	ID3D11DepthStencilView* GetDSV();
 	ID3D11ShaderResourceView* GetSRV();
+
+	void CreateBuffer(ID3D11Buffer** aBuffer, const D3D11_BUFFER_DESC& aBufferDescription, const D3D11_SUBRESOURCE_DATA& someData);
 
 private:
 	bool PreUpdate() override;

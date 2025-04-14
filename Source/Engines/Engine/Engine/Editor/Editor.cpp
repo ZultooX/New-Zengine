@@ -33,6 +33,7 @@ void Editor::Update()
 		{
 			std::string imguiWindowName = window->GetWindowName() + "##" + std::to_string(id);
 			ImGui::Begin(imguiWindowName.c_str(), &window->myIsOpen, 0);
+			window->Update();
 			ImGui::End();
 
 			++it;
