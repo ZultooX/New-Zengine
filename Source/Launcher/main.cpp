@@ -10,8 +10,11 @@
 #include <ImGui/imgui_impl_dx11.h>
 #include <ImGui/imgui_impl_win32.h>
 #include <assert.h>
+#include <../Game/Game/GameWorld.h>
 
 #define _CRT_SECURE_NO_WARNINGS
+
+GameWorld gGameWorld;
 
 HWND gHWND;
 UINT gMESSAGE;
@@ -69,6 +72,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR,
 		assert(!"Engine initialization failed.");
 	}
 
+	gGameWorld.Init();
+
 	ShowWindow(gHWND, nCmdShow);
 	UpdateWindow(gHWND);
 
@@ -76,6 +81,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR,
 	bool shouldRun = true;
 	while (shouldRun)
 	{
+		gGameWorld.Update();
 		Engine::Update();
 
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))

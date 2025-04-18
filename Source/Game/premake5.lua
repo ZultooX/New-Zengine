@@ -22,7 +22,7 @@ project 'Game'
 
     links{
         "Engine",
-        "ECS",
+        -- "ECS",
         "PhysicsEngine",
     }
 
@@ -31,7 +31,7 @@ project 'Game'
         Dirs.Projects.Externals.Root .. "**",
 	    Dirs.Projects.Engines.Engine,
         Dirs.Projects.Engines.GraphicsEngine,
-        Dirs.Projects.Systems.ECS,
+        -- Dirs.Projects.Systems.ECS,
         Dirs.Projects.Engines.PhysicsEngine,
     }
     -- externalwarnings 'Default'
