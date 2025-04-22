@@ -7,6 +7,7 @@ class Engine;
 class Editor {
 public:
 	static void Init();
+	static void PreUpdate();
 	static void Update();
 	static void Render();
 	

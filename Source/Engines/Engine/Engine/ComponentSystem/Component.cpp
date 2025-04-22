@@ -26,4 +26,12 @@ namespace Zengine::ComponentSystem
 	{
 		return myId;
 	}
+	void Component::SetBit(const int& aBit, const bool& aState)
+	{
+		myMask.SetBit(aBit, aState);
+	}
+	bool Component::GetBit(const int& aBit)
+	{
+		return myMask.GetBit(aBit);
+	}
 }

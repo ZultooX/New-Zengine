@@ -22,8 +22,8 @@ PixelInputType main(VertexInputType input)
     output.WorldTangent = normalize(mul(rot, input.Tangent));
     output.WorldBiNormal = normalize(mul(rot, input.BiNormal));
    
-    output.Color = input.Color;
-    output.UVs = input.UVs;
+    output.Color = input.Color0;
+    output.UVs = input.UVs0;
     
     return output;
 }

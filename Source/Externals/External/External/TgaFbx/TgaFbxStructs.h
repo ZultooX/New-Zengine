@@ -12,10 +12,6 @@
 #pragma warning( push )
 #pragma warning( disable : 4201 )
 
-// THIS WAS CRAETED BY ZULTOOX
-// TGA IS A COVER IT STANDS FOR (PAY ME)
-// PAY `ME ACCORDING TO MY LICENSE.
-
 namespace TGA
 {
 	namespace FBX

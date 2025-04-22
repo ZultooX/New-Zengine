@@ -3,29 +3,33 @@
 #include <string>
 #include <d3d11.h>
 
-namespace zg
+namespace Zengine::Graphics
 {
-	namespace shaders
+	template<typename T>
+	class AbstractShader
 	{
-		template<typename T>
-		class AbstractShader
-		{
-		public:
-			AbstractShader() = default;
-			~AbstractShader() = default;
+	public:
+		AbstractShader() = default;
+		~AbstractShader() = default;
 
+		const T* GetShader() const;
+		T* GetShader();
 
-			ID3DBlob* CompileShader(const wchar_t* aPath, const char* aShaderModel, const std::string& aEntryPoint);
+	protected:
+		virtual void Compile() = 0;
 
-			const T* GetShader() const;
-			T* GetShader();
+	protected:
+		std::string myShaderPath;
+		T* myShader;
+	};
 
-		protected:
-			virtual void Compile() = 0;
-
-		protected:
-			std::string myShaderPath;
-			T* myShader;
-		};
+	namespace Compiler {
+		ID3DBlob* CompileShader(const wchar_t* aPath, const char* aShaderModel, const std::string& aEntryPoint);
 	}
+
+	template<typename T>
+	T* AbstractShader<T>::GetShader() { return myShader; }
+
+	template<typename T>
+	const T* AbstractShader<T>::GetShader() const { return myShader; }
 }

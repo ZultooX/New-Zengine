@@ -35,6 +35,8 @@ public:
 	ID3D11DepthStencilView* GetDSV();
 	ID3D11ShaderResourceView* GetSRV();
 
+	void SetBackBufferAsTarget();
+
 	void CreateBuffer(ID3D11Buffer** aBuffer, const D3D11_BUFFER_DESC& aBufferDescription, const D3D11_SUBRESOURCE_DATA& someData);
 
 private:
@@ -46,11 +48,13 @@ private:
 	bool CreateDepthStencil();
 	bool CreateDeviceAndSwapchain();
 	bool CreateRenderTarget();
+	bool CreateTextureSamplers();
 
 private:
 	ID3D11DeviceContext* myContext;
 	IDXGISwapChain* mySwapChain;
 	ID3D11Device* myDevice;
+	ID3D11SamplerState* myDefaultSampler;
 
 	ID3D11RenderTargetView* myBackBuffer;
 	ID3D11DepthStencilView* myDepthBuffer;

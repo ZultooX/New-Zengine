@@ -3,5 +3,5 @@
 
 float4 main(PixelInputType input) : SV_TARGET0
 {
-    return float4(1.f, 1.f, 1.f, 1.f);
+    return float4(input.Color.rgb, 1.f);
 }

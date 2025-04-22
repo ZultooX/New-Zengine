@@ -13,9 +13,15 @@ struct VertexInputType
 {
     float4 Position : SV_POSITION;
     
-    float4 Color : COLOR;
+    float4 Color0 : COLOR0;
+    float4 Color1 : COLOR1;
+    float4 Color2 : COLOR2;
+    float4 Color3 : COLOR3;
     
-    float2 UVs : UV;
+    float2 UVs0 : UV0;
+    float2 UVs1 : UV1;
+    float2 UVs2 : UV2;
+    float2 UVs3 : UV3;
     
     float3 Normal : NORMAL;
     

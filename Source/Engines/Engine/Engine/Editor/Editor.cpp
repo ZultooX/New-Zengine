@@ -3,7 +3,9 @@
 #include "ImGuiTools.h"
 #include <ImGui/imgui.h>
 #include <Engine/Engine.h>
+
 #include "Windows/ConsoleWindow.h"
+#include "Windows/RenderingDebuggerWindow.h"
 
 std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
 
@@ -13,9 +15,13 @@ void Editor::Init()
 	ImGuiTools::InitImGui();
 }
 
-void Editor::Update()
+void Editor::PreUpdate()
 {
 	ImGuiTools::NewImGuiFrame();
+}
+
+void Editor::Update()
+{
 
 	UpdateMainMenuBar();
 
@@ -55,6 +61,12 @@ void Editor::UpdateMainMenuBar()
 			if (ImGui::MenuItem("Console"))
 			{
 				ConsoleWindow* window = new ConsoleWindow();
+				window->Open();
+				IdToWindow[window->GetID()] = window;
+			}
+			if (ImGui::MenuItem("Rendering Debugger"))
+			{
+				RenderingDebuggerWindow* window = new RenderingDebuggerWindow();
 				window->Open();
 				IdToWindow[window->GetID()] = window;
 			}

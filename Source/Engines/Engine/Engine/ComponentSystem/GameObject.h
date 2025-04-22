@@ -2,14 +2,17 @@
 
 #include <Engine/Utilities/BitMask.hpp>
 #include "ComponentManager.h"
-
+ 
 namespace Zengine::ComponentSystem
 {
+	class Transform;
 	class GameObject final
 	{
 	public:
-		GameObject();
-		GameObject(const int& aId);
+		static GameObject* Create();
+		static GameObject* Create(const int& aId);
+
+		~GameObject();
 
 	public:
 		template <typename T>
@@ -20,6 +23,11 @@ namespace Zengine::ComponentSystem
 
 		template <typename T>
 		void RemoveComponent(const int& aIdx = 0);
+
+	public:
+		void SetID(const int aId);
+
+		Transform* transform;
 
 	private:
 		int myID = -1;

@@ -5,17 +5,35 @@
 #include <algorithm> 
 
 #include <Engine/Utilities/Random.hpp>
+#include "ComponentStates.h"
 
 namespace Zengine::ComponentSystem
 {
-	class IComponentPool{};
+	class GameObject;
+	class IComponentPool {
+	public:
+		virtual void Awake() = 0;
+		virtual void Start() = 0;
+		virtual void Update() = 0;
+		virtual void LateUpdate() = 0;
+
+	protected:
+		GameObject* GetGameObject(const int& aGameObjID);
+	};
 
 	template<typename T>
 	class ComponentPool : public IComponentPool
 	{
 	public:
+		void Awake() override;
+		void Start() override;
+		void Update() override;
+		void LateUpdate() override;
+
+	public:
 		T* AddComponent(const int& aGameObjID);
 		T* GetComponent(const int& aGameObjID, const int& aIdx = 0);
+		std::vector<T*>& GetComponents();
 		void RemoveComponent(const int& aGameObjID, const int& aIdx = 0);
 
 
@@ -27,12 +45,51 @@ namespace Zengine::ComponentSystem
 
 
 	template<typename T>
+	inline void ComponentPool<T>::Awake()
+	{
+		for (T* comp : myComponents)
+		{
+			if (!comp->GetBit(ComponentStates::AWAKENED))
+				comp->Awake();
+		}
+	}
+
+	template<typename T>
+	inline void ComponentPool<T>::Start()
+	{
+		for (T* comp : myComponents)
+		{
+			if (!comp->GetBit(ComponentStates::STARTED))
+				comp->Start();
+		}
+	}
+
+	template<typename T>
+	inline void ComponentPool<T>::Update()
+	{
+		for (T* comp : myComponents)
+		{
+			comp->Update();
+		}
+	}
+
+	template<typename T>
+	inline void ComponentPool<T>::LateUpdate()
+	{
+		for (T* comp : myComponents)
+		{
+			comp->LateUpdate();
+		}
+	}
+
+	template<typename T>
 	inline T* ComponentPool<T>::AddComponent(const int& aGameObjID)
 	{
-		const int randomID = Random::GetValue<int>();
+		const int randomID = Random::GetValue<int>(INT_MIN, INT_MAX);
 
-		T* comp = new T;
+		T* comp = new T();
 		comp->SetID(randomID);
+		comp->gameobject =GetGameObject(aGameObjID) ;
 
 		myGameObjIdToCompIdList[aGameObjID].push_back((int)myComponents.size());
 		myCompIdToIdx[comp->GetID()] = (int)myComponents.size();
@@ -51,6 +108,12 @@ namespace Zengine::ComponentSystem
 	}
 
 	template<typename T>
+	inline std::vector<T*>& ComponentPool<T>::GetComponents()
+	{
+		return myComponents;
+	}
+
+	template<typename T>
 	inline void ComponentPool<T>::RemoveComponent(const int& aGameObjID, const int& aIdx)
 	{
 		T* remove = myComponents[myGameObjIdToCompIdList[aGameObjID][aIdx]];
@@ -64,14 +127,16 @@ namespace Zengine::ComponentSystem
 		myCompIdToIdx[lastID] = removeIdx;
 		myCompIdToIdx.erase(remove->GetID());
 		myGameObjIdToCompIdList[aGameObjID].erase(myGameObjIdToCompIdList[aGameObjID].begin() + aIdx);
-		
+
 		if (myGameObjIdToCompIdList[aGameObjID].empty())
 		{
 			myGameObjIdToCompIdList.erase(aGameObjID);
 		}
 
-		delete last; 
+		delete last;
 
 		myComponents.pop_back();
 	}
 }
+
+namespace CS = Zengine::ComponentSystem;

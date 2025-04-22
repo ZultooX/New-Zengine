@@ -13,11 +13,13 @@
 #include <ImGui/imgui.h>
 
 #include <Engine/AssetManagement/MeshManager.h>
+#include <Engine/Utilities/MainSingleton.h>
+
+#include <Zultools/Timer.h>
+#include <ComponentSystem/ComponentManager.h>
 
 EngineSettings Engine::Settings;
 IGraphicsAPI* Engine::GraphicsEngine;
-
-MeshManager meshManager;
 
 bool Engine::Initialize()
 {
@@ -26,8 +28,7 @@ bool Engine::Initialize()
 	MetaFileRegistry::ValidateFiles();
 	MetaFileRegistry::Load();
 
-	meshManager = {};
-	meshManager.Init();
+	MainSingleton::Setup();
 
 	return true;
 }
@@ -41,8 +42,6 @@ bool Engine::LateInitialize()
 #endif // USE_DX11
 
 	if (!GraphicsEngine->Initialize()) return false;
-
-	meshManager.Load(ZENGINE_MODELS_PATH "Cube.fbx");
 
 	Editor::Init();
 
@@ -66,6 +65,10 @@ void Engine::Cleanup()
 
 bool Engine::PreUpdate()
 {
+	Editor::PreUpdate();
+	MainSingleton::GetInstance<CommonUtilities::Timer>().Update();
+	Zengine::ComponentSystem::ComponentManager::UpdateManager();
+
 	GraphicsEngine->Update();
 	Editor::Update();
 

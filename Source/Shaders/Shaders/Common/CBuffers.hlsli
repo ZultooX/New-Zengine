@@ -44,15 +44,10 @@ SamplerComparisonState ShadowSampler : register(s1);
 cbuffer FrameBuffer : register(b0)
 {
     float4x4 FB_InvViewMatrix;
-    float4x4 FB_ViewMatrix;
     float4x4 FB_CameraProjection;
-    float4x4 FB_InvCameraProjection;
 
     float4 FB_CameraPosition;
     float4 FB_CameraViewDir;
-    
-    int2 FB_Resolution;
-    int2 Padding0;
 }
 
 
@@ -61,7 +56,6 @@ cbuffer FrameBuffer : register(b0)
 cbuffer ObjectBuffer : register(b1)
 {
     float4x4 OB_Transform;
-    float4x4 OB_InvTransform;
 }
 
 

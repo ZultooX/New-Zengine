@@ -5,12 +5,23 @@
 
 namespace Zengine::ComponentSystem
 {
-	GameObject::GameObject()
+	GameObject* GameObject::Create()
 	{
-		
+		return GameObjectManager::CreateGameObject();
+	}
+	
+	GameObject* GameObject::Create(const int& aId)
+	{
+		return GameObjectManager::CreateGameObject(aId);
 	}
 
-	GameObject::GameObject(const int& aId)
+	GameObject::~GameObject()
 	{
+		GameObjectManager::DestroyGameObject(myID);
+	}
+
+	void GameObject::SetID(const int aId)
+	{
+		myID = aId;
 	}
 }

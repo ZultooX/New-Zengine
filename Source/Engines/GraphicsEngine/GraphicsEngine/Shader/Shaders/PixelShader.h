@@ -3,19 +3,16 @@
 #include "AbstractShader.h"
 #include <GraphicsEngine/Shader/ShaderReflection.h>
 
-namespace zg
+namespace Zengine::Graphics
 {
-	namespace shaders
+	class PixelShader final : public AbstractShader<ID3D11PixelShader>
 	{
-		class PixelShader final : public AbstractShader<ID3D11PixelShader>
-		{
-		public:
-			PixelShader(const std::string& aShaderPath);
+	public:
+		PixelShader(const char* aShaderPath);
 
-			void Compile() override;
+		void Compile() override;
 
-		private:
-			ShaderData myShaderData;
-		};
-	}
+	private:
+		ShaderData myShaderData;
+	};
 }

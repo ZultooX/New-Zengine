@@ -16,6 +16,7 @@ links {
     -- "ECS",
     
     "d3d11",
+    "d3dcompiler",
     "kernel32",
     "user32",
     "gdi32",

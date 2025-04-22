@@ -1,57 +1,56 @@
 #include "Shader.h"
-
 #include <d3dcompiler.h>
 #include <fstream>
-#include <d3d11.h>
 
-
-class ShaderIncludeHandler : public ID3DInclude
+namespace Zengine::Graphics
 {
-public:
-	STDMETHOD(Open)(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
+	class ShaderIncludeHandler : public ID3DInclude
 	{
-		IncludeType;
-		pParentData;
-
-		std::string filePath = "";
-		std::string shaderIncludesIncludeString(std::string(pFileName).substr(0, 6));
-
-		if (shaderIncludesIncludeString == "Common")
+	public:
+		STDMETHOD(Open)(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes) override
 		{
-			filePath = "../Source/Engines/GraphicsEngine/GraphicsEngine/Shaders/" + std::string(pFileName);
+			IncludeType;
+			pParentData;
+
+			std::string filePath = "";
+			std::string shaderIncludesIncludeString(std::string(pFileName).substr(0, 6));
+
+			if (shaderIncludesIncludeString == "Common")
+			{
+				filePath = "../Source/Engines/GraphicsEngine/GraphicsEngine/Shaders/" + std::string(pFileName);
+			}
+			else
+			{
+				filePath = "../Source/Engines/GraphicsEngine/GraphicsEngine/Shaders/Common/" + std::string(pFileName);
+			}
+
+			std::ifstream fileStream(filePath, std::ios::binary);
+
+			if (!fileStream.is_open())
+				return E_FAIL;
+
+			fileStream.seekg(0, std::ios::end);
+			size_t size = fileStream.tellg();
+			fileStream.seekg(0, std::ios::beg);
+
+			char* buffer = new char[size];
+			fileStream.read(buffer, size);
+			fileStream.close();
+
+			*ppData = buffer;
+			*pBytes = static_cast<UINT>(size);
+
+			return S_OK;
 		}
-		else
+		STDMETHOD(Close)(LPCVOID pData) override
 		{
-			filePath = "../Source/Engines/GraphicsEngine/GraphicsEngine/Shaders/Common/" + std::string(pFileName);
+			delete[] static_cast<const char*>(pData);
+			return S_OK;
 		}
+	};
+}
 
-		std::ifstream fileStream(filePath, std::ios::binary);
-
-		if (!fileStream.is_open())
-			return E_FAIL;
-
-		fileStream.seekg(0, std::ios::end);
-		size_t size = fileStream.tellg();
-		fileStream.seekg(0, std::ios::beg);
-
-		char* buffer = new char[size];
-		fileStream.read(buffer, size);
-		fileStream.close();
-
-		*ppData = buffer;
-		*pBytes = static_cast<UINT>(size);
-
-		return S_OK;
-	}
-	STDMETHOD(Close)(LPCVOID pData) override
-	{
-		delete[] static_cast<const char*>(pData);
-		return S_OK;
-	}
-};
-
-template <typename T>
-ID3DBlob* zg::shaders::AbstractShader<T>::CompileShader(const wchar_t* aPath, const char* aShaderModel, const std::string& aEntryPoint)
+ID3DBlob* Zengine::Graphics::Compiler::CompileShader(const wchar_t* aPath, const char* aShaderModel, const std::string& aEntryPoint)
 {
 	HRESULT hr = S_OK;
 	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -81,9 +80,3 @@ ID3DBlob* zg::shaders::AbstractShader<T>::CompileShader(const wchar_t* aPath, co
 
 	return outBlob;
 }
-
-template<typename T>
-T* zg::shaders::AbstractShader<T>::GetShader() { return myShader; }
-
-template<typename T>
-const T* zg::shaders::AbstractShader<T>::GetShader() const { return myShader; }

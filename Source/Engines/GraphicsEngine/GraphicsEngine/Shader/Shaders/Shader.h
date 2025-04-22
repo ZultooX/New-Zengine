@@ -3,23 +3,29 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-namespace zg
+namespace Zengine::Graphics
 {
-	namespace shaders
+	/// <summary>
+	/// This shader class stores both pixel and vertex shader.
+	/// </summary>
+	class Shader final
 	{
-		/// <summary>
-		/// This shader class stores both pixel and vertex shader.
-		/// </summary>
-		class Shader final
-		{
-		public:
-			Shader(const std::string& aVertexShader, const std::string& aPixelShader);
+	public:
+		Shader() = default;
+		Shader(const char* aVertexShader, const char* aPixelShader);
 
-			void Bind();
+		void Bind();
 
-		private:
-			PixelShader* myPixelShader;
-			VertexShader* myVertexShader;
-		};
-	}
+		void SetVertexShader(const char* aVertexShaderName);
+		const VertexShader* GetVertexShader() const;
+		VertexShader* GetVertexShader();
+		
+		void SetPixelShader(const char* aPixelShaderName);
+		const PixelShader* GetPixelShader() const;
+		PixelShader* GetPixelShader() ;
+
+	private:
+		PixelShader* myPixelShader;
+		VertexShader* myVertexShader;
+	};
 }

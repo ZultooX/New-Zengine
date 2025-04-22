@@ -5,22 +5,37 @@
 
 #include <Engine/Engine.h>
 #include <GraphicsEngine/GraphicsEngine.h>
-
+#include <filesystem>
 #include <GraphicsEngine/Shader/ShaderReflection.h>
+#include <fstream>
 
-zg::shaders::PixelShader::PixelShader(const std::string& aShaderPath)
+namespace Zengine::Graphics
 {
-	myShaderPath = aShaderPath;
-	Compile();
-}
+	PixelShader::PixelShader(const char* aShaderPath)
+	{
+		myShaderPath = aShaderPath;
 
-void zg::shaders::PixelShader::Compile()
-{
-	std::wstring wPath = std::wstring(myShaderPath.begin(), myShaderPath.end());
-	ID3DBlob* shader = CompileShader(wPath.c_str(), "ps_5_0", "ps_main");
+		if (std::filesystem::path(aShaderPath).extension().string() == ".cso")
+		{
+			DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
+			std::ifstream psFile;
+			psFile.open(aShaderPath, std::ios::binary);
+			std::string psData = { std::istreambuf_iterator<char>(psFile), std::istreambuf_iterator<char>() };
+			HRESULT result = ge->GetDevice()->CreatePixelShader(psData.data(), psData.size(), nullptr, &myShader);
+		}
+		else
+		{
+			Compile();
+		}
+	}
 
-	myShaderData = ShaderReflection::ReflectShader(shader);
+	void PixelShader::Compile()
+	{
+		std::wstring wPath = std::wstring(myShaderPath.begin(), myShaderPath.end());
+		ID3DBlob* shader = Compiler::CompileShader(wPath.c_str(), "ps_5_0", "ps_main");
 
-	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
-	ge->GetDevice()->CreatePixelShader(shader->GetBufferPointer(), shader->GetBufferSize(), nullptr, &myShader);
+		//myShaderData = ShaderReflection::ReflectShader(shader);
+
+
+	}
 }

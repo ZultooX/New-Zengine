@@ -57,6 +57,7 @@ struct SubMesh {
 
 struct Mesh
 {
+	std::string path;
 	std::vector<SubMesh> meshes;
 	Skeleton* skeleton;
 };

@@ -1,6 +1,17 @@
 #include <GraphicsEngine/GraphicsEngine.h>
 #include <Engine/Engine.h>
 
+#include <Engine/ComponentSystem/ComponentManager.h>
+#include <Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
+#include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
+#include <Engine/Utilities/MainSingleton.h>
+#include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
+#include <GraphicsEngine/DX11/Buffers/BufferDatas.h>
+#include <GraphicsEngine/DX11/Buffers/BufferManager.h>
+#include <Engine/ComponentSystem/Components/TransformComponent.h>
+
+#include <GraphicsEngine/DX11/Rendering/RenderPass/RenderPassManager.h>
+
 #ifdef USE_DX11
 extern HWND gHWND;
 
@@ -12,6 +23,7 @@ bool DX11GraphicsEngine::Initialize()
 	if (!CreateDeviceAndSwapchain()) return false;
 	if (!CreateRenderTarget()) return false;
 	if (!CreateDepthStencil()) return false;
+	if (!CreateTextureSamplers()) return false;
 
 	myViewPort.TopLeftX = 0.f;
 	myViewPort.TopLeftY = 0.f;
@@ -22,6 +34,9 @@ bool DX11GraphicsEngine::Initialize()
 
 	myContext->RSSetViewports(1, &myViewPort);
 	myContext->OMSetRenderTargets(1, &myBackBuffer, myDepthBuffer);
+
+	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Init();
+	MainSingleton::GetInstance<RenderPassManager>().Init();
 
 	return true;
 }
@@ -117,24 +132,65 @@ bool DX11GraphicsEngine::CreateRenderTarget()
 	return SUCCEEDED(result);
 }
 
+bool DX11GraphicsEngine::CreateTextureSamplers()
+{
+	D3D11_SAMPLER_DESC samplerDesc = {};
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.BorderColor[0] = 0.0f;
+	samplerDesc.BorderColor[1] = 0.0f;
+	samplerDesc.BorderColor[2] = 0.0f;
+	samplerDesc.BorderColor[3] = 0.0f;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	myDevice->CreateSamplerState(&samplerDesc, &myDefaultSampler);
+
+	myContext->PSSetSamplers(0, 1, &myDefaultSampler);
+	return true;
+}
+
 bool DX11GraphicsEngine::PreUpdate()
 {
 	constexpr float CLEAR_COLOR[] = { 0.f, 0.f, 0.f, 1.f };
 	myContext->ClearRenderTargetView(myBackBuffer, CLEAR_COLOR);
-	myContext->ClearDepthStencilView(myDepthBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	if (myDepthBuffer)
+	{
+		myContext->ClearDepthStencilView(myDepthBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	}
 
+	myContext->OMSetRenderTargets(1, &myBackBuffer, myDepthBuffer);
 
 	return true;
 }
 
+
+
+
 bool DX11GraphicsEngine::MainUpdate()
 {
-	myContext->OMSetRenderTargets(1, &myBackBuffer, myDepthBuffer);
+	Zengine::ComponentSystem::Camera* cam = Zengine::ComponentSystem::Camera::MainCamera;
+
+	if (!cam) return true;
+
+	cam->SetPerspectiveView();
+
+	cam->gameobject->transform->UpdateTransformMatricies();
+	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateFrameBuffer(cam->inverseView, cam->projectionMatrix, {0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f ,0.f});
+
 	return true;
 }
 
 bool DX11GraphicsEngine::PostUpdate()
 {
+	MainSingleton::GetInstance<RenderPassManager>().Render();
+	myContext->OMSetRenderTargets(1, &myBackBuffer, myDepthBuffer);
+
 	return true;
 }
 
@@ -145,8 +201,14 @@ ID3D11RenderTargetView* DX11GraphicsEngine::GetRTV() { return myBackBuffer; }
 ID3D11DepthStencilView* DX11GraphicsEngine::GetDSV() { return myDepthBuffer; }
 ID3D11ShaderResourceView* DX11GraphicsEngine::GetSRV() { return mySRV; }
 
+void DX11GraphicsEngine::SetBackBufferAsTarget()
+{
+	myContext->OMSetRenderTargets(1, &myBackBuffer, nullptr);
+}
+
 void DX11GraphicsEngine::CreateBuffer(ID3D11Buffer** aBuffer, const D3D11_BUFFER_DESC& aBufferDescription, const D3D11_SUBRESOURCE_DATA& someData)
 {
-	myDevice->CreateBuffer(&aBufferDescription, &someData, aBuffer);
+	HRESULT res = myDevice->CreateBuffer(&aBufferDescription, &someData, aBuffer);
+	assert(SUCCEEDED(res));
 }
 #endif // USE_DX11

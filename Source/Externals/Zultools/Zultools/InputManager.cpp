@@ -74,7 +74,7 @@ bool InputManager::UpdateEvents(UINT aMessage, WPARAM aWparam, LPARAM aLparam)
 	case WM_MOUSEWHEEL:
 	{
 		int scrollDelta = GET_WHEEL_DELTA_WPARAM(aWparam);
-		myScrollWheelDeltaZ += scrollDelta;
+		myScrollWheelDeltaZ = scrollDelta;
 	}
 
 

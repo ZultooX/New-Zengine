@@ -25,6 +25,7 @@ objdir("%{Dirs.Temp}/%{prj.name}/%{prj.buildcfg}")
 -- pchsource "stdafx.cpp"
 
 links{
+    "d3dcompiler",
 }
 
 files {

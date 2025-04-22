@@ -11,6 +11,7 @@
 #include <ImGui/imgui_impl_win32.h>
 #include <assert.h>
 #include <../Game/Game/GameWorld.h>
+#include <Zultools/InputManager.h>
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -103,6 +104,10 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wPara
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	gHWND = hWnd;
+
+	InputManager::GetInstance()->UpdateEvents(message, wparam, lparam);
+	InputManager::GetInstance()->Update();
+
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wparam, lparam))
 		return true;

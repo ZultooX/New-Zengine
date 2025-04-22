@@ -26,14 +26,11 @@ struct ShaderData
 	std::vector<VariableData> variables;
 };
 
-namespace zg
+namespace Zengine::Graphics
 {
-	namespace shaders
+	class ShaderReflection final
 	{
-		class ShaderReflection final
-		{
-		public:
-			static ShaderData ReflectShader(ID3DBlob* aShaderBlob);
-		};
-	}
+	public:
+		static ShaderData ReflectShader(ID3DBlob* aShaderBlob);
+	};
 }

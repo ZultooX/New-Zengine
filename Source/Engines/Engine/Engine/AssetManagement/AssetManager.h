@@ -12,6 +12,8 @@ public:
 	virtual void Init() { __noop; };
 
 	virtual T* Get(const std::string& aAssetPath);
+
+protected:
 	virtual T* Load(const std::string& aAssetPath) = 0;
 
 protected:
