@@ -7,6 +7,7 @@
 #include <Engine/AssetManagement/MeshManager.h>
 #include <Engine/AssetManagement/PixelShaderManager.h>
 #include <Engine/AssetManagement/VertexShaderManager.h>
+#include <Engine/AssetManagement/MaterialManager.h>
 #include <Engine/AssetManagement/TextureManager.h>
 #include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
 #include <GraphicsEngine/DX11/Buffers/BufferManager.h>
@@ -29,6 +30,7 @@ void MainSingleton::Setup()
 
 	RegisterInstance<PixelShaderManager>();
 	RegisterInstance<VertexShaderManager>();
+	RegisterInstance<MaterialManager>();
 	RegisterInstance<TextureManager>();
 
 	RegisterInstance<Zengine::Buffers::BufferManager>();

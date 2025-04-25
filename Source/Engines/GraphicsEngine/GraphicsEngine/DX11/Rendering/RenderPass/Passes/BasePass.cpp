@@ -22,7 +22,7 @@ void BasePass::Start()
 	Vector2i size = Engine::GetSettings().GetResolution();
 	myGbuffer = GBuffer::Create(size);
 	myDepthBuffer.Create(size);
-	myPsShader = MainSingleton::GetInstance<PixelShaderManager>().Get(ZENGINE_SHADERS_PATH"PS_GBuffer.cso");
+	myPsShader = MainSingleton::GetInstance<PixelShaderManager>().Get(ZENGINE_SHADERS_PATH "PS_GBuffer.cso");
 }
 
 void BasePass::Render()

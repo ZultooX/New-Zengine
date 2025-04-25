@@ -47,6 +47,7 @@ struct Vertex {
 
 struct SubMesh {
 	std::string meshName;
+	unsigned int materialIndex;
 
 	std::vector<Vertex> verticies;
 	std::vector<unsigned> indicies;

@@ -15,6 +15,8 @@ namespace Zengine::Graphics
 		const T* GetShader() const;
 		T* GetShader();
 
+		inline const std::string& GetPath() { return myShader; }
+
 	protected:
 		virtual void Compile() = 0;
 

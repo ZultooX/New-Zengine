@@ -55,6 +55,8 @@ void MeshManager::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh* aOutMesh
 	{
 		aOutMesh->meshes.push_back(SubMesh());
 
+		aOutMesh->meshes.back().materialIndex = element.MaterialIndex;
+
 		aOutMesh->meshes.back().meshName = element.MeshName;
 
 		aOutMesh->meshes.back().indicies.resize(element.Indices.size());
