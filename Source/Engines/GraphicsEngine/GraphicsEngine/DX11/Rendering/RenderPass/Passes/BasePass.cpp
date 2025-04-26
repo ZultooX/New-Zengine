@@ -71,7 +71,7 @@ void BasePass::BindMaterial(const Material* aMaterial)
 
 	for (const TextureData& textureData : aMaterial->GetTextures())
 	{
-		Texture* texture = MainSingleton::GetInstance<TextureManager>().Get(textureData.texturePath);
+		Texture* texture = MainSingleton::GetInstance<TextureManager>().Get(ZENGINE_ASSETS_PATH + textureData.texturePath);
 
 		ge->GetContext()->PSSetShaderResources(textureData.bindSlot, 1, texture->GetSRVAddress());
 	}

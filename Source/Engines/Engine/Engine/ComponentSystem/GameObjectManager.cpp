@@ -18,8 +18,8 @@ namespace Zengine::ComponentSystem
     {
         myIdToGameObject[aId] = new GameObject();
         myIdToGameObject[aId]->SetID(aId);
-        myIdToGameObject[aId]->transform = myIdToGameObject[aId]->AddComponent<Transform>();
 
+        myIdToGameObject[aId]->transform = myIdToGameObject[aId]->AddComponent<Transform>();
         return myIdToGameObject[aId];
     }
 

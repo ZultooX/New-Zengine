@@ -27,7 +27,7 @@ namespace Zengine::Graphics
 
 	void Shader::SetVertexShader(const char* aVertexShaderName)
 	{
-		myVertexShader = MainSingleton::GetInstance<VertexShaderManager>().Get(aVertexShaderName);
+		myVertexShader = MainSingleton::GetInstance<VertexShaderManager>().Get(ZENGINE_ASSETS_PATH + std::string(aVertexShaderName));
 	}
 
 	const VertexShader* Shader::GetVertexShader() const
@@ -42,7 +42,7 @@ namespace Zengine::Graphics
 	
 	void Shader::SetPixelShader(const char* aPixelShaderName)
 	{
-		myPixelShader = MainSingleton::GetInstance<PixelShaderManager>().Get(aPixelShaderName);
+		myPixelShader = MainSingleton::GetInstance<PixelShaderManager>().Get(ZENGINE_ASSETS_PATH + std::string(aPixelShaderName));
 	}
 	
 	const PixelShader* Shader::GetPixelShader() const

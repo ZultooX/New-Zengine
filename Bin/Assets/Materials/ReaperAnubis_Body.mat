@@ -2,22 +2,22 @@
     "Textures": [
         [
             "Albedo",
-            "F:/OneDrive/Desktop/New-Zengine/Bin/Assets/Textures/TEX_Anubis_Reaper_a.tga",
+            "Assets/Textures/TEX_Anubis_Reaper_a.tga",
             0
         ],
         [
             "Normal",
-            "F:/OneDrive/Desktop/New-Zengine/Bin/Assets/Textures/TEX_Anubis_Reaper_n.tga",
+            "Assets/Textures/TEX_Anubis_Reaper_n.tga",
             1
         ],
         [
             "Material",
-            "F:/OneDrive/Desktop/New-Zengine/Bin/Assets/Textures/TEX_Anubis_Reaper_m.tga",
+            "Assets/Textures/TEX_Anubis_Reaper_m.tga",
             2
         ]
     ],
-    "sh_vertex": "F:/OneDrive/Desktop/New-Zengine/Bin/Shaders/VS_Default.cso",
-    "sh_pixel": "F:/OneDrive/Desktop/New-Zengine/Bin/Shaders/PS_Default.cso",
+    "sh_vertex": "Shaders/VS_Default.cso",
+    "sh_pixel": "Shaders/PS_Default.cso",
     "color": {
         "r": 1.0,
         "g": 1.0,
