@@ -5,7 +5,7 @@
 class ConsoleWindow final : public AbstractWindow {
 
 public:
-	ConsoleWindow();
+	ConsoleWindow(const int& aId = -1);
 
 	void Open() override;
 	void Update() override;

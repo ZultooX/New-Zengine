@@ -1,27 +1,56 @@
 #include "Common/CBuffers.hlsli"
 #include "Common/IO.hlsli"
 
-
 GBufferOutput main(PixelInputType input)
 {
     GBufferOutput output;
-    output.AlbedoColor = float4(Albedo.Sample(Sampler, input.UVs).rgb, 1.f);
-    output.AmbientOcclusionAndCustom = float4(0.3, 1.f, 0.4f, 1.f);
-    output.Material = float4(0.3, 1.f, 0.4f, 1.f);
-    output.WorldPosition = input.WorldPosition;
-
-    float3 normal = NormalMap.Sample(Sampler, input.UVs).xyz;
+   
+    float4 albedoTexture = Albedo.Sample(Sampler, input.UVs);
+    
+    // =======================
+    // [CALCULATE ALBEDO COLOR]
+    // =======================
+    if (MB_TextureSetBitSet & (1 << 0))
+    {
+        output.AlbedoColor = float4(albedoTexture.rgb, 1.f);
+    }
+    else
+    {
+        output.AlbedoColor = float4(input.Color.rgb, 1.f);
+    }
+    
+    output.AlbedoColor *= MB_albedoColor;
+   
+    
+    
+    
+    // =======================
+    // [CALCULATE NORMAL]
+    // =======================
+    float3 tangentNormal = NormalMap.Sample(Sampler, input.UVs).xyz;
+    
+    tangentNormal = tangentNormal * 2.f - 1.f;
+    
     float3x3 TBN = float3x3(
-        normalize(input.Tangent.xyz),
-        normalize(-input.BiNormal.xyz),
-        normalize(input.Normal.xyz)
+        normalize(input.WorldTangent.xyz),
+        normalize(input.WorldBiNormal.xyz),
+        normalize(input.WorldNormal.xyz)
     );
     TBN = transpose(TBN);
-    float3 pixelNormal = normalize(mul(TBN, normal));
     
-    pixelNormal = 2.f * pixelNormal - 1.f;
-    output.Normal = float4(pixelNormal, 1.f);
-
-
+    float3 worldNormal = normalize(mul(TBN, tangentNormal));
+    
+    //output.Normal = float4(worldNormal, 1.f);
+    output.Normal = float4((worldNormal * 0.5f) + 0.5f, 1.f);
+    
+    
+    
+    // =======================
+    // [SET MATERIAL, POS AND AO]
+    // =======================
+    output.Material = float4(MaterialMap.Sample(Sampler, input.UVs).rgb, 1.f);
+    output.WorldPosition = input.WorldPosition;
+    output.AmbientOcclusionAndCustom = float4((float3)albedoTexture.a, 1.f);
+    
     return output;
 }

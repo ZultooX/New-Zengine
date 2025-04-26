@@ -12,6 +12,7 @@ namespace Zengine::ComponentSystem
 		static GameObject* CreateGameObject(const int& aId);
 
 		static GameObject* GetGameObject(const int& aId);
+		static std::unordered_map<int, GameObject*>& GetGameObjects() ;
 
 		static void DestroyGameObject(const int& aId);
 

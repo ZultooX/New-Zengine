@@ -17,15 +17,20 @@ namespace Zengine::ComponentSystem
     GameObject* GameObjectManager::CreateGameObject(const int& aId)
     {
         myIdToGameObject[aId] = new GameObject();
+        myIdToGameObject[aId]->SetID(aId);
         myIdToGameObject[aId]->transform = myIdToGameObject[aId]->AddComponent<Transform>();
 
-        myIdToGameObject[aId]->SetID(aId);
         return myIdToGameObject[aId];
     }
 
     GameObject* GameObjectManager::GetGameObject(const int& aId)
     {
         return myIdToGameObject[aId];
+    }
+
+    std::unordered_map<int, GameObject*>& GameObjectManager::GetGameObjects()
+    {
+        return myIdToGameObject;
     }
 
     void GameObjectManager::DestroyGameObject(const int& aId)

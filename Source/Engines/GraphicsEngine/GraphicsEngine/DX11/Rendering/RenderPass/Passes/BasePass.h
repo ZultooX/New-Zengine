@@ -10,6 +10,8 @@ namespace Zengine::Graphics
 	class PixelShader;
 }
 
+class Material;
+
 class BasePass final
 {
 public:
@@ -18,6 +20,9 @@ public:
 
 public:
 	GBuffer& GetGBuffer() { return myGbuffer; }
+
+private:
+	void BindMaterial(const Material* aMaterial);
 
 private:
 	GBuffer myGbuffer;

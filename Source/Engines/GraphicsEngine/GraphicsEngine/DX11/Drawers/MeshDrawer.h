@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GraphicsEngine/GraphicsStructs.h>
 
 namespace Zengine
 {
@@ -23,7 +24,7 @@ namespace Zengine::Graphics
 	{
 	public:
 		static void Draw(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer);
-		static void Draw(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer, PixelShader* aPixelShader, VertexShader* aVertexShader);
+		static void Draw(const SubMesh& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader);
 
 		void BindMaterial(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer, const unsigned& aIdx);
 

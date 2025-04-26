@@ -4,6 +4,8 @@
 #include <TgaFbx\TGAFbx.h>
 #include <Zultools\Math\Vector3.hpp>
 #include <Zultools\Math\Vector2.hpp>
+#include <Zultools\Math\Color.h>
+#include <Engine/Utilities/BitMask.hpp>
 
 
 
@@ -12,6 +14,7 @@
 struct FrameBufferData
 {
 	Matrix4x4f	CameraViewInverse;
+	Matrix4x4f	CameraView;
 	Matrix4x4f	Projection;
 
 	Vector4f	CameraPosition = { 0.f, 0.f, 0.f , 0.f};
@@ -79,7 +82,7 @@ struct PointLightBufferData
 // A buffer that every mesh renderer has.
 struct MaterialBufferData
 {
-	Vector4f AlbedoColor = { 1.f, 1.f, 1.f, 1.f };
+	Color Color = { 1.f, 1.f, 1.f, 1.f };
 
 	float	 Roughness = 1.f;
 	float	 Metallic = 0.f;
@@ -88,8 +91,7 @@ struct MaterialBufferData
 
 	int		 TextureSetFlags = 0;
 	int		 NormalMappingFlags = 0;
-	int		 Padding1;
-	int		 Padding2;
+	Zengine::Util::BitMask<> myTextureSet;
 };
 
 

@@ -60,6 +60,7 @@ bool Engine::Update()
 void Engine::Cleanup()
 {
 	MetaFileRegistry::Unload();
+	Editor::Save();
 }
 
 

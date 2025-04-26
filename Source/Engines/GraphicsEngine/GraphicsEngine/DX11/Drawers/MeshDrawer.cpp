@@ -13,30 +13,30 @@ namespace Zengine::Graphics
 {
 	void MeshDrawer::Draw(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer)
 	{
-		DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
+		//DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
 
 
-		for (const std::string& materialPath : aMeshrenderer->GetMaterials())
-		{
-			Material* material = MainSingleton::GetInstance<MaterialManager>().Get(materialPath);
-			
-			for(const TextureData& textureData : material->GetTexture())
-			{ 
-				Texture* texture = MainSingleton::GetInstance<TextureManager>().Get(textureData.texturePath);
+		//for (const std::string& materialPath : aMeshrenderer->GetMaterials())
+		//{
+		//	Material* material = MainSingleton::GetInstance<MaterialManager>().Get(materialPath);
+		//	
+		//	for(const TextureData& textureData : material->GetTexture())
+		//	{ 
+		//		Texture* texture = MainSingleton::GetInstance<TextureManager>().Get(textureData.texturePath);
 
-				ge->GetContext()->PSSetShaderResources(textureData.bindSlot, 1, texture->GetSRVAddress());
-			}
-
-
-		}
+		//		ge->GetContext()->PSSetShaderResources(textureData.bindSlot, 1, texture->GetSRVAddress());
+		//	}
 
 
+		//}
 
 
-		Draw(aMeshrenderer, nullptr, aMeshrenderer->GetVertexShader());
+
+
+		//Draw(aMeshrenderer, nullptr, aMeshrenderer->GetVertexShader());
 	}
 
-	void MeshDrawer::Draw(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer, PixelShader* aPixelShader, VertexShader* aVertexShader)
+	void MeshDrawer::Draw(const SubMesh& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader)
 	{
 		DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
 
@@ -46,17 +46,13 @@ namespace Zengine::Graphics
 		ge->GetContext()->PSSetShader(aPixelShader->GetShader(), nullptr, 0);
 		ge->GetContext()->VSSetShader(aVertexShader->GetShader(), nullptr, 0);
 
-		const Mesh* mesh = aMeshrenderer->GetMesh();
-		for (const SubMesh& sub : mesh->meshes)
-		{
-			constexpr unsigned int stride = sizeof(Vertex);
-			constexpr unsigned int offset = 0;
+		constexpr unsigned int stride = sizeof(Vertex);
+		constexpr unsigned int offset = 0;
 
-			ge->GetContext()->IASetVertexBuffers(0, 1, &sub.vertexBuffer, &stride, &offset);
-			ge->GetContext()->IASetIndexBuffer(sub.indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		ge->GetContext()->IASetVertexBuffers(0, 1, &aMesh.vertexBuffer, &stride, &offset);
+		ge->GetContext()->IASetIndexBuffer(aMesh.indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-			ge->GetContext()->DrawIndexed(sub.indicies.size(), 0, 0);
-		}
+		ge->GetContext()->DrawIndexed(aMesh.indicies.size(), 0, 0);
 	}
 	void MeshDrawer::BindMaterial(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer, const unsigned& aIdx)
 	{

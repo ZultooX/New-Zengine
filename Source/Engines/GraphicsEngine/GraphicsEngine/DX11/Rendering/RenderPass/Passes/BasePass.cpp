@@ -16,6 +16,11 @@
 #include <GraphicsEngine/Shader/Shaders/PixelShader.h>
 #include <Engine/AssetManagement/PixelShaderManager.h>
 #include <Engine/AssetManagement/TextureManager.h>
+#include <Engine/AssetManagement/MaterialManager.h>
+
+#include <Engine/Engine.h>
+#include <GraphicsEngine/GraphicsEngine.h>
+#include <GraphicsEngine/DX11/Materials/Material.h>
 
 void BasePass::Start()
 {
@@ -38,19 +43,36 @@ void BasePass::Render()
 	{
 		renderer->gameobject->transform->UpdateTransformMatricies();
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateObjectBuffer(renderer->gameobject->transform->transformMatrix);
-		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateBuffers();
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Bind();
 
-		std::string* textures = renderer->GetTextures();
-		for (int i = 0; i < TextureSlot::COUNT; i++)
+		for (const SubMesh& sub : renderer->GetMesh()->meshes)
 		{
-			if (textures[i].empty()) continue;
+			if (sub.materialIndex < renderer->GetMaterials().size())
+			{
+				Material* material = MainSingleton::GetInstance<MaterialManager>().Get(renderer->GetMaterials()[sub.materialIndex]);
 
-			textureManager.Get(textures[i])->SetAsResourceOnSlot(i);
+				BindMaterial(material);
+
+
+				drawer.Draw(sub, myPsShader, material->GetShader().GetVertexShader());
+			}
 		}
-
-		drawer.Draw(renderer, myPsShader, renderer->GetVertexShader());
 	}
 
 	myGbuffer.Unbind();
+}
+
+void BasePass::BindMaterial(const Material* aMaterial)
+{
+	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
+
+	aMaterial->Bind();
+	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateBuffers();
+
+	for (const TextureData& textureData : aMaterial->GetTextures())
+	{
+		Texture* texture = MainSingleton::GetInstance<TextureManager>().Get(textureData.texturePath);
+
+		ge->GetContext()->PSSetShaderResources(textureData.bindSlot, 1, texture->GetSRVAddress());
+	}
 }

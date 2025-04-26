@@ -16,9 +16,9 @@ GBuffer GBuffer::Create(Vector2i aSize)
 	std::array<DXGI_FORMAT, (int)GBufferTexture::Count> textureFormats = {
 		DXGI_FORMAT_R32G32B32A32_FLOAT,
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		DXGI_FORMAT_R10G10B10A2_UNORM,
+		DXGI_FORMAT_R16G16B16A16_FLOAT,
 		DXGI_FORMAT_R8G8B8A8_UNORM,
-		DXGI_FORMAT_R8G8B8A8_UNORM
+		DXGI_FORMAT_R8G8B8A8_UNORM,
 	};
 
 	GBuffer output;
@@ -81,9 +81,9 @@ void GBuffer::ClearTextures()
 void GBuffer::SetAsActiveTarget(DepthBuffer* aDepth)
 {
 	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
-	ID3D11RenderTargetView* nullRTV[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
-	ge->GetContext()->OMSetRenderTargets(5, nullRTV, nullptr);
-	ID3D11ShaderResourceView* nullSRVs[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	ID3D11RenderTargetView* nullRTV[6] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	ge->GetContext()->OMSetRenderTargets((int)GBufferTexture::Count, nullRTV, nullptr);
+	ID3D11ShaderResourceView* nullSRVs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr,nullptr };
 	ge->GetContext()->PSSetShaderResources(0, (int)GBufferTexture::Count, nullSRVs);
 
 	if (aDepth)
@@ -113,7 +113,7 @@ void GBuffer::SetAsResourceOnSlot(GBufferTexture atexture, unsigned aSlot)
 void GBuffer::SetAllAsResources(unsigned aSlot)
 {
 	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
-	ID3D11ShaderResourceView* nullSRVs[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	ID3D11ShaderResourceView* nullSRVs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	ge->GetContext()->PSSetShaderResources(aSlot, (int)GBufferTexture::Count, nullSRVs);
 
 	ge->GetContext()->PSSetShaderResources(aSlot, (int)GBufferTexture::Count, mySRVs[0].GetAddressOf());
@@ -122,9 +122,9 @@ void GBuffer::SetAllAsResources(unsigned aSlot)
 void GBuffer::Unbind()
 {
 	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
-	ID3D11RenderTargetView* nullRTV[5] = { nullptr,nullptr,nullptr,nullptr,nullptr };
-	ge->GetContext()->OMSetRenderTargets(5, nullRTV, nullptr);
-	ID3D11ShaderResourceView* nullSRVs[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	ID3D11RenderTargetView* nullRTV[6] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	ge->GetContext()->OMSetRenderTargets((int)GBufferTexture::Count, nullRTV, nullptr);
+	ID3D11ShaderResourceView* nullSRVs[6] = { nullptr, nullptr, nullptr, nullptr, nullptr,nullptr };
 	ge->GetContext()->PSSetShaderResources(0, (int)GBufferTexture::Count, nullSRVs);
 }
 

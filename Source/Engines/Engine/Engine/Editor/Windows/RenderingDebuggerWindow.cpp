@@ -7,10 +7,10 @@
 #include <Engine/Utilities/MainSingleton.h>
 #include <GraphicsEngine/DX11/Rendering/RenderPass/RenderPassManager.h>
 
-RenderingDebuggerWindow::RenderingDebuggerWindow()
+RenderingDebuggerWindow::RenderingDebuggerWindow(const int& aId)
 {
 	myWindowName = "Rendering Debugger";
-	myID = Random::GetValue<unsigned>();
+	myID = aId == -1 ? Random::GetValue<int>() : aId;
 }
 
 void RenderingDebuggerWindow::Open()

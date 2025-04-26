@@ -14,9 +14,15 @@ namespace Zengine::ComponentSystem
 		void SetMesh(const char* aPixelShaderName);
 		Mesh* GetMesh() const;
 
-		inline void AddMaterial(const std::string& aMaterialPath) { myMaterials.push_back(aMaterialPath); }
 
+		inline void AddMaterial(const std::string& aMaterialPath) { myMaterials.push_back(aMaterialPath); }
+		void SetMaterial(const unsigned& aIdx, const std::string& aMaterialPath);
+
+		const std::string& GetMaterialAtIndex(const unsigned& aIdx) const;
 		const std::vector<std::string>& GetMaterials();
+
+		void RemoveMaterialAtIndex(const unsigned& aIdx);
+		void ClearMaterials();
 
 	private:
 		std::vector<std::string> myMaterials;

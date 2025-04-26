@@ -9,3 +9,4 @@ Material* MaterialManager::Load(const std::string& aMaterialPath)
 
     return myAssets.back();
 }
+

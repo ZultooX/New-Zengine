@@ -6,6 +6,9 @@
 
 #include "Windows/ConsoleWindow.h"
 #include "Windows/RenderingDebuggerWindow.h"
+#include "Windows/HiearchyWindow.h"
+#include "Windows/InspectorWindow.h"
+#include <fstream>
 
 std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
 
@@ -13,6 +16,18 @@ std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
 void Editor::Init()
 {
 	ImGuiTools::InitImGui();
+
+	std::ifstream file(ZENGINE_SETTINGS_PATH"Editor.ini");
+
+	std::string nameLine;
+	std::string idLine;
+	while (std::getline(file, nameLine))
+	{
+		std::getline(file, idLine);
+
+		int id = std::stoi(idLine);
+		OpenWindow(nameLine, id);
+	}
 }
 
 void Editor::PreUpdate()
@@ -58,22 +73,49 @@ void Editor::UpdateMainMenuBar()
 	{
 		if (ImGui::BeginMenu("Windows"))
 		{
-			if (ImGui::MenuItem("Console"))
-			{
-				ConsoleWindow* window = new ConsoleWindow();
-				window->Open();
-				IdToWindow[window->GetID()] = window;
-			}
-			if (ImGui::MenuItem("Rendering Debugger"))
-			{
-				RenderingDebuggerWindow* window = new RenderingDebuggerWindow();
-				window->Open();
-				IdToWindow[window->GetID()] = window;
-			}
+			if (ImGui::MenuItem("Console")) OpenWindow("Console", -1);
+			if (ImGui::MenuItem("Rendering Debugger")) OpenWindow("Rendering Debugger", -1);
+			if (ImGui::MenuItem("Hiearchy")) OpenWindow("Hiearchy", -1);
 
 			ImGui::EndMenu();
 		}
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+void Editor::OpenWindow(const std::string& aName, const int& aId)
+{
+	AbstractWindow* window = nullptr;
+
+	if (aName == "Console")
+	{
+		window = new ConsoleWindow(aId);
+	}
+	else if (aName == "Rendering Debugger")
+	{
+		window = new RenderingDebuggerWindow(aId);
+	}
+	else if (aName == "Hiearchy")
+	{
+		window = new HiearchyWindow(aId);
+	}
+
+	if (window == nullptr) return;
+
+	window->Open();
+	IdToWindow[window->GetID()] = window;
+}
+
+void Editor::Save()
+{
+	std::ofstream file(ZENGINE_SETTINGS_PATH"Editor.ini");
+
+	for (auto& [id, window] : IdToWindow)
+	{
+		file << window->GetWindowName() << "\n"
+			<< std::to_string(window->GetID()) << "\n";
+	}
+
+	file.close();
 }

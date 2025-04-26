@@ -44,6 +44,7 @@ SamplerComparisonState ShadowSampler : register(s1);
 cbuffer FrameBuffer : register(b0)
 {
     float4x4 FB_InvViewMatrix;
+    float4x4 FB_ViewMatrix;
     float4x4 FB_CameraProjection;
 
     float4 FB_CameraPosition;
@@ -117,8 +118,8 @@ cbuffer MaterialBuffer : register(b5)
     
     int MB_textureIsSetFlag;
     int MB_NormalMappingFlags;
-    float Garbage2;
-    float Garbage3;
+    int MB_BitSetCapacity = 0;
+    int MB_TextureSetBitSet;
 };
 
 

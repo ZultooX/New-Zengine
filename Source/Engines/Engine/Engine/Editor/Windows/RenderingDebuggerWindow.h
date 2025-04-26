@@ -6,7 +6,7 @@
 class RenderingDebuggerWindow final : public AbstractWindow {
 
 public:
-	RenderingDebuggerWindow();
+	RenderingDebuggerWindow(const int& aId = -1);
 
 	void Open() override;
 	void Update() override;

@@ -4,10 +4,10 @@
 #include <ImGui/imgui.h>
 #include <Engine/Editor/DebugLogger.h>
 
-ConsoleWindow::ConsoleWindow()
+ConsoleWindow::ConsoleWindow(const int& aId)
 {
 	myWindowName = "Console";
-	myID = Random::GetValue<unsigned>();
+	myID = aId == -1 ? Random::GetValue<int>() : aId;
 }
 
 void ConsoleWindow::Open()

@@ -9,7 +9,8 @@ namespace Zengine::Buffers
 	enum BufferSlot
 	{
 		FRAME_BUFFER,
-		OBJECT_BUFFER
+		OBJECT_BUFFER,
+		MATERIAL_BUFFER = 5,
 	};
 
 	class BufferManager
@@ -20,6 +21,7 @@ namespace Zengine::Buffers
 		void UpdateFrameBuffer(const Matrix4x4f& aCameraInverse, const Matrix4x4f& aProjection, 
 			const Vector4f& aCameraPosition, const Vector4f& aCameraViewDir);
 		void UpdateObjectBuffer(const Matrix4x4f& aObjectTransform);
+		void UpdateMaterialBuffer(const MaterialBufferData& aMaterialData);
 
 		void UpdateBuffers();
 
@@ -32,9 +34,11 @@ namespace Zengine::Buffers
 	private:
 		FrameBufferData myFrameBufferData;
 		ObjectBufferData myObjectBufferData;
+		MaterialBufferData myMaterialBufferData;
 
 		ID3D11Buffer* myFrameBuffer;
 		ID3D11Buffer* myObjectBuffer;
+		ID3D11Buffer* myMaterialBuffer;
 
 		Zengine::Utilities::BitMask<> myBufferMask;
 	};

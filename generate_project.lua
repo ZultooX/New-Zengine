@@ -12,6 +12,7 @@ Config.Workspace["Defines"] = {
         'ZENGINE_SETTINGS_PATH=\"' .. path.translate(Dirs.Bin .. 'Settings/', '/') .. '\"',
         'ZENGINE_SHADERS_PATH=\"' .. path.translate(Dirs.Bin .. 'Shaders/', '/') .. '\"',
         'ZENGINE_TEXTURES_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Textures/', '/') .. '\"',
+        'ZENGINE_MATERIALS_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Materials/', '/') .. '\"',
         -- 'ZENGINE_SHADERS_SOURCE_PATH=\"' .. path.translate(Dirs.Projects, '/Shaders/') .. '\"',
         'USE_DX11',
     },
