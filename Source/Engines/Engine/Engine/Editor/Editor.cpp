@@ -1,7 +1,10 @@
 #include "Editor.h"
+#ifdef _DEBUG
 
 #include "ImGuiTools.h"
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_impl_dx11.h>
+#include <ImGui/imgui_impl_win32.h>
 #include <Engine/Engine.h>
 
 #include "Windows/ConsoleWindow.h"
@@ -67,6 +70,11 @@ void Editor::Render()
 	ImGuiTools::RenderImGui();
 }
 
+void Editor::OnResize()
+{
+	ImGuiTools::OnResize();
+}
+
 void Editor::UpdateMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
@@ -76,6 +84,7 @@ void Editor::UpdateMainMenuBar()
 			if (ImGui::MenuItem("Console")) OpenWindow("Console", -1);
 			if (ImGui::MenuItem("Rendering Debugger")) OpenWindow("Rendering Debugger", -1);
 			if (ImGui::MenuItem("Hiearchy")) OpenWindow("Hiearchy", -1);
+			if (ImGui::MenuItem("Inspector")) OpenWindow("Inspector", -1);
 
 			ImGui::EndMenu();
 		}
@@ -100,6 +109,10 @@ void Editor::OpenWindow(const std::string& aName, const int& aId)
 	{
 		window = new HiearchyWindow(aId);
 	}
+	else if (aName == "Inspector")
+	{
+		window = new InspectorWindow(aId);
+	}
 
 	if (window == nullptr) return;
 
@@ -119,3 +132,5 @@ void Editor::Save()
 
 	file.close();
 }
+
+#endif

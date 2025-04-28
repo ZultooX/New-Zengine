@@ -11,6 +11,8 @@ public:
 	static bool LateInitialize();
 	static bool Update();
 
+	static bool OnResize(const int& aWidth, const int& aHeight);
+
 	static void Cleanup();
 
 public:

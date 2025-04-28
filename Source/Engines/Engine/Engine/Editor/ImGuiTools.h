@@ -20,6 +20,7 @@ namespace ImGuiTools
 	void InitImGui();
 	void NewImGuiFrame();
 	void RenderImGui();
+	void OnResize();
 	void RenderView(ID3D11ShaderResourceView* atexture);
 	void Cleanup();
 }

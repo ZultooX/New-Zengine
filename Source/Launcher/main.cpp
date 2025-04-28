@@ -119,6 +119,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wparam, LPARAM lparam)
 		Engine::Cleanup();
 		break;
 
+	case WM_SIZE:
+		RECT rect;
+		if (GetClientRect(hWnd, &rect))
+		{
+			int width = rect.right - rect.left;
+			int height = rect.bottom - rect.top;
+
+			Engine::OnResize(width, height);
+		}
+
+		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wparam, lparam);
 	}

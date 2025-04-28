@@ -1,6 +1,6 @@
 {
-    "sh_vertex": "F:/OneDrive/Desktop/New-Zengine/Bin/Shaders/VS_Default.cso",
-    "sh_pixel": "F:/OneDrive/Desktop/New-Zengine/Bin/Shaders/PS_Default.cso",
+    "sh_vertex": "Shaders/VS_Default.cso",
+    "sh_pixel": "Shaders/PS_Default.cso",
     "color": {
         "r": 1.0,
         "g": 1.0,

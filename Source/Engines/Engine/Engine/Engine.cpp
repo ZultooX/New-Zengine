@@ -1,22 +1,23 @@
 #include "Engine.h"
+
 #include <Engine/Files/MetaFileRegistry.h>
+#include <Engine/AssetManagement/MeshManager.h>
+#include <Engine/Utilities/MainSingleton.h>
+#include <Zultools/Timer.h>
+#include <ComponentSystem/ComponentManager.h>
+#include <Engine/EngineSettings.h>
+#include <GraphicsEngine/GraphicsEngine.h>
 
 #include <External/nlohmann/json.hpp>
+
+#ifdef _DEBUG
+#include <Editor/Editor.h>
+#include <ImGui/imgui.h>
+#endif
+
 #include <fstream>
 #include <string>
 
-#include <Engine/EngineSettings.h>
-
-#include <GraphicsEngine/GraphicsEngine.h>
-#include <Editor/Editor.h>
-
-#include <ImGui/imgui.h>
-
-#include <Engine/AssetManagement/MeshManager.h>
-#include <Engine/Utilities/MainSingleton.h>
-
-#include <Zultools/Timer.h>
-#include <ComponentSystem/ComponentManager.h>
 
 EngineSettings Engine::Settings;
 IGraphicsAPI* Engine::GraphicsEngine;
@@ -43,7 +44,9 @@ bool Engine::LateInitialize()
 
 	if (!GraphicsEngine->Initialize()) return false;
 
+#ifdef _DEBUG
 	Editor::Init();
+#endif
 
 	return true;
 }
@@ -57,21 +60,43 @@ bool Engine::Update()
 	return true;
 }
 
+bool Engine::OnResize(const int& aWidth, const int& aHeight)
+{
+	if (!GraphicsEngine) return false;
+
+	EngineSettings& settings = Engine::GetSettings();
+	settings.SetResolution({ aWidth, aHeight });
+
+	GraphicsEngine->OnResize();
+	Editor::OnResize();
+
+	return true;
+}
+
 void Engine::Cleanup()
 {
 	MetaFileRegistry::Unload();
+
+#ifdef _DEBUG
 	Editor::Save();
+#endif
 }
 
 
 bool Engine::PreUpdate()
 {
+#ifdef _DEBUG
 	Editor::PreUpdate();
+#endif
+
 	MainSingleton::GetInstance<CommonUtilities::Timer>().Update();
 	Zengine::ComponentSystem::ComponentManager::UpdateManager();
 
 	GraphicsEngine->Update();
+
+#ifdef _DEBUG
 	Editor::Update();
+#endif
 
 	return true;
 }
@@ -83,7 +108,10 @@ bool Engine::MainUpdate()
 
 bool Engine::PostUpdate()
 {
+#ifdef _DEBUG
 	Editor::Render();
+#endif
+
 	GraphicsEngine->Present();
 	return true;
 }

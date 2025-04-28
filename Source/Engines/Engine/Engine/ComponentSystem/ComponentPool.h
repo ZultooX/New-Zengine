@@ -10,12 +10,15 @@
 namespace Zengine::ComponentSystem
 {
 	class GameObject;
+	class Component;
 	class IComponentPool {
 	public:
 		virtual void Awake() = 0;
 		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void LateUpdate() = 0;
+
+		virtual std::vector<Component*> GetComponent(const int& aId) = 0;
 
 	protected:
 		GameObject* GetGameObject(const int& aGameObjID);
@@ -35,6 +38,8 @@ namespace Zengine::ComponentSystem
 		T* GetComponent(const int& aGameObjID, const int& aIdx = 0);
 		std::vector<T*>& GetComponents();
 		void RemoveComponent(const int& aGameObjID, const int& aIdx = 0);
+
+		std::vector<Component*> GetComponent(const int& aId) override;
 
 
 	private:
@@ -136,6 +141,21 @@ namespace Zengine::ComponentSystem
 		delete last;
 
 		myComponents.pop_back();
+	}
+	template<typename T>
+	inline std::vector<Component*> ComponentPool<T>::GetComponent(const int& aId)
+	{
+		if (myGameObjIdToCompIdList.find(aId) == myGameObjIdToCompIdList.end()) return {};
+
+
+		std::vector<Component*> comps;
+
+		for (const int& id : myGameObjIdToCompIdList.at(aId))
+		{
+			comps.push_back(myComponents[id]);
+		}
+
+		return comps;
 	}
 }
 

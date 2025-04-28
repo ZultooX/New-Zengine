@@ -10,6 +10,8 @@ public:
 	static void PreUpdate();
 	static void Update();
 	static void Render();
+
+	static void OnResize();
 	
 	static void Save();
 

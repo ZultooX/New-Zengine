@@ -6,6 +6,7 @@
 
 struct EngineSettingsData {
 	Vector2i Resolution = { 1280, 720 };
+	int maxAnimationBones = 64;
 
 	std::wstring engineName = L"Zulle";
 	std::wstring windowName = L"Zengine";

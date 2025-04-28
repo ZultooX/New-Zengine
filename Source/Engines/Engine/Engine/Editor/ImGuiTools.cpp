@@ -34,6 +34,9 @@ void ImGuiTools::InitImGui()
 
 void ImGuiTools::NewImGuiFrame()
 {
+	const EngineSettings& settings = Engine::GetSettings();
+	ImGui::GetIO().DisplaySize = ImVec2(settings.GetResolution().x, settings.GetResolution().y);
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -52,6 +55,12 @@ void ImGuiTools::RenderImGui()
 	ImGui::RenderPlatformWindowsDefault();
 }
 
+void ImGuiTools::OnResize()
+{
+	Cleanup();
+	InitImGui();
+}
+
 void ImGuiTools::RenderView(ID3D11ShaderResourceView* atexture)
 {
 	ImGui::Begin("Viewport");
@@ -63,5 +72,9 @@ void ImGuiTools::RenderView(ID3D11ShaderResourceView* atexture)
 
 void ImGuiTools::Cleanup()
 {
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+
+	ImGui::DestroyContext();
 }
 #endif // _DEBUG

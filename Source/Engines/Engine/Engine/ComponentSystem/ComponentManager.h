@@ -9,6 +9,8 @@
 
 namespace Zengine::ComponentSystem
 {
+	class Component;
+
 	class ComponentManager final
 	{
 	private:
@@ -32,6 +34,7 @@ namespace Zengine::ComponentSystem
 
 		template <typename T>
 		static std::vector<T*>& GetComponents();
+		static std::vector<Component*> GetComponents(const int& aGameObjID);
 
 	private:
 		static std::unordered_map<std::type_index, int> myGameObjectIdToIdx;

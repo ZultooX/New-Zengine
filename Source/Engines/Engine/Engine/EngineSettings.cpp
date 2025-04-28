@@ -34,6 +34,7 @@ void EngineSettings::Save()
 	json["Resolution"] = { data.Resolution.x, data.Resolution.y };
 	json["EngineName"] = std::string(data.engineName.begin(), data.engineName.end());
 	json["WindowName"] = std::string(data.windowName.begin(), data.windowName.end());
+	json["MaxAnimationBones"] = data.maxAnimationBones;
 
 	file << json.dump(4);
 	file.close();
@@ -62,6 +63,9 @@ void EngineSettings::Load()
 
 	name = json["WindowName"];
 	data.windowName = std::wstring(name.begin(), name.end());
+
+	data.maxAnimationBones = json["MaxAnimationBones"];
+
 }
 
 void EngineSettings::CreateFile()

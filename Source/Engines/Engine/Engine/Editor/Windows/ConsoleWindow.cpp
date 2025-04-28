@@ -22,7 +22,7 @@ void ConsoleWindow::Update()
 	ImGui::Checkbox("Show Warnings", &myShouldShowWarnings);
 	ImGui::SameLine();
 	ImGui::Checkbox("Show Errors", &myShouldShowErrors);
-
+	ImGui::SameLine();
 	ImGui::Checkbox("Collapse", &myShouldCollapseMessages);
 	ImGui::SameLine();
 	if (ImGui::Button("Clear"))DebugLogger::Clear();

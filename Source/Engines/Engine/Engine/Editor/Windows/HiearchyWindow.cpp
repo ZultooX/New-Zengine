@@ -4,6 +4,9 @@
 #include <Engine/ComponentSystem/GameObjectManager.h>
 #include <ImGui/imgui.h>
 
+int HiearchyWindow::ActiveGameObject = -1;
+int HiearchyWindow::ActiveIdx = -1;
+
 HiearchyWindow::HiearchyWindow(const int& aId)
 {
 	myWindowName = "Hiearchy";
@@ -16,10 +19,30 @@ void HiearchyWindow::Open()
 
 void HiearchyWindow::Update()
 {
+	constexpr ImVec4 normalColor = ImVec4(0.137f, 0.27f, 0.427f, 1.f);
+	constexpr ImVec4 highlightedColor = ImVec4(0.194f, 0.33f, 0.727f, 1.f);
+
 	auto list = Zengine::ComponentSystem::GameObjectManager::GetGameObjects();
+	int i = 0;
 	for (auto& [id, obj] : list)
 	{
-		ImGui::Text(std::to_string(id).c_str());
+		if (i == ActiveIdx)
+		{
+			ImGui::GetStyle().Colors[ImGuiCol_Button] = highlightedColor;
+		}
+
+		if (ImGui::Button(obj->GetName().c_str()))
+		{
+			ActiveGameObject = id;
+			ActiveIdx = i;
+		}
+
+		if (i == ActiveIdx)
+		{
+			ImGui::GetStyle().Colors[ImGuiCol_Button] = normalColor;
+		}
+
+		++i;
 	}
 }
 

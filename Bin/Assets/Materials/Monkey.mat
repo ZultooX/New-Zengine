@@ -1,0 +1,22 @@
+{
+    "Textures": [
+        [
+            "Albedo",
+            "Assets/Textures/Albedo.tga",
+            0
+        ],
+        [
+            "Normal",
+            "Assets/Textures/Normal.tga",
+            1
+        ]
+    ],
+    "sh_vertex": "Shaders/VS_Default.cso",
+    "sh_pixel": "Shaders/PS_Default.cso",
+    "color": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+    }
+}

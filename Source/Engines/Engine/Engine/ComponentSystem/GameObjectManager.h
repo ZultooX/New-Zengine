@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include "GameObject.h"
 
 namespace Zengine::ComponentSystem
@@ -18,6 +19,7 @@ namespace Zengine::ComponentSystem
 
 	private:
 		static std::unordered_map<int, GameObject*> myIdToGameObject;
+		static std::vector<std::string> Names;
 	};
 }
 

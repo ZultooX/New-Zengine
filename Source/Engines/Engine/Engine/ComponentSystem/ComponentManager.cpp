@@ -42,4 +42,19 @@ namespace Zengine::ComponentSystem
 		Update();
 		LateUpdate();
 	}
+
+	std::vector<Component*> ComponentManager::GetComponents(const int& aGameObjID)
+	{
+		std::vector<Component*> comps;
+
+		for (IComponentPool* pool : myComponentPools)
+		{
+			for (Component* comp : pool->GetComponent(aGameObjID))
+			{
+				comps.push_back(comp);
+			}
+		}
+
+		return comps;
+	}
 }

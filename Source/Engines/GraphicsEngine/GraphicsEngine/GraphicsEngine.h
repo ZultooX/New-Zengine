@@ -11,6 +11,9 @@ public:
 
 	virtual void Present() = 0;
 
+	virtual void OnResize() = 0;
+	virtual void Cleanup() = 0;
+
 protected:
 	virtual bool PreUpdate() = 0;
 	virtual bool MainUpdate() = 0;
@@ -25,6 +28,10 @@ public:
 	bool Initialize() override;
 	
 	void Present() override;
+
+	void OnResize() override;
+	void Cleanup() override;
+
 
 public:
 	ID3D11DeviceContext* GetContext();

@@ -6,6 +6,8 @@
 namespace Zengine::ComponentSystem
 {
     std::unordered_map<int, GameObject*> GameObjectManager::myIdToGameObject;
+    std::vector<std::string> GameObjectManager::Names;
+
 
     GameObject* GameObjectManager::CreateGameObject()
     {
@@ -25,6 +27,8 @@ namespace Zengine::ComponentSystem
 
     GameObject* GameObjectManager::GetGameObject(const int& aId)
     {
+        if (myIdToGameObject.find(aId) == myIdToGameObject.end()) return nullptr;
+
         return myIdToGameObject[aId];
     }
 

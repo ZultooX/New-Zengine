@@ -46,6 +46,60 @@ void DX11GraphicsEngine::Present()
 	mySwapChain->Present(1, 0);
 }
 
+#include <ImGui/imgui_impl_dx11.h>
+#include <ImGui/imgui_impl_win32.h>
+
+void DX11GraphicsEngine::OnResize()
+{
+
+}
+
+
+void DX11GraphicsEngine::Cleanup()
+{
+	if (myBackBuffer) 
+	{
+		myBackBuffer->Release();
+		myBackBuffer = nullptr;
+	}
+
+	if (myDepthBuffer) 
+	{
+		myDepthBuffer->Release();
+		myDepthBuffer = nullptr;
+	}
+
+	if (mySRV) 
+	{
+		mySRV->Release();
+		mySRV = nullptr;
+	}
+
+	if (myDefaultSampler) 
+	{
+		myDefaultSampler->Release();
+		myDefaultSampler = nullptr;
+	}
+
+	if (mySwapChain) 
+	{
+		mySwapChain->Release();
+		mySwapChain = nullptr;
+	}
+
+	if (myDevice) 
+	{
+		myDevice->Release();
+		myDevice = nullptr;
+	}
+
+	if (myContext) 
+	{
+		myContext->Release();
+		myContext = nullptr;
+	}
+}
+
 bool DX11GraphicsEngine::CreateDepthStencil()
 {
 	ID3D11Texture2D* backBuffTexture = nullptr;
@@ -181,7 +235,7 @@ bool DX11GraphicsEngine::MainUpdate()
 	cam->SetPerspectiveView();
 
 	cam->gameobject->transform->UpdateTransformMatricies();
-	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateFrameBuffer(cam->inverseView, cam->projectionMatrix, {0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f ,0.f});
+	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateFrameBuffer(cam->inverseView, cam->projectionMatrix, { 0.f, 0.f, 0.f, 0.f }, { 0.f, 0.f, 0.f ,0.f });
 
 	return true;
 }

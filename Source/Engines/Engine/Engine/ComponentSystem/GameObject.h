@@ -26,10 +26,16 @@ namespace Zengine::ComponentSystem
 
 	public:
 		void SetID(const int aId);
+		inline void SetName(const std::string& aName) { myName = aName; }
+		inline const std::string& GetName() { return myName; }
+		inline const std::string& GetName() const { return myName; }
+
 
 		Transform* transform;
 
 	private:
+		std::string myName = "New Gameobject";
+
 		int myID = -1;
 		Utilities::BitMask<> myBitmask;
 	};
