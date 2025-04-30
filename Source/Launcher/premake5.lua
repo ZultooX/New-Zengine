@@ -9,7 +9,7 @@ local dirName = currentDir:match("([^/\\]+)$")
 project "Launcher"
 location "."
 -- "Engine", "Game", "GraphicsEngine", "PhysicsEngine", "Editor", 
-links { "GraphicsEngine", "Game", "Engine", "External", "ws2_32.lib" }
+links { "GraphicsEngine", "Game", "Engine", "External", "ws2_32.lib", "NetworkShared" }
 
 kind "WindowedApp"
 language "C++"
@@ -46,6 +46,7 @@ externalincludedirs {
     Dirs.Projects.Engines.GraphicsEngine,
     Dirs.Projects.Game,
     -- Dirs.Projects.Systems.ECS,
+    Dirs.Projects.Networking.NetworkShared .. "*",
     -- Dirs.Projects.Editor,
 }
 -- externalwarnings "Default"

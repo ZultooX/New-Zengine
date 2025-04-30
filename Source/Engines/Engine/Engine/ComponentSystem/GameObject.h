@@ -26,6 +26,7 @@ namespace Zengine::ComponentSystem
 
 	public:
 		void SetID(const int aId);
+		const int& GetID() { return myID; }
 		inline void SetName(const std::string& aName) { myName = aName; }
 		inline const std::string& GetName() { return myName; }
 		inline const std::string& GetName() const { return myName; }

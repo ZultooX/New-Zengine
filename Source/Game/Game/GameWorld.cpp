@@ -4,6 +4,7 @@
 #include<Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
 #include<Engine/ComponentSystem/Components/TransformComponent.h>
 #include<Engine/ComponentSystem/Components/Rendering/Camera/EditorCamera.h>
+#include<Engine/ComponentSystem/Components/Networking/NetworkTransform.h>
 
 #include <Engine/AssetManagement/MaterialManager.h>
 
@@ -25,6 +26,8 @@ void GameWorld::Init()
 
 		rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
 		rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
+		 
+		obj->AddComponent<CS::NetworkTransform>();
 	}
 
 	{
@@ -48,6 +51,8 @@ void GameWorld::Init()
 		obj->AddComponent<CS::EditorCamera>();
 
 		obj->SetName("Editor Camera");
+
+		obj->transform->position = Vector3f(0.19f, 0.67f, -2.8f);
 	}
 }
 

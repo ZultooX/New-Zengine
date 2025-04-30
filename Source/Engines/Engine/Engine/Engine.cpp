@@ -18,8 +18,11 @@
 #include <fstream>
 #include <string>
 
+#include <Client.h>
+
 
 EngineSettings Engine::Settings;
+NetworkManager Engine::networkManager;
 IGraphicsAPI* Engine::GraphicsEngine;
 
 bool Engine::Initialize()
@@ -30,6 +33,8 @@ bool Engine::Initialize()
 	MetaFileRegistry::Load();
 
 	MainSingleton::Setup();
+
+	networkManager.Init();
 
 	return true;
 }
@@ -103,6 +108,8 @@ bool Engine::PreUpdate()
 
 bool Engine::MainUpdate()
 {
+	networkManager.Update();
+
 	return true;
 }
 
@@ -119,3 +126,4 @@ bool Engine::PostUpdate()
 
 EngineSettings& Engine::GetSettings() { return Settings; }
 IGraphicsAPI* Engine::GetGraphicsEngine() { return GraphicsEngine; }
+NetworkManager& Engine::GetNetworkManager() { return networkManager; }

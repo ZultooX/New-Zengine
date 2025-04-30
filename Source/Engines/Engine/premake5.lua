@@ -10,6 +10,8 @@ links {
     "ImGui",
 
     "GraphicsEngine",
+    "Client",
+    "NetworkShared",
 }
 
 targetdir(Dirs.Temp)
@@ -26,6 +28,8 @@ files {
 includedirs {
     '.',
     Dirs.Projects.Engines.Engine .. "*",
+    Dirs.Projects.Networking.Client .. "*",
+    Dirs.Projects.Networking.NetworkShared .. "*"
 }
 
 files { "../../EngineDefines.h" }

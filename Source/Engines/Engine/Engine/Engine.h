@@ -2,8 +2,11 @@
 
 #include <Engine/EngineSettings.h>
 
+#include <Engine/NetworkManager.h>
+
 class IGraphicsAPI;
 class Editor;
+
 
 class Engine {
 public:
@@ -18,6 +21,7 @@ public:
 public:
 	static EngineSettings& GetSettings();
 	static IGraphicsAPI* GetGraphicsEngine();
+	static NetworkManager& GetNetworkManager();
 
 private:
 	static bool PreUpdate();
@@ -28,4 +32,5 @@ private:
 
 private:
 	static IGraphicsAPI* GraphicsEngine;
+	static NetworkManager networkManager;
 };

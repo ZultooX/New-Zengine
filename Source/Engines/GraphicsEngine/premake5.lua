@@ -14,7 +14,8 @@ links {
     "ImGui",
     "Zultools",
     -- "ECS",
-    
+    "NetworkShared",
+
     "d3d11",
     "d3dcompiler",
     "kernel32",
@@ -48,7 +49,8 @@ files { "../../EngineDefines.h" }
 externalincludedirs {
     -- Include the root "Externals" directory
     Dirs.Projects.Externals.Root .. "**",
-    
+    Dirs.Projects.Networking.NetworkShared .. "*",
+
     -- Loop through all subprojects and add their directories
     table.unpack(
         (function()

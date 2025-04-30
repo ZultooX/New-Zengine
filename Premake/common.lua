@@ -33,6 +33,11 @@ Dirs.Projects.Engines["GraphicsEngine"]     = path.translate(os.realpath(Dirs.Pr
 Dirs.Projects.Engines["Engine"]             = path.translate(os.realpath(Dirs.Projects.Engines.Root .. "Engine/"), '/')
 Dirs.Projects.Engines["PhysicsEngine"]      = path.translate(os.realpath(Dirs.Projects.Engines.Root .. "PhysicsEngine/"), '/')
 
+Dirs.Projects["Networking"] = {};
+Dirs.Projects.Networking["Root"]        = path.translate(os.realpath(Dirs.Projects.Root .. "Networking/"), '/')
+Dirs.Projects.Networking["Server"]      = path.translate(os.realpath(Dirs.Projects.Networking.Root .. "Server/"), '/')
+Dirs.Projects.Networking["Client"]      = path.translate(os.realpath(Dirs.Projects.Networking.Root .. "Client/"), '/')
+Dirs.Projects.Networking["NetworkShared"] = path.translate(os.realpath(Dirs.Projects.Networking.Root .. "NetworkShared/"), '/')
 
 Dirs["Assets"] = {}
 Dirs.Assets["Root"] = path.translate(os.realpath(Dirs.Bin .. "Assets/"), '/')

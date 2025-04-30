@@ -11,6 +11,7 @@
 #include "Windows/RenderingDebuggerWindow.h"
 #include "Windows/HiearchyWindow.h"
 #include "Windows/InspectorWindow.h"
+#include "Windows/NetworkingWindow.h"
 #include <fstream>
 
 std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
@@ -85,6 +86,7 @@ void Editor::UpdateMainMenuBar()
 			if (ImGui::MenuItem("Rendering Debugger")) OpenWindow("Rendering Debugger", -1);
 			if (ImGui::MenuItem("Hiearchy")) OpenWindow("Hiearchy", -1);
 			if (ImGui::MenuItem("Inspector")) OpenWindow("Inspector", -1);
+			if (ImGui::MenuItem("Networking")) OpenWindow("Networking", -1);
 
 			ImGui::EndMenu();
 		}
@@ -112,6 +114,10 @@ void Editor::OpenWindow(const std::string& aName, const int& aId)
 	else if (aName == "Inspector")
 	{
 		window = new InspectorWindow(aId);
+	}
+	else if (aName == "Networking")
+	{
+		window = new NetworkingWindow(aId);
 	}
 
 	if (window == nullptr) return;
