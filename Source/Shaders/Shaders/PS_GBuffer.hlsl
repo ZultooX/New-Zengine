@@ -1,5 +1,5 @@
-#include "Common/CBuffers.hlsli"
 #include "Common/IO.hlsli"
+#include "Common/ConstantBuffers.h"
 
 GBufferOutput main(PixelInputType input)
 {

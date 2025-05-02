@@ -9,6 +9,9 @@ namespace Zengine::ComponentSystem
 	class GameObjectManager final
 	{
 	public:
+		static void BeginFrame();
+
+	public:
 		static GameObject* CreateGameObject();
 		static GameObject* CreateGameObject(const int& aId);
 

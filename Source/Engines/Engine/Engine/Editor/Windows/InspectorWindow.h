@@ -52,22 +52,30 @@ inline void InspectorWindow::DrawComponent(T* aComponent)
 template<>
 inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::Transform* aComponent)
 {
-	bool wasDrawn = aComponent->GetBit(12);
+	bool wasDrawn = aComponent->GetBit(Zengine::ComponentSystem::EditorDrawn);
 	DrawComponentHeader("Transform", wasDrawn, 5, ImGuiStyleVar_FrameRounding);
-	aComponent->SetBit(12, wasDrawn);
+	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
-	ImGui::DragFloat3("Position", &aComponent->position.x, 0.01f);
-	ImGui::DragFloat3("Rotation", &aComponent->eulerAngles.x, 0.01f);
-	ImGui::DragFloat3("Scale   ", &aComponent->scale.x, 0.01f);
+	Vector3f pos = aComponent->GetPosition();
+	Vector3f scale = aComponent->GetScale();
+	Vector3f euler = aComponent->GetEulerAngles();
+
+	ImGui::DragFloat3("Position", &pos.x, 0.01f);
+	ImGui::DragFloat3("Rotation", &euler.x, 0.01f);
+	ImGui::DragFloat3("Scale   ", &scale.x, 0.01f);
+
+	aComponent->SetPosition(pos);
+	aComponent->SetScale(scale);
+	aComponent->SetEulerAngles(euler);
 }
 
 template<>
 inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::MeshRenderer* aComponent)
 {
-	bool wasDrawn = aComponent->GetBit(12);
+	bool wasDrawn = aComponent->GetBit(Zengine::ComponentSystem::EditorDrawn);
 	DrawComponentHeader("Meshrenderer", wasDrawn, 5, ImGuiStyleVar_FrameRounding);
-	aComponent->SetBit(12, wasDrawn);
+	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
 	ImGui::Text("THIS IS A MESH RENDERER");
@@ -76,9 +84,9 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::MeshRendere
 template<>
 inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::EditorCamera* aComponent)
 {
-	bool wasDrawn = aComponent->GetBit(12);
+	bool wasDrawn = aComponent->GetBit(Zengine::ComponentSystem::EditorDrawn);
 	DrawComponentHeader("Editor Camera", wasDrawn, 5, ImGuiStyleVar_FrameRounding);
-	aComponent->SetBit(12, wasDrawn);
+	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
 	ImGui::Text("THIS IS A EDITOR CAMERA");

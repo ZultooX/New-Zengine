@@ -3,11 +3,20 @@
 #include <Engine/Utilities/Random.hpp>
 #include <Engine/ComponentSystem/Components/TransformComponent.h>
 
+
 namespace Zengine::ComponentSystem
 {
     std::unordered_map<int, GameObject*> GameObjectManager::myIdToGameObject;
     std::vector<std::string> GameObjectManager::Names;
 
+
+    void GameObjectManager::BeginFrame()
+    {
+        for (auto& [id, gameobject] : myIdToGameObject)
+        {
+            gameobject->NewFrame();
+        }
+    }
 
     GameObject* GameObjectManager::CreateGameObject()
     {

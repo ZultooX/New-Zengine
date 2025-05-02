@@ -4,6 +4,7 @@
 #include <Engine/AssetManagement/MeshManager.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <Zultools/Timer.h>
+#include <ComponentSystem/GameObjectManager.h>
 #include <ComponentSystem/ComponentManager.h>
 #include <Engine/EngineSettings.h>
 #include <GraphicsEngine/GraphicsEngine.h>
@@ -95,13 +96,17 @@ bool Engine::PreUpdate()
 #endif
 
 	MainSingleton::GetInstance<CommonUtilities::Timer>().Update();
-	Zengine::ComponentSystem::ComponentManager::UpdateManager();
 
-	GraphicsEngine->Update();
+	Zengine::ComponentSystem::GameObjectManager::BeginFrame();
 
 #ifdef _DEBUG
 	Editor::Update();
 #endif
+
+	Zengine::ComponentSystem::ComponentManager::UpdateManager();
+
+	GraphicsEngine->Update();
+
 
 	return true;
 }

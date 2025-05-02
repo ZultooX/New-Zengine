@@ -19,8 +19,9 @@ namespace Zengine::ComponentSystem
 	void Camera::Update()
 	{
 		Matrix4x4f viewMatrix = Matrix4x4f();
-		viewMatrix.SetPosition({ gameobject->transform->position.x, gameobject->transform->position.y, gameobject->transform->position.z, 1 });
-		inverseView = viewMatrix.GetInverse() * gameobject->transform->rotationMatrix;
+		const Vector3f& pos = gameobject->transform->GetPosition();
+		viewMatrix.SetPosition({ pos.x, pos.y, pos.z, 1.f});
+		inverseView = viewMatrix.GetInverse() * gameobject->transform->GetRotationMatrix();
 	}
 
 	void Camera::SetOrthographicView()

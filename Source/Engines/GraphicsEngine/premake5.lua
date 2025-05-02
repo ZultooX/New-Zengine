@@ -15,6 +15,7 @@ links {
     "Zultools",
     -- "ECS",
     "NetworkShared",
+    "Shaders",
 
     "d3d11",
     "d3dcompiler",
@@ -64,12 +65,14 @@ externalincludedirs {
 
     -- Include additional directories explicitly if needed
     Dirs.Projects.Engines.Engine,
+    Dirs.Projects.Shaders,
 }
 
 
 includedirs {
     '.',
 	Dirs.Projects.Engines.GraphicsEngine .. "*",
+    Dirs.Projects.Shaders,
 }
 
 filter 'configurations:Debug'

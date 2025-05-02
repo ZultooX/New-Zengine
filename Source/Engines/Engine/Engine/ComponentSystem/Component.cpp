@@ -17,6 +17,23 @@ namespace Zengine::ComponentSystem
 	//	return myMask.GetBit(ComponentState::NULL);
 	//}
 
+	Component::Component()
+		: myMask(),
+		myId(-1),
+		myType(typeid(void))
+	{
+	}
+
+	void Component::SetDirty()
+	{
+		SetBit(IsDirty, true);
+		gameobject->AddDirtyComponent(myType);
+	}
+
+	void Component::ClearDirty()
+	{
+	}
+
 	void Component::SetID(const int& aId)
 	{
 		myId = aId;

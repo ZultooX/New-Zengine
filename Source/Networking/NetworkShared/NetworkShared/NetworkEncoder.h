@@ -9,6 +9,8 @@ class Encoder final
 public:
 	Encoder() = default;
 
+	void Clear();
+
 	// Begins a block message.
 	void Begin(const int& aID);
 

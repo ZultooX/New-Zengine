@@ -6,11 +6,13 @@
 #include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
-#include <GraphicsEngine/DX11/Buffers/BufferDatas.h>
 #include <GraphicsEngine/DX11/Buffers/BufferManager.h>
 #include <Engine/ComponentSystem/Components/TransformComponent.h>
 
 #include <GraphicsEngine/DX11/Rendering/RenderPass/RenderPassManager.h>
+
+#include <Shaders/Common/ConstantBuffers.h>
+
 
 #ifdef USE_DX11
 extern HWND gHWND;

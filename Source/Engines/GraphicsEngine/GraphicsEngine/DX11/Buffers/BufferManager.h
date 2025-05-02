@@ -1,6 +1,7 @@
 #pragma once
 
-#include "BufferDatas.h"
+#include <Shaders/Common/ConstantBuffers.h>
+
 #include <Engine/Utilities/BitMask.hpp>
 
 struct ID3D11Buffer;

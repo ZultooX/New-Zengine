@@ -4,7 +4,9 @@
 #include <vector>
 #include <GraphicsEngine/Shader/Shaders/Shader.h>
 #include <Zultools/Math/Color.h>
-#include <GraphicsEngine/DX11/Buffers/BufferDatas.h>
+
+#include <Shaders/Common/ConstantBuffers.h>
+
 
 enum class BindSlot : unsigned
 {
@@ -34,9 +36,9 @@ public:
 	inline const Zengine::Graphics::Shader& GetShader() const { return myShader; }
 	inline Zengine::Graphics::Shader& GetShader() { return myShader; }
 
-	inline void SetColor(const Color& aColor) { myMaterialData.Color = aColor; }
-	inline Color& GetColor() { return myMaterialData.Color; }
-	inline const Color& GetColor() const { return myMaterialData.Color; }
+	inline void SetColor(const Color& aColor) { myMaterialData.MB_albedoColor = aColor; }
+	inline Color& GetColor() { return myMaterialData.MB_albedoColor; }
+	inline const Color& GetColor() const { return myMaterialData.MB_albedoColor; }
 
 	void Bind() const;
 

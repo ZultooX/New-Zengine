@@ -43,6 +43,8 @@ namespace Zengine::Networking
 				ProcessMessages(messageBuffer);
 			}
 		}
+
+		SendToServer(myEncoder->GetData());
 	}
 
 	void Client::Connect()
@@ -66,6 +68,8 @@ namespace Zengine::Networking
 		myEncoder->Write(CLIENT_CONNECTED, 0);
 
 		SendToServer(myEncoder->GetData());
+
+		myIsRunning = true;
 	}
 
 	void Client::Disconnect()
@@ -98,12 +102,9 @@ namespace Zengine::Networking
 	void Client::SendToServer(const NetData& someData)
 	{
 		sendto(udpSocket, someData.buffer, sizeof(someData.buffer), 0, reinterpret_cast<sockaddr*>(&addrServer), sizeof(addrServer));
+		myEncoder->Clear();
 	}
 
-	const bool& Client::IsRunning() { return myIsRunning; }
-
-	Encoder* Client::GetEncoder()
-	{
-		return myEncoder;
-	}
+	Encoder* Client::GetEncoder() { return myEncoder; }
+	const bool& Client::IsRunning() const { return myIsRunning; }
 }

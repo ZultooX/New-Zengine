@@ -8,14 +8,24 @@ targetname("%{prj.name}")
 objdir("%{Dirs.Temp}/%{prj.name}/%{cfg.buildcfg}")
 
 files {
+    '**.h',
+    '**.cpp',
     '**.hlsl',
     '**.hlsli',
 }
 
+links {
+    "External"
+}
 
 includedirs {
     '.',
-    Dirs.Projects.Shaders .. "*",
+}
+
+
+externalincludedirs {
+    Dirs.Projects.Externals.Zultools,
+    Dirs.Projects.Externals.Eigen,
 }
 
 filter 'configurations:Debug'

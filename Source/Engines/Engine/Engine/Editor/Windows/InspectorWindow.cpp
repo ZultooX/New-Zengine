@@ -22,6 +22,8 @@ void InspectorWindow::Update()
 	if (HiearchyWindow::ActiveGameObject == -1) return;
 	if (!obj) return;
 
+	ImGui::Text(std::to_string(obj->GetID()).c_str());
+
 	for (Zengine::ComponentSystem::Component* comp : Zengine::ComponentSystem::ComponentManager::GetComponents(HiearchyWindow::ActiveGameObject))
 	{
 		DrawComponent(comp);

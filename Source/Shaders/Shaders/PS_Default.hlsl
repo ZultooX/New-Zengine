@@ -1,5 +1,5 @@
-#include "Common/CBuffers.hlsli"
 #include "Common/IO.hlsli"
+#include "Common/ConstantBuffers.h"
 
 float4 main(PixelInputType input) : SV_TARGET0
 {

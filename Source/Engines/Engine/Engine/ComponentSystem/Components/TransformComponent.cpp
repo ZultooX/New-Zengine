@@ -4,50 +4,54 @@ namespace Zengine::ComponentSystem
 {
 	void Transform::UpdateRotationMatrix(Eigen::Matrix3f aMatrix)
 	{
-		rotation = Eigen::Quaternionf(
-			Eigen::AngleAxisf(eulerAngles.z, Eigen::Vector3f::UnitZ()) *
-			Eigen::AngleAxisf(eulerAngles.y, Eigen::Vector3f::UnitY()) *
-			Eigen::AngleAxisf(eulerAngles.x, Eigen::Vector3f::UnitX())
+		myQuaternion = Eigen::Quaternionf(
+			Eigen::AngleAxisf(myEulerAngles.z, Eigen::Vector3f::UnitZ()) *
+			Eigen::AngleAxisf(myEulerAngles.y, Eigen::Vector3f::UnitY()) *
+			Eigen::AngleAxisf(myEulerAngles.x, Eigen::Vector3f::UnitX())
 		);
 
-		rotation.normalize();
+		myQuaternion.normalize();
 
-		rotationMatrix = Matrix4x4f();
+		myRotationMatrix = Matrix4x4f();
 
 		for (int i = 1; i < 4; i++)
 		{
 			for (int j = 1; j < 4; j++)
 			{
-				rotationMatrix(i, j) = aMatrix(i - 1, j - 1);
+				myRotationMatrix(i, j) = aMatrix(i - 1, j - 1);
 			}
 		}
 
-		rotationMatrix(1, 4) = 0.f;
-		rotationMatrix(2, 4) = 0.f;
-		rotationMatrix(3, 4) = 0.f;
+		myRotationMatrix(1, 4) = 0.f;
+		myRotationMatrix(2, 4) = 0.f;
+		myRotationMatrix(3, 4) = 0.f;
 
-		rotationMatrix(4, 1) = 0.f;
-		rotationMatrix(4, 2) = 0.f;
-		rotationMatrix(4, 3) = 0.f;
-		rotationMatrix(4, 4) = 1.f;
+		myRotationMatrix(4, 1) = 0.f;
+		myRotationMatrix(4, 2) = 0.f;
+		myRotationMatrix(4, 3) = 0.f;
+		myRotationMatrix(4, 4) = 1.f;
 	}
 
 	void Transform::UpdateTransformMatricies()
 	{
-		UpdateRotationMatrix(rotation.toRotationMatrix());
+		//if (!GetBit(IsDirty)) return;
+
+		UpdateRotationMatrix(myQuaternion.toRotationMatrix());
 		UpdateDirectionVectors();
 
-		transformMatrix = Matrix4x4f();
+		myTransformMatrix = Matrix4x4f();
 
-		transformMatrix *= Matrix4x4f::CreateScaleMatrix(scale);
-		transformMatrix *= rotationMatrix;
-		transformMatrix *= Matrix4x4f::CreateTranslation(position);
+		myTransformMatrix *= Matrix4x4f::CreateScaleMatrix(myScale);
+		myTransformMatrix *= myRotationMatrix;
+		myTransformMatrix *= Matrix4x4f::CreateTranslation(myPosition);
 
 
-		transformMatrixNoScale = Matrix4x4f();
+		myTransformMatrixNoScale = Matrix4x4f();
 
-		transformMatrixNoScale *= rotationMatrix;
-		transformMatrixNoScale *= Matrix4x4f::CreateTranslation(position);
+		myTransformMatrixNoScale *= myRotationMatrix;
+		myTransformMatrixNoScale *= Matrix4x4f::CreateTranslation(myPosition);
+
+		SetBit(IsDirty, false);
 	}
 
 	void Transform::UpdateDirectionVectors()
@@ -55,19 +59,114 @@ namespace Zengine::ComponentSystem
 		static Eigen::Vector3f EigenUp(0.f, 1.f, 0.f);
 		static Eigen::Vector3f EigenForward(0.f, 0.f, 1.f);
 
-		Eigen::Vector3f upDirection = rotation * EigenUp;
-		up = { upDirection.x(), upDirection.y(), upDirection.z() };
+		Eigen::Vector3f upDirection = myQuaternion * EigenUp;
+		myUp = { upDirection.x(), upDirection.y(), upDirection.z() };
 
-		Eigen::Vector3f forwardDirection = rotation * EigenForward;
-		forward = { forwardDirection.x(), forwardDirection.y(), forwardDirection.z() };
+		Eigen::Vector3f forwardDirection = myQuaternion * EigenForward;
+		myForward = { forwardDirection.x(), forwardDirection.y(), forwardDirection.z() };
 
 		Eigen::Vector3f rightDirection = forwardDirection.cross(upDirection).normalized();
-		right = { rightDirection.x(), rightDirection.y(), rightDirection.z() };
-		right = right * -1.f;
+		myRight = { rightDirection.x(), rightDirection.y(), rightDirection.z() };
+		myRight = myRight * -1.f;
 	}
 
-	void Transform::SetPosition(Vector3f aPos)
+#pragma region GETTERS - SETTERS
+
+	void Transform::SetPosition(const Vector3f& aPos)
 	{
-
+		myPosition = aPos;
+		SetDirty();
 	}
+
+	const Vector3f& Transform::GetPosition() const
+	{
+		return myPosition;
+	}
+
+	void Transform::SetScale(const Vector3f& aScale)
+	{
+		myScale = aScale;
+		SetDirty();
+	}
+
+	const Vector3f& Transform::GetScale() const
+	{
+		return myScale;
+	}
+
+	void Transform::SetEulerAngles(const Vector3f& aEulerAngles)
+	{
+		myEulerAngles = aEulerAngles;
+		SetDirty();
+	}
+
+	const Vector3f& Transform::GetEulerAngles() const
+	{
+		return myEulerAngles;
+	}
+
+	void Transform::SetQuaternion(const Eigen::Quaternionf& aQuaternion)
+	{
+		myQuaternion = aQuaternion;
+		SetDirty();
+	}
+
+
+	const Eigen::Quaternionf& Transform::GetQuaternion() const
+	{
+		return myQuaternion;
+	}
+
+
+	const Vector3f& Transform::GetForward() const
+	{
+		return myForward;
+	}
+
+
+	const Vector3f& Transform::GetRight() const
+	{
+		return myRight;
+	}
+
+
+	const Vector3f& Transform::GetUp() const
+	{
+		return myUp;
+	}
+
+	const Matrix4x4f& Transform::GetTransformMatrix()
+	{
+		UpdateTransformMatricies();
+		return myTransformMatrix;
+	}
+
+	const Matrix4x4f& Transform::GetTransformMatrix() const
+	{
+		return myTransformMatrix;
+	}
+
+	const Matrix4x4f& Transform::GetTransformMatrixNoScale()
+	{
+		UpdateTransformMatricies();
+		return myTransformMatrixNoScale;
+	}
+
+	const Matrix4x4f& Transform::GetTransformMatrixNoScale() const
+	{
+		return myTransformMatrixNoScale;
+	}
+
+	const Matrix4x4f& Transform::GetRotationMatrix()
+	{
+		UpdateTransformMatricies();
+		return myRotationMatrix;
+	}
+
+	const Matrix4x4f& Transform::GetRotationMatrix() const
+	{
+		return myRotationMatrix;
+	}
+
+#pragma endregion
 }

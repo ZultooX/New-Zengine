@@ -40,8 +40,12 @@ namespace Zengine::ComponentSystem
 		int deltaX = (int)point.x - lastPosition.x;
 		int deltaY = (int)point.y - lastPosition.y;
 
-		gameobject->transform->eulerAngles.x += deltaY * 0.003f;
-		gameobject->transform->eulerAngles.y += deltaX * 0.003f;
+		Vector3f rot = gameobject->transform->GetEulerAngles();
+
+		rot.x += deltaY * 0.003f;
+		rot.y += deltaX * 0.003f;
+
+		gameobject->transform->SetEulerAngles(rot);
 
 		lastPosition = Vector2i((int)point.x, (int)point.y);
 	}
@@ -54,9 +58,9 @@ namespace Zengine::ComponentSystem
 		float y = InputManager::GetInstance()->GetKey(KeyCode::E) - InputManager::GetInstance()->GetKey(KeyCode::Q);
 		float z = InputManager::GetInstance()->GetKey(KeyCode::W) - InputManager::GetInstance()->GetKey(KeyCode::S);
 
-		Vector3f movement = (gameobject->transform->right * x) +
-			(gameobject->transform->up * y) +
-			(gameobject->transform->forward * z);
+		Vector3f movement = (gameobject->transform->GetRight() * x) +
+			(gameobject->transform->GetUp() * y) +
+			(gameobject->transform->GetForward() * z);
 
 
 		float speedMultiplier = 1;
@@ -66,6 +70,8 @@ namespace Zengine::ComponentSystem
 			speedMultiplier += SpaceMoveSpeedMultiplier;
 		}
 
-		gameobject->transform->position += movement * deltaTime * speedMultiplier * myMovementSpeedMultiplier;
+		Vector3f pos = gameobject->transform->GetPosition();
+		 pos+= movement * deltaTime * speedMultiplier * myMovementSpeedMultiplier;
+		 gameobject->transform->SetPosition(pos);
 	}
 }

@@ -67,6 +67,7 @@ void Material::Load()
 	json jsonFile;
 	jsonFile << file;
 
+		Zengine::Util::BitMask<> bit;
 	for (json& element : jsonFile[Json::TexturesKey])
 	{
 		myTextures.push_back(TextureData());
@@ -74,7 +75,8 @@ void Material::Load()
 		myTextures.back().texturePath = element[1];
 		myTextures.back().bindSlot = element[2];
 
-		myMaterialData.myTextureSet.SetBit(myTextures.back().bindSlot, true);
+			bit.SetBit(myTextures.back().bindSlot, true);
+			myMaterialData.MB_TextureSetBitSet = bit.GetMask();
 	}
 
 	myShader.SetVertexShader(jsonFile.value(Json::VertexShaderKey, Json::VertexShaderDefault).c_str());
@@ -84,10 +86,10 @@ void Material::Load()
 	{
 		const json& color = jsonFile[Json::Color::Key];
 
-		myMaterialData.Color.r = color.value(Json::Color::R, Json::Color::DefaultR);
-		myMaterialData.Color.g = color.value(Json::Color::G, Json::Color::DefaultG);
-		myMaterialData.Color.b = color.value(Json::Color::B, Json::Color::DefaultB);
-		myMaterialData.Color.a = color.value(Json::Color::A, Json::Color::DefaultA);
+		myMaterialData.MB_albedoColor.r = color.value(Json::Color::R, Json::Color::DefaultR);
+		myMaterialData.MB_albedoColor.g = color.value(Json::Color::G, Json::Color::DefaultG);
+		myMaterialData.MB_albedoColor.b = color.value(Json::Color::B, Json::Color::DefaultB);
+		myMaterialData.MB_albedoColor.a = color.value(Json::Color::A, Json::Color::DefaultA);
 	}
 }
 
@@ -134,10 +136,10 @@ void Material::Save(const std::string& aPath)
 
 	json[Json::Color::Key] =
 	{
-		{Json::Color::R, myMaterialData.Color.r},
-		{Json::Color::G, myMaterialData.Color.g},
-		{Json::Color::B, myMaterialData.Color.b},
-		{Json::Color::A, myMaterialData.Color.a},
+		{Json::Color::R, myMaterialData.MB_albedoColor.r},
+		{Json::Color::G, myMaterialData.MB_albedoColor.g},
+		{Json::Color::B, myMaterialData.MB_albedoColor.b},
+		{Json::Color::A, myMaterialData.MB_albedoColor.a},
 	};
 
 	std::fstream file(aPath);

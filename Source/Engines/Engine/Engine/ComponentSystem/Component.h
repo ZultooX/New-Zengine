@@ -3,27 +3,38 @@
 #include <Engine/Utilities/BitMask.hpp>
 
 #include "GameObject.h"
+#include <typeindex>
+
+#define COMP(ComponentType)							\
+	public: \
+ComponentType() : Component() { myType = typeid(Transform); } \
+~ComponentType() override = default; \
 
 namespace Zengine::ComponentSystem
 {
+	enum BitFlags
+	{
+		IsDirty = 0,
+
+		EditorDrawn = 12,
+	};
+
 
 	class GameObject;
 	class Component
 	{
 	public:
-		Component() = default;
+		Component();
 		virtual ~Component() = default;
-
-		//bool operator ==(const ComponentState& aState);
-		//bool operator ==(const Component& aComp);
-
-		//bool IsNull();
 
 	public:
 		virtual void Awake() { __noop; }
 		virtual void Start() { __noop; }
 		virtual void Update() { __noop; }
 		virtual void LateUpdate() { __noop; }
+
+		void SetDirty();
+		void ClearDirty();
 
 	public:
 		void SetID(const int& aId);
@@ -34,9 +45,10 @@ namespace Zengine::ComponentSystem
 
 		GameObject* gameobject;
 
-	private:
+	protected:
 		Zengine::Util::BitMask<> myMask;
 		int myId;
+		std::type_index myType;
 	};
 
 }

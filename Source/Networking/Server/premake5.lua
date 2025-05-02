@@ -13,7 +13,8 @@ includedirs{
 	Dirs.Projects.Networking.NetworkShared .. "*"
 }
 
-targetdir(Dirs.Temp)
+targetdir(Dirs.Bin)
+debugdir(Dirs.Bin)
 targetname("%{prj.name}")
 objdir("%{Dirs.Temp}/%{prj.name}/%{cfg.buildcfg}")
 

@@ -37,7 +37,8 @@ void NetworkDecoder::HandleSingle(const NetData& someData, int& aIdx, DecodedMes
 	memcpy(&size, &someData.buffer[aIdx], sizeof(char));
 	aIdx += sizeof(char);
 
-	aOutMessage.message.resize(size);
+	if (size <= 0) return;
+ 	aOutMessage.message.resize(size);
 
 	memcpy(&aOutMessage.message[0], &someData.buffer[aIdx], size);
 	aIdx += size;

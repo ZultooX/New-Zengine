@@ -23,11 +23,11 @@ namespace Zengine::Networking
 		void SetRecieveMessageEvent(std::function<void(const MessageList&)> aEvent);
 		Encoder* GetEncoder();
 
+		const bool& IsRunning() const ;
+
 	private:
 		void ProcessMessages(const NetData& someData);
 		void SendToServer(const NetData& someData);
-
-		const bool& IsRunning() ;
 
 	private:
 		Encoder* myEncoder;

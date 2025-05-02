@@ -7,10 +7,11 @@
 #include <typeindex>
 #include <typeinfo>
 
+
+
 namespace Zengine::ComponentSystem
 {
 	class Component;
-
 	class ComponentManager final
 	{
 	private:

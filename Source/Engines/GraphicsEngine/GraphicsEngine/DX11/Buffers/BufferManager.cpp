@@ -12,18 +12,18 @@ void Zengine::Buffers::BufferManager::Init()
 
 void Zengine::Buffers::BufferManager::UpdateFrameBuffer(const Matrix4x4f& aCameraInverse, const Matrix4x4f& aProjection, const Vector4f& aCameraPosition, const Vector4f& aCameraViewDir)
 {
-	myFrameBufferData.CameraViewInverse = aCameraInverse;
-	myFrameBufferData.CameraView = aCameraInverse.GetInverse();
-	myFrameBufferData.Projection		= aProjection;
-	myFrameBufferData.CameraPosition	= aCameraPosition;
-	myFrameBufferData.CameraViewDir		= aCameraViewDir;
+	myFrameBufferData.FB_InvViewMatrix		= aCameraInverse;
+	myFrameBufferData.FB_ViewMatrix			= aCameraInverse.GetInverse();
+	myFrameBufferData.FB_CameraProjection	= aProjection;
+	myFrameBufferData.FB_CameraPosition		= aCameraPosition;
+	myFrameBufferData.FB_CameraViewDir		= aCameraViewDir;
 	
 	myBufferMask.SetBit(FRAME_BUFFER, true);
 }
 
 void Zengine::Buffers::BufferManager::UpdateObjectBuffer(const Matrix4x4f& aObjectTransform)
 {
-	myObjectBufferData.ModelToWorld = aObjectTransform;
+	myObjectBufferData.OB_Transform = aObjectTransform;
 
 	myBufferMask.SetBit(OBJECT_BUFFER, true);
 }

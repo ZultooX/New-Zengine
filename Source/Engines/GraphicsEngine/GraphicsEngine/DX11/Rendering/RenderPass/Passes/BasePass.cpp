@@ -10,7 +10,6 @@
 #include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
-#include <GraphicsEngine/DX11/Buffers/BufferDatas.h>
 #include <GraphicsEngine/DX11/Buffers/BufferManager.h>
 
 #include <GraphicsEngine/Shader/Shaders/PixelShader.h>
@@ -21,6 +20,9 @@
 #include <Engine/Engine.h>
 #include <GraphicsEngine/GraphicsEngine.h>
 #include <GraphicsEngine/DX11/Materials/Material.h>
+
+#include <Shaders/Common/ConstantBuffers.h>
+
 
 void BasePass::Start()
 {
@@ -42,7 +44,7 @@ void BasePass::Render()
 	for (CS::MeshRenderer* renderer : Zengine::ComponentSystem::ComponentManager::GetComponents<CS::MeshRenderer>())
 	{
 		renderer->gameobject->transform->UpdateTransformMatricies();
-		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateObjectBuffer(renderer->gameobject->transform->transformMatrix);
+		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateObjectBuffer(renderer->gameobject->transform->GetTransformMatrix());
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Bind();
 
 		for (const SubMesh& sub : renderer->GetMesh()->meshes)

@@ -1,4 +1,5 @@
 #include "ComponentManager.h"
+#include "GameObjectManager.h"
 
 namespace Zengine::ComponentSystem
 {

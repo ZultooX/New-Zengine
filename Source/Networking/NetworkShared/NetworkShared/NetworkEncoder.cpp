@@ -1,5 +1,18 @@
 #include "NetworkEncoder.h"
 
+void Encoder::Clear()
+{
+	mySize = 0;
+	myCurrentBlockSize = 0;
+	myCurrentBlockSizeIdx = 0;
+	myCurrentIdx = MESSAGE_START_IDX;
+
+	for (int i = 0; i < MAX_MESSAGE_SIZE; i++)
+	{
+		myData.buffer[i] = -52;
+	}
+}
+
 void Encoder::Begin(const int& aID)
 {
 	MessageType type = MessageType::BLOCK;

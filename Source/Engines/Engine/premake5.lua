@@ -8,7 +8,7 @@ cppdialect 'C++20'
 links {
     "External",
     "ImGui",
-
+    "Shaders",
     "GraphicsEngine",
     "Client",
     "NetworkShared",
@@ -29,7 +29,8 @@ includedirs {
     '.',
     Dirs.Projects.Engines.Engine .. "*",
     Dirs.Projects.Networking.Client .. "*",
-    Dirs.Projects.Networking.NetworkShared .. "*"
+    Dirs.Projects.Networking.NetworkShared .. "*",
+    Dirs.Projects.Shaders
 }
 
 files { "../../EngineDefines.h" }
