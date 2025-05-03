@@ -14,35 +14,45 @@
 void GameWorld::Init()
 {
 	{
-		//CS::GameObject* obj = CS::GameObject::Create();
-		//obj->transform->GetEulerAngles().x = PI * 0.5F;
-		//obj->transform->GetEulerAngles().z = PI;
-		//obj->transform->GetPosition().x = 0.75f;
-
-		//obj->SetName("Reaper");
-
-		//CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		//rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
-
-		//rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
-		//rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
-		 
-		//obj->AddComponent<CS::NetworkSyncer>();
-	}
-
-	{
 		CS::GameObject* obj = CS::GameObject::Create();
 		obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
+		obj->transform->SetPosition(Vector3f(1.75f, 0.f, 0.f));
+
+		obj->SetName("Reaper");
+
+		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
+		rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
+
+		rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
+		rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
+	}
+
+	{ // Shaman
+		CS::GameObject* obj = CS::GameObject::Create();
+		obj->transform->SetScale(Vector3f(0.01f, 0.01f, 0.01f));
 		obj->transform->SetPosition(Vector3f(-0.75f, 0.f, 0.f));
 
 
-		obj->SetName("Genji");
+		obj->SetName("Shaman");
 
 		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH"Divine monkey.fbx");
+		rend->SetMesh(ZENGINE_MODELS_PATH"Shaman.fbx");
 
-		rend->AddMaterial("Assets/Materials/Monkey.mat");
-		rend->AddMaterial("Assets/Materials/Monkey.mat");
+		rend->AddMaterial("Assets/Materials/Shaman.mat");
+	}
+
+	{ // Bro
+		CS::GameObject* obj = CS::GameObject::Create();
+		obj->transform->SetScale(Vector3f(0.01f, 0.01f, 0.01f));
+		obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
+
+
+		obj->SetName("Bro");
+
+		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
+		rend->SetMesh(ZENGINE_MODELS_PATH"Bro.fbx");
+
+		rend->AddMaterial("Assets/Materials/TgaBro.mat");
 	}
 
 
