@@ -250,6 +250,11 @@ bool DX11GraphicsEngine::PostUpdate()
 	return true;
 }
 
+#include "stb_image/stb_image.h"
+void DX11GraphicsEngine::ScreenShot()
+{
+}
+
 ID3D11DeviceContext* DX11GraphicsEngine::GetContext() { return myContext; }
 IDXGISwapChain* DX11GraphicsEngine::GetSwapChain() { return mySwapChain; }
 ID3D11Device* DX11GraphicsEngine::GetDevice() { return myDevice; }

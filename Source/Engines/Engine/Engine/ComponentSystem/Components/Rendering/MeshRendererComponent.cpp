@@ -1,7 +1,7 @@
 #include "MeshRendererComponent.h"
 
 #include <Engine/Utilities/MainSingleton.h>
-#include <Engine/AssetManagement/MeshManager.h>
+#include <Engine/New AssetManagement/Manager/AssetManager.hpp>
 
 namespace Zengine::ComponentSystem
 {
@@ -12,10 +12,10 @@ namespace Zengine::ComponentSystem
 
 	void MeshRenderer::SetMesh(const char* aMeshName)
 	{
-		myMesh = MainSingleton::GetInstance<MeshManager>().Get(aMeshName);
+		myMesh = AssetManager::GetFromPath<Assets::Mesh>(aMeshName);
 	}
 
-	Mesh* MeshRenderer::GetMesh() const { return myMesh; }
+	Assets::Mesh* MeshRenderer::GetMesh() const { return myMesh; }
 
 #pragma endregion
 

@@ -42,6 +42,8 @@ public:
 
 	void Bind() const;
 
+	const MaterialBufferData& GetMaterialData() const;
+
 public:
 	void Save();
 	void Save(const std::string& aPath);

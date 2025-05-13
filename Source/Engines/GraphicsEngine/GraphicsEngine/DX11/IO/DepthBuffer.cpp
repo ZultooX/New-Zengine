@@ -23,7 +23,7 @@ void DepthBuffer::Create(const Vector2i& aSize)
 
 	ge->GetDevice()->CreateTexture2D(&desc, nullptr, &myTexture);
 
-	if (!myTexture) return;
+	//if (!myTexture) return;
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 

@@ -7,6 +7,8 @@ namespace Zengine::ComponentSystem
 {
 	class EditorCamera : public Camera
 	{
+		friend class InspectorWindow;
+
 	public:
 		void Update() override;
 

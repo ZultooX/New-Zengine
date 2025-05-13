@@ -1,7 +1,6 @@
 #include "Engine.h"
 
 #include <Engine/Files/MetaFileRegistry.h>
-#include <Engine/AssetManagement/MeshManager.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <Zultools/Timer.h>
 #include <ComponentSystem/GameObjectManager.h>
@@ -20,7 +19,7 @@
 #include <string>
 
 #include <Client.h>
-
+#include <Engine/New AssetManagement/Manager/AssetManager.hpp>
 
 EngineSettings Engine::Settings;
 NetworkManager Engine::networkManager;
@@ -34,7 +33,7 @@ bool Engine::Initialize()
 	MetaFileRegistry::Load();
 
 	MainSingleton::Setup();
-
+	AssetManager::Init();
 	networkManager.Init();
 
 	return true;

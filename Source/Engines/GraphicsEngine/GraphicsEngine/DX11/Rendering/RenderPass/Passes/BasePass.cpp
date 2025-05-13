@@ -47,7 +47,7 @@ void BasePass::Render()
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateObjectBuffer(renderer->gameobject->transform->GetTransformMatrix());
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Bind();
 
-		for (const SubMesh& sub : renderer->GetMesh()->meshes)
+		for (const SubMesh& sub : renderer->GetMesh()->GetSubmeshes())
 		{
 			if (sub.materialIndex < renderer->GetMaterials().size())
 			{

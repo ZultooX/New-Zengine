@@ -13,20 +13,6 @@
 
 void GameWorld::Init()
 {
-	{
-		CS::GameObject* obj = CS::GameObject::Create();
-		obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
-		obj->transform->SetPosition(Vector3f(1.75f, 0.f, 0.f));
-
-		obj->SetName("Reaper");
-
-		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
-
-		rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
-		rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
-	}
-
 	{ // Shaman
 		CS::GameObject* obj = CS::GameObject::Create();
 		obj->transform->SetScale(Vector3f(0.01f, 0.01f, 0.01f));

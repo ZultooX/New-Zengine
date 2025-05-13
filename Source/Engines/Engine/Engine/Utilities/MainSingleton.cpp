@@ -4,7 +4,6 @@
 
 #include <Zultools/InputManager.h>
 
-#include <Engine/AssetManagement/MeshManager.h>
 #include <Engine/AssetManagement/PixelShaderManager.h>
 #include <Engine/AssetManagement/VertexShaderManager.h>
 #include <Engine/AssetManagement/MaterialManager.h>
@@ -25,8 +24,6 @@ void MainSingleton::Setup()
 
 	RegisterInstance<RenderPassManager>();
 
-	RegisterInstance<MeshManager>();
-	GetInstance<MeshManager>().Init();
 
 	RegisterInstance<PixelShaderManager>();
 	RegisterInstance<VertexShaderManager>();

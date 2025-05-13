@@ -19,6 +19,8 @@ namespace Zengine
 
 			const T& GetMask();
 
+			static bool GetBit(const int& aValue, const int& aBit);
+
 		private:
 			const int myCapacity = -1;
 			T myBits = 0;
@@ -66,6 +68,11 @@ namespace Zengine
 		}
 		template<typename T>
 		inline const T& BitMask<T>::GetMask() { return myBits; }
+		template<typename T>
+		inline bool BitMask<T>::GetBit(const int& aValue, const int& aBit)
+		{
+			return aValue & (1UL << aBit);
+		}
 	}
 
 	namespace Util = Utilities;

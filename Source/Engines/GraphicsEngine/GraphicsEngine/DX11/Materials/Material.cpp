@@ -51,6 +51,13 @@ void Material::CreateMaterial()
 
 void Material::AddTexture(const std::string& aTextureName, const std::string& aTexturePath, const unsigned& aBindSlot)
 {
+	if (aBindSlot == (unsigned)BindSlot::NORMAL)
+	{
+		Zengine::Utilities::BitMask<> mask;
+		mask.SetBit(10, true);
+		myMaterialData.MB_TextureSetBitSet = mask.GetMask();
+	}
+
 	myTextures.push_back({ aTextureName, aTexturePath, aBindSlot });
 }
 
@@ -67,7 +74,7 @@ void Material::Load()
 	json jsonFile;
 	jsonFile << file;
 
-		Zengine::Util::BitMask<> bit;
+	Zengine::Util::BitMask<> bit;
 	for (json& element : jsonFile[Json::TexturesKey])
 	{
 		myTextures.push_back(TextureData());
@@ -75,8 +82,8 @@ void Material::Load()
 		myTextures.back().texturePath = element[1];
 		myTextures.back().bindSlot = element[2];
 
-			bit.SetBit(myTextures.back().bindSlot, true);
-			myMaterialData.MB_TextureSetBitSet = bit.GetMask();
+		bit.SetBit(myTextures.back().bindSlot, true);
+		myMaterialData.MB_TextureSetBitSet = bit.GetMask();
 	}
 
 	myShader.SetVertexShader(jsonFile.value(Json::VertexShaderKey, Json::VertexShaderDefault).c_str());
@@ -96,6 +103,11 @@ void Material::Load()
 void Material::Bind() const
 {
 	MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateMaterialBuffer(myMaterialData);
+}
+
+const MaterialBufferData& Material::GetMaterialData() const
+{
+	return myMaterialData;
 }
 
 void Material::Save()
@@ -131,7 +143,7 @@ void Material::Save(const std::string& aPath)
 	}
 	else
 	{
-		json[Json::PixelShaderKey]= Json::PixelShaderDefault;
+		json[Json::PixelShaderKey] = Json::PixelShaderDefault;
 	}
 
 	json[Json::Color::Key] =

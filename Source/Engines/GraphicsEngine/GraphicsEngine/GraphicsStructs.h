@@ -56,9 +56,9 @@ struct SubMesh {
 	ID3D11Buffer* indexBuffer;
 };
 
-struct Mesh
+struct MeshData
 {
-	std::string path;
+	std::string path; // TO REMOVE
 	std::vector<SubMesh> meshes;
 	Skeleton* skeleton;
 };

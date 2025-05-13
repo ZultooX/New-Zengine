@@ -6,13 +6,15 @@
 #include <GraphicsEngine/GraphicsStructs.h>
 #include <GraphicsEngine/DX11/Model/Model.h>
 
+#include <Engine/New AssetManagement/Assets/Mesh.h>
+
 namespace Zengine::ComponentSystem
 {
 	class MeshRenderer final : public Component
 	{
 	public:
 		void SetMesh(const char* aPixelShaderName);
-		Mesh* GetMesh() const;
+		Assets::Mesh* GetMesh() const;
 
 
 		inline void AddMaterial(const std::string& aMaterialPath) { myMaterials.push_back(aMaterialPath); }
@@ -26,7 +28,7 @@ namespace Zengine::ComponentSystem
 
 	private:
 		std::vector<std::string> myMaterials;
-		Mesh* myMesh;
+		Assets::Mesh* myMesh;
 	};
 }
 

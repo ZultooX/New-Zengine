@@ -51,6 +51,8 @@ private:
 	bool MainUpdate() override;
 	bool PostUpdate() override;
 
+	void ScreenShot();
+
 private:
 	bool CreateDepthStencil();
 	bool CreateDeviceAndSwapchain();

@@ -69,6 +69,8 @@ Texture* TextureManager::Load(const std::string& aTexturePath)
 	}
 }
 
+Texture* TextureManager::GetDefaultNormal() { return Get(myDefaultNormalPath); }
+
 Texture* TextureManager::LoadDDS(const std::string& aTexturePath)
 {
 	DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
@@ -81,7 +83,7 @@ Texture* TextureManager::LoadDDS(const std::string& aTexturePath)
 	std::wstring path = std::wstring(aTexturePath.begin(), aTexturePath.end());
 
 	DirectX::CreateDDSTextureFromFileEx(
-		ge->GetDevice(), 
+		ge->GetDevice(),
 		path.c_str(),
 		0,
 		D3D11_USAGE_DEFAULT,
@@ -160,7 +162,7 @@ Texture* TextureManager::LoadSTB(const std::string& aTexturePath)
 	desc.Usage = D3D11_USAGE_DEFAULT;
 
 
-		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
