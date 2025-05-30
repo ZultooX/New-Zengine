@@ -4,10 +4,15 @@
             "Albedo",
             "Assets/Textures/TEX_Shaman_a.dds",
             0
+        ],
+        [
+            "Normal",
+            "Assets/Textures/TEX_Shaman_n.png",
+            1
         ]
     ],
-    "sh_vertex": "Shaders/VS_Default.cso",
-    "sh_pixel": "Shaders/PS_Default.cso",
+    "sh_vertex": "Shaders/Vertex/VS_Default.cso",
+    "sh_pixel": "Shaders/Pixel/PS_Default.cso",
     "color": {
         "r": 1.0,
         "g": 1.0,

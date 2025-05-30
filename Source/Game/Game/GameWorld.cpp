@@ -6,50 +6,47 @@
 #include<Engine/ComponentSystem/Components/Rendering/Camera/EditorCamera.h>
 #include<Engine/ComponentSystem/Components/Networking/NetworkSyncerComponent.h>
 
-#include <Engine/AssetManagement/MaterialManager.h>
-
 #include <Engine/Utilities/MainSingleton.h>
 
 
 void GameWorld::Init()
 {
-	{ // Shaman
-		CS::GameObject* obj = CS::GameObject::Create();
-		obj->transform->SetScale(Vector3f(0.01f, 0.01f, 0.01f));
-		obj->transform->SetPosition(Vector3f(-0.75f, 0.f, 0.f));
+	//{
+	//	CS::GameObject* obj = CS::GameObject::Create();
+	//	obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
+	//	obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
 
+	//	obj->SetName("Reaper");
 
-		obj->SetName("Shaman");
+	//	CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
+	//	rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
 
-		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH"Shaman.fbx");
+	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
+	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
+	//}
 
-		rend->AddMaterial("Assets/Materials/Shaman.mat");
-	}
+	//{
+	//	CS::GameObject* obj = CS::GameObject::Create();
+	//	obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
+	//	obj->transform->SetPosition(Vector3f(-0.75f, 0.f, 0.f));
 
-	{ // Bro
-		CS::GameObject* obj = CS::GameObject::Create();
-		obj->transform->SetScale(Vector3f(0.01f, 0.01f, 0.01f));
-		obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
+	//	obj->SetName("Genji");
 
+	//	CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
+	//	rend->SetMesh(ZENGINE_MODELS_PATH"Divine monkey.fbx");
 
-		obj->SetName("Bro");
+	//	rend->AddMaterial("Assets/Materials/Monkey.mat");
+	//	rend->AddMaterial("Assets/Materials/Monkey.mat");
+	//}
 
-		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH"Bro.fbx");
+	//{
+	//	CS::GameObject* obj = CS::GameObject::Create();
+	//	obj->AddComponent<CS::EditorCamera>();
 
-		rend->AddMaterial("Assets/Materials/TgaBro.mat");
-	}
+	//	obj->SetName("Editor Camera");
 
-
-	{
-		CS::GameObject* obj = CS::GameObject::Create();
-		obj->AddComponent<CS::EditorCamera>();
-
-		obj->SetName("Editor Camera");
-
-		obj->transform->SetPosition(Vector3f(0.19f, 0.67f, -2.8f));
-	}
+	//	obj->transform->SetPosition(Vector3f(0.19f, 0.67f, -2.8f));
+	//}
 }
 
 void GameWorld::Update()

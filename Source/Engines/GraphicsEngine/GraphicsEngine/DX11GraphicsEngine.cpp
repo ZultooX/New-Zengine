@@ -5,11 +5,11 @@
 #include <Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
 #include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/Utilities/MainSingleton.h>
-#include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
-#include <GraphicsEngine/DX11/Buffers/BufferManager.h>
+#include <GraphicsEngine/Drawers/MeshDrawer.h>
+#include <GraphicsEngine/Buffers/BufferManager.h>
 #include <Engine/ComponentSystem/Components/TransformComponent.h>
 
-#include <GraphicsEngine/DX11/Rendering/RenderPass/RenderPassManager.h>
+#include <GraphicsEngine/Rendering/RenderPass/RenderPassManager.h>
 
 #include <Shaders/Common/ConstantBuffers.h>
 
@@ -46,6 +46,7 @@ bool DX11GraphicsEngine::Initialize()
 void DX11GraphicsEngine::Present()
 {
 	mySwapChain->Present(1, 0);
+	ClearDrawCalls();
 }
 
 #include <ImGui/imgui_impl_dx11.h>
@@ -246,6 +247,7 @@ bool DX11GraphicsEngine::PostUpdate()
 {
 	MainSingleton::GetInstance<RenderPassManager>().Render();
 	myContext->OMSetRenderTargets(1, &myBackBuffer, myDepthBuffer);
+
 
 	return true;
 }

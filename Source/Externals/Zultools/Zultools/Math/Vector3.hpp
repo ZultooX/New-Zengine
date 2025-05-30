@@ -53,6 +53,11 @@ public:
 	//{
 	//}
 
+	inline bool operator !=(const Vector3<T>& aVec)
+	{
+		return (x != aVec.x) || (y != aVec.y) || (z != aVec.z);
+ 	}
+
 	Vector3<T>& operator=(const Vector3<T>& aVector3) = default;
 
 	template <typename OtherVec>

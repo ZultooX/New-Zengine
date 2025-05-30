@@ -5,7 +5,6 @@
 #include <Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
 #include <Engine/ComponentSystem/Components/TransformComponent.h>
 #include <Engine/ComponentSystem/GameObject.h>
-#include <GraphicsEngine/DX11/Materials/Material.h>
 
 void NetworkManager::Init()
 {

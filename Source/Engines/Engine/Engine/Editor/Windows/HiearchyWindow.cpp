@@ -2,6 +2,7 @@
 
 #include <Zultools/Random.h>
 #include <Engine/ComponentSystem/GameObjectManager.h>
+#include <Engine/ComponentSystem/GameObject.h>
 #include <ImGui/imgui.h>
 
 int HiearchyWindow::ActiveGameObject = -1;
@@ -31,7 +32,7 @@ void HiearchyWindow::Update()
 			ImGui::GetStyle().Colors[ImGuiCol_Button] = highlightedColor;
 		}
 
-		if (ImGui::Button(obj->GetName().c_str()))
+		if (ImGui::Button((obj->GetName() + "##" + std::to_string(obj->GetID())).c_str()))
 		{
 			ActiveGameObject = id;
 			ActiveIdx = i;
@@ -43,6 +44,27 @@ void HiearchyWindow::Update()
 		}
 
 		++i;
+	}
+
+	if (ImGui::IsWindowHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+	{
+		ImGui::OpenPopup("RightClickMenu");
+	}
+
+	if (ImGui::BeginPopup("RightClickMenu"))
+	{
+		if (ImGui::BeginMenu("Create"))
+		{
+			if (ImGui::Button("GameObject"))
+			{
+				Zengine::ComponentSystem::GameObject* obj = Zengine::ComponentSystem::GameObject::Create();
+				ActiveGameObject = obj->GetID();
+			}
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndPopup();
 	}
 }
 

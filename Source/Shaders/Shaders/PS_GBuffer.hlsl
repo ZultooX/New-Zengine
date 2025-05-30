@@ -18,7 +18,7 @@ GBufferOutput main(PixelInputType input)
     // =======================
     // [CALCULATE ALBEDO COLOR]
     // =======================
-    if (MB_TextureSetBitSet & (1 << 0))
+    if (MB_textureIsSetFlag & (1 << 0))
     {
         output.AlbedoColor = float4(albedoTexture.rgb, 1.f);
     }
@@ -36,8 +36,9 @@ GBufferOutput main(PixelInputType input)
     // [CALCULATE NORMAL]
     // =======================
     float3 tangentNormal = NormalMap.Sample(Sampler, input.UVs).xyz;
+    tangentNormal = UnpackNormal(tangentNormal.xy);
     
-    tangentNormal = tangentNormal * 2.f - 1.f;
+    //tangentNormal = tangentNormal * 2.f - 1.f;
 
     float3x3 TBN = float3x3(
         normalize(input.WorldTangent.xyz),
@@ -49,7 +50,7 @@ GBufferOutput main(PixelInputType input)
     float3 worldNormal = normalize(mul(TBN, tangentNormal));
     
     //output.Normal = float4(worldNormal, 1.f);
-    output.Normal = float4((tangentNormal * 0.5f) + 0.5f, 1.f);
+    output.Normal = float4((worldNormal * 0.5f) + 0.5f, 1.f);
     
     
     

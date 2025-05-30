@@ -43,8 +43,5 @@ void InspectorWindow::DrawComponentHeader(const char* compName, bool& isDrawn, c
 
 void InspectorWindow::DrawSharedCamera(Zengine::ComponentSystem::Camera* aComponent)
 {
-	ImGui::DragFloat("Near", &aComponent->nearPlane, 0.01f, FLT_MIN, aComponent->farPlane);
-	ImGui::DragFloat("Far", &aComponent->farPlane, 0.01f, aComponent->nearPlane, FLT_MAX);
 
-	ImGui::DragFloat("Field of View", &aComponent->fov, 0.2f);
 }

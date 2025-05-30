@@ -40,7 +40,6 @@ namespace Zengine::ComponentSystem
 		UpdateDirectionVectors();
 
 		myTransformMatrix = Matrix4x4f();
-
 		myTransformMatrix *= Matrix4x4f::CreateScaleMatrix(myScale);
 		myTransformMatrix *= myRotationMatrix;
 		myTransformMatrix *= Matrix4x4f::CreateTranslation(myPosition);

@@ -18,7 +18,7 @@ public:
 
 protected:
 	std::string myWindowName;
-	unsigned myID;
+	int myID;
 	bool myIsOpen = true;
 
 	bool myWasLastOpen = true;

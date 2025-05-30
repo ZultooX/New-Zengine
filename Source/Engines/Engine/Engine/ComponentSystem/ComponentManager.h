@@ -19,6 +19,7 @@ namespace Zengine::ComponentSystem
 		static void Start();
 		static void Update();
 		static void LateUpdate();
+		static void EndFrame();
 
 	public:
 		static void UpdateManager();

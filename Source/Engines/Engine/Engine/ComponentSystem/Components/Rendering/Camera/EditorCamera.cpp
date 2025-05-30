@@ -8,9 +8,15 @@
 #include <Engine/Utilities/MainSingleton.h>
 #include <Engine/Editor/DebugLogger.h>
 #include <ImGui/imgui.h>
+#include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
 
 namespace Zengine::ComponentSystem
 {
+	void EditorCamera::Start()
+	{
+		gameobject->AddComponent<Camera>();
+	}
+
 	void EditorCamera::Update()
 	{
 		if (InputManager::GetInstance()->GetMouseButton(MouseButton::Right))
@@ -22,8 +28,6 @@ namespace Zengine::ComponentSystem
 		{
 			HandleNonMovement();
 		}
-
-		Camera::Update();
 	}
 
 	void EditorCamera::HandleNonMovement()

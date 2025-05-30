@@ -27,6 +27,8 @@ private:
 	void DrawSharedCamera(Zengine::ComponentSystem::Camera* aComponnent);
 
 private:
+#pragma region Components
+
 	template<typename T>
 	void DrawComponent(T* aComponent);
 
@@ -41,31 +43,42 @@ private:
 
 	template<>
 	void DrawComponent(Zengine::ComponentSystem::Camera* aComponent);
+
+#pragma endregion
+
+
 };
 
 template<typename T>
 inline void InspectorWindow::DrawComponent(T* aComponent)
 {
-	if (Zengine::ComponentSystem::Transform* comp = dynamic_cast<Zengine::ComponentSystem::Transform*>(aComponent))
+	using namespace Zengine::ComponentSystem;
+
+	if (aComponent->GetTypeIdx() == typeid(Zengine::ComponentSystem::Transform))
 	{
-		DrawComponent(comp);
+		DrawComponent(dynamic_cast<Zengine::ComponentSystem::Transform*>(aComponent));
 		return;
 	}
-
-	else if (Zengine::ComponentSystem::MeshRenderer* comp = dynamic_cast<Zengine::ComponentSystem::MeshRenderer*>(aComponent))
+	else if (aComponent->GetTypeIdx() == typeid(MeshRenderer))
 	{
-		DrawComponent(comp);
+		DrawComponent(dynamic_cast<MeshRenderer*>(aComponent));
 		return;
 	}
-
-	else if (Zengine::ComponentSystem::EditorCamera* comp = dynamic_cast<Zengine::ComponentSystem::EditorCamera*>(aComponent))
+	else if (aComponent->GetTypeIdx() == typeid(EditorCamera))
 	{
-		DrawComponent(comp);
+		DrawComponent(dynamic_cast<EditorCamera*>(aComponent));
 		return;
 	}
-
-	bool wasDrawn = false;
-	DrawComponentHeader(stringify(T), wasDrawn, 5, ImGuiStyleVar_FrameRounding);
+	else if (aComponent->GetTypeIdx() == typeid(Camera))
+	{
+		DrawComponent(dynamic_cast<Camera*>(aComponent));
+		return;
+	}
+	else
+	{
+		ImGui::Text("Not implemented: "  stringify(T));
+		return;
+	}
 }
 
 template<>
@@ -76,17 +89,23 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::Transform* 
 	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
-	Vector3f pos = aComponent->GetPosition();
-	Vector3f scale = aComponent->GetScale();
-	Vector3f euler = aComponent->GetEulerAngles();
+	{ // Position
+		Vector3f pos = aComponent->GetPosition();
+		ImGui::DragFloat3("Position", &pos.x, 0.01f);
+		if (pos != aComponent->GetPosition()) aComponent->SetPosition(pos);
+	}
 
-	ImGui::DragFloat3("Position", &pos.x, 0.01f);
-	ImGui::DragFloat3("Rotation", &euler.x, 0.01f);
-	ImGui::DragFloat3("Scale   ", &scale.x, 0.01f);
+	{ // Rotation
+		Vector3f eAngles = aComponent->GetEulerAngles();
+		ImGui::DragFloat3("Rotation", &eAngles.x, 0.01f);
+		if (eAngles != aComponent->GetEulerAngles()) aComponent->SetEulerAngles(eAngles);
+	}
 
-	aComponent->SetPosition(pos);
-	aComponent->SetScale(scale);
-	aComponent->SetEulerAngles(euler);
+	{ // Scale 
+		Vector3f scale = aComponent->GetScale();
+		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+		if (scale != aComponent->GetScale()) aComponent->SetScale(scale);
+	}
 }
 
 template<>
@@ -99,7 +118,7 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::MeshRendere
 
 	ImGui::Text("This is not final.");
 
-	ImGui::Text(aComponent->GetMesh()->GetName().c_str());
+	//ImGui::Text(aComponent->GetMesh()->GetName().c_str());
 
 	ImGui::Text("THIS IS A MESH RENDERER");
 }
@@ -113,7 +132,6 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::EditorCamer
 	if (!wasDrawn) return;
 
 	Zengine::ComponentSystem::Camera* cam = dynamic_cast<Zengine::ComponentSystem::Camera*>(aComponent);
-	DrawSharedCamera(cam);
 
 	ImGui::Spacing();
 	ImGui::Separator();
@@ -126,9 +144,12 @@ template<>
 inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::Camera* aComponent)
 {
 	bool wasDrawn = aComponent->GetBit(Zengine::ComponentSystem::EditorDrawn);
-	DrawComponentHeader("Editor Camera", wasDrawn, 5, ImGuiStyleVar_FrameRounding);
+	DrawComponentHeader("Camera", wasDrawn, 5, ImGuiStyleVar_FrameRounding);
 	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
-	DrawSharedCamera(aComponent);
+	ImGui::DragFloat("Near", &aComponent->nearPlane, 0.01f, FLT_MIN, aComponent->farPlane);
+	ImGui::DragFloat("Far", &aComponent->farPlane, 0.01f, aComponent->nearPlane, FLT_MAX);
+
+	ImGui::DragFloat("Field of View", &aComponent->fov, 0.2f);
 }

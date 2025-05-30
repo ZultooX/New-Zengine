@@ -32,6 +32,10 @@ namespace Zengine::ComponentSystem
 	{
 		myID = aId;
 	}
+	void GameObject::SetName(std::string aName)
+	{
+		myName = aName;
+	}
 	void GameObject::AddDirtyComponent(const std::type_index& aType)
 	{
 		myDirtyComponents.push_back(aType);
@@ -39,5 +43,12 @@ namespace Zengine::ComponentSystem
 	const std::vector<std::type_index>& GameObject::GetDirtyComponents() const
 	{
 		return myDirtyComponents;
+	}
+	const Utilities::BitMask<>& GameObject::GetBitmask() const { return myBitmask; }
+	Utilities::BitMask<>& GameObject::GetBitmask() { return myBitmask; }
+
+	void GameObject::SetBitmask(const Utilities::BitMask<>& aBitmask)
+	{
+		myBitmask = aBitmask;
 	}
 }

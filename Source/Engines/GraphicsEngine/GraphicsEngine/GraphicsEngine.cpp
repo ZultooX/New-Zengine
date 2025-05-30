@@ -9,3 +9,8 @@ bool IGraphicsAPI::Update()
 
 	return true;
 }
+
+void IGraphicsAPI::UpdateDrawCalls() { ++myDrawCalls; }
+void IGraphicsAPI::UpdateDrawCalls(const int& anAmount) { myDrawCalls += anAmount; }
+void IGraphicsAPI::ClearDrawCalls() { myDrawCalls = 0; }
+const int& IGraphicsAPI::GetDrawCalls() const { return myDrawCalls; }

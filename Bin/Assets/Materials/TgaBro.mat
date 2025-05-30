@@ -7,7 +7,7 @@
         ],
         [
             "Normal",
-            "Assets/Textures/TGA_Bro_N.dds",
+            "Assets/Textures/TGA_Bro_N.png",
             1
         ],
         [
@@ -16,8 +16,8 @@
             2
         ]
     ],
-    "sh_vertex": "Shaders/VS_Default.cso",
-    "sh_pixel": "Shaders/PS_Default.cso",
+    "sh_vertex": "Shaders/Vertex/VS_Default.cso",
+    "sh_pixel": "Shaders/Pixel/PS_Default.cso",
     "color": {
         "r": 1.0,
         "g": 1.0,

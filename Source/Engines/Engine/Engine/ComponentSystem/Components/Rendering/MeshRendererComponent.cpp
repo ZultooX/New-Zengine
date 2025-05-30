@@ -1,7 +1,7 @@
 #include "MeshRendererComponent.h"
 
 #include <Engine/Utilities/MainSingleton.h>
-#include <Engine/New AssetManagement/Manager/AssetManager.hpp>
+#include <Engine/AssetManagement/AssetManager.h>
 
 namespace Zengine::ComponentSystem
 {
@@ -12,31 +12,37 @@ namespace Zengine::ComponentSystem
 
 	void MeshRenderer::SetMesh(const char* aMeshName)
 	{
-		myMesh = AssetManager::GetFromPath<Assets::Mesh>(aMeshName);
+		myMesh = AssetManager::Get<Mesh>(aMeshName);
 	}
 
-	Assets::Mesh* MeshRenderer::GetMesh() const { return myMesh; }
+	AssetPointer<Mesh>& MeshRenderer::GetMesh() { return myMesh; }
 
 #pragma endregion
 
 
 #pragma region [MATERIALS]
 
+	void MeshRenderer::AddMaterial(const std::string& aMaterialPath)
+	{
+		AssetPointer<Material> mat = AssetManager::Get<Material>(aMaterialPath.c_str());
+		myMaterials.push_back(mat);
+	}
+
 	void MeshRenderer::SetMaterial(const unsigned& aIdx, const std::string& aMaterialPath)
 	{
 		if (myMaterials.size() >= aIdx) return;
 
-		myMaterials[aIdx] = aMaterialPath;
+		myMaterials[aIdx] = AssetManager::Get<Material>(aMaterialPath.c_str());
 	}
 
-	inline const std::string& MeshRenderer::GetMaterialAtIndex(const unsigned& aIdx) const
+	inline const AssetPointer<Material>& MeshRenderer::GetMaterialAtIndex(const unsigned& aIdx) const
 	{
-		if (myMaterials.size() >= aIdx) return "";
+		if (myMaterials.size() >= aIdx) return {};
 
 		return myMaterials[aIdx];
 	}
 
-	const std::vector<std::string>& MeshRenderer::GetMaterials() { return myMaterials; }
+	const std::vector<AssetPointer<Material>>& MeshRenderer::GetMaterials() { return myMaterials; }
 
 	void MeshRenderer::RemoveMaterialAtIndex(const unsigned& aIdx)
 	{

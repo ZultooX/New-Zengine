@@ -7,13 +7,20 @@ Config.Workspace["Architecture"] = "x64"
 
 Config.Workspace["Defines"] = {
     ["EngineDefines"] = {
-        'ZENGINE_ASSETS_PATH=\"' .. path.translate(Dirs.Bin, '/') .. '\"',
+        'ZENGINE_BIN_PATH=\"' .. path.translate(Dirs.Bin , '/') .. '\"',
+        'ZENGINE_ASSETS_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/', '/') .. '\"',
         'ZENGINE_MODELS_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Models/', '/') .. '\"',
         'ZENGINE_SETTINGS_PATH=\"' .. path.translate(Dirs.Bin .. 'Settings/', '/') .. '\"',
+        'ZENGINE_VERTEX_SHADERS_PATH=\"' .. path.translate(Dirs.Bin .. 'Shaders/Vertex/', '/') .. '\"',
+        'ZENGINE_PIXEL_SHADERS_PATH=\"' .. path.translate(Dirs.Bin .. 'Shaders/Pixel/', '/') .. '\"',
         'ZENGINE_SHADERS_PATH=\"' .. path.translate(Dirs.Bin .. 'Shaders/', '/') .. '\"',
         'ZENGINE_TEXTURES_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Textures/', '/') .. '\"',
         'ZENGINE_MATERIALS_PATH=\"' .. path.translate(Dirs.Bin .. 'Assets/Materials/', '/') .. '\"',
         -- 'ZENGINE_SHADERS_SOURCE_PATH=\"' .. path.translate(Dirs.Projects, '/Shaders/') .. '\"',
+        'ZENGINE_ENGINE_ASSETS_PATH=\"' .. path.translate(Dirs.Bin .. 'Engine Assets/', '/') .. '\"',
+        'ZENGINE_ENGINE_EDITOR_ICONS_PATH=\"' .. path.translate(Dirs.Bin .. 'Engine Assets/Editor Icons/', '/') .. '\"',
+        'ZENGINE_ENGINE_MODELS_PATH=\"' .. path.translate(Dirs.Bin .. 'Engine Assets/Models/', '/') .. '\"',
+        'ZENGINE_ENGINE_TEXTURES_PATH=\"' .. path.translate(Dirs.Bin .. 'Engine Assets/Textures/', '/') .. '\"',
         'USE_DX11',
     },
 }

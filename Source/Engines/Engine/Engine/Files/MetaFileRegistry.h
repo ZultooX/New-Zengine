@@ -23,7 +23,9 @@ private:
 template<typename T>
 inline T MetaFileRegistry::GetMetaData(const std::string& aFilePath, const std::string& aDataThingie)
 {
-	return MetaFileJson[aFilePath][aDataThingie];
+	nlohmann::json& meta = MetaFileJson[aFilePath];
+
+	return meta[aDataThingie  ];
 }
 
 template<typename T>

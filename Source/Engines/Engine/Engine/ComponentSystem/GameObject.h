@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <typeindex>
+#include <string  >
 
 namespace Zengine::ComponentSystem
 {
@@ -12,6 +13,8 @@ namespace Zengine::ComponentSystem
 	class GameObject final
 	{
 		friend class GameObjectManager;
+		friend class SceneExporter;
+		friend class SceneImporter;
 
 	private:
 		void NewFrame();
@@ -35,12 +38,16 @@ namespace Zengine::ComponentSystem
 	public:
 		void SetID(const int aId);
 		const int& GetID() { return myID; }
-		inline void SetName(const std::string& aName) { myName = aName; }
+		void SetName(std::string aName);
 		inline const std::string& GetName() { return myName; }
 		inline const std::string& GetName() const { return myName; }
 
 		void AddDirtyComponent(const std::type_index& aType);
 		const std::vector<std::type_index>& GetDirtyComponents() const;
+
+		const Utilities::BitMask<>& GetBitmask() const;
+		Utilities::BitMask<>& GetBitmask();
+		void SetBitmask(const Utilities::BitMask<>& aBitmask);
 
 		Transform* transform;
 

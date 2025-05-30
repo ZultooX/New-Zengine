@@ -2,22 +2,17 @@
     "Textures": [
         [
             "Albedo",
-            "Assets/Textures/TEX_Anubis_Reaper_a.tga",
+            "Assets/Textures/New Exported/Reaper Anubis/Body/TEX_Anubis_Reaper_a.tga",
             0
         ],
         [
             "Normal",
-            "Assets/Textures/TEX_Anubis_Reaper_n.tga",
+            "Assets/Textures/New Exported/Reaper Anubis/Body/TEX_Anubis_Reaper_n.tga",
             1
-        ],
-        [
-            "Material",
-            "Assets/Textures/TEX_Anubis_Reaper_m.tga",
-            2
         ]
     ],
-    "sh_vertex": "Shaders/VS_Default.cso",
-    "sh_pixel": "Shaders/PS_Default.cso",
+    "sh_vertex": "Shaders/Vertex/VS_Default.cso",
+    "sh_pixel": "Shaders/Pixel/PS_Default.cso",
     "color": {
         "r": 1.0,
         "g": 1.0,

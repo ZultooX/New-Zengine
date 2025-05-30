@@ -6,7 +6,7 @@ nlohmann::json MetaFileRegistry::MetaFileJson;
 
 void MetaFileRegistry::Load()
 {
-	std::fstream file(ZENGINE_SETTINGS_PATH "meta.ini", std::ios::binary);
+	std::ifstream file(ZENGINE_SETTINGS_PATH "meta.ini", std::ios::binary);
 	
 	std::stringstream buffer;
 	buffer << file.rdbuf();

@@ -32,14 +32,14 @@
 #define vec3i int3
 #define vec4f float4
 #define vec4i int4
-#define mat4x4f float4x4
+#define mat4x4f  float4x4
 
 #define color float4
 
 #endif
 
 #ifdef __cplusplus
-#define ConstantBuffer(Name, Bindslot) struct Name
+#define ConstantBuffer(Name, Bindslot) struct alignas(16) Name
 #else
 #define ConstantBuffer(Name, Bindslot) cbuffer Name : register(b##Bindslot)
 #endif
@@ -96,98 +96,98 @@ SamplerComparisonState ShadowSampler : register(s1);
 
 ConstantBuffer(FrameBufferData, 0)
 {
-    mat4x4f FB_InvViewMatrix;
-    mat4x4f FB_ViewMatrix;
-    mat4x4f FB_CameraProjection;
+	mat4x4f FB_InvViewMatrix;
+	mat4x4f FB_ViewMatrix;
+	mat4x4f FB_CameraProjection;
 
-    vec4f FB_CameraPosition;
-    vec4f FB_CameraViewDir;
+	vec4f FB_CameraPosition;
+	vec4f FB_CameraViewDir;
 };
 
 
 ConstantBuffer(ObjectBufferData, 1)
 {
-    mat4x4f OB_Transform;
+	mat4x4f OB_Transform;
 };
 
 
 ConstantBuffer(DirectionalLightData, 2)
 {
-    vec4f LB_DirectionalLightDirection;
+	vec4f LB_DirectionalLightDirection;
 
-    mat4x4f LB_DirectionalView;
-    mat4x4f LB_DirectionalProj;
+	mat4x4f LB_DirectionalView;
+	mat4x4f LB_DirectionalProj;
 
-    vec3f LB_DirectionalLightColor;
-    float LB_DirectionalLightIntensity;
+	vec3f LB_DirectionalLightColor;
+	float LB_DirectionalLightIntensity;
 };
 
 
 ConstantBuffer(SpotLightBufferData, 3)
 {
-    vec4f LBS_position;
+	vec4f LBS_position;
 
-    vec4f LBS_direction;
+	vec4f LBS_direction;
 
-    mat4x4f LBS_DirectionalView;
-    mat4x4f LBS_DirectionalProj;
+	mat4x4f LBS_DirectionalView;
+	mat4x4f LBS_DirectionalProj;
 
-    vec3f LBS_color;
-    int LBS_IsSet;
+	vec3f LBS_color;
+	int LBS_IsSet;
 
-    float LBS_innerAngle;
-    float LBS_outerAngle;
-    float LBS_range;
-    float LBS_intensity;
+	float LBS_innerAngle;
+	float LBS_outerAngle;
+	float LBS_range;
+	float LBS_intensity;
 
-    vec2i LBS_ShadowTopLeft;
-    vec2i LBS_ShadowResolution;
+	vec2i LBS_ShadowTopLeft;
+	vec2i LBS_ShadowResolution;
 };
 
 
 ConstantBuffer(PointLightBufferData, 4)
 {
-    vec4f LBP_position;
-    vec4f LBP_color;
+	vec4f LBP_position;
+	vec4f LBP_color;
 
 
-    int LBP_IsSet;
-    float LBP_intensity;
-    float LBP_range;
-    float LBP_padding;
+	int LBP_IsSet;
+	float LBP_intensity;
+	float LBP_range;
+	float LBP_padding;
 };
 
 
 ConstantBuffer(MaterialBufferData, 5)
 {
-    color MB_albedoColor;
+	color MB_albedoColor;
 
-    float MB_roughness = 0;
-    float MB_metallic = 0;
-    float MB_AOStrength;
-    float MB_BloomIntensity;
+	float MB_roughness = 0;
+	float MB_metallic = 0;
+	float MB_AOStrength = 0;
+	float MB_BloomIntensity = 0;
 
-    int MB_textureIsSetFlag;
-    int MB_NormalMappingFlags;
-    int MB_BitSetCapacity = 0;
-    int MB_TextureSetBitSet;
+	float MB_NormalStrength = 0;
+	int MB_textureIsSetFlag = 0;
+	int TRASH0;
+	int TRASH1;
 };
 
 
 ConstantBuffer(PostProcessingBufferData, 6)
 {
-    vec3f PP_Contrast;
-    float PP_BloomScale;
+	vec3f PP_Contrast;
+	float PP_BloomScale;
 
-    vec3f PP_BlackPoint;
-    float PP_Saturation;
+	vec3f PP_BlackPoint;
+	float PP_Saturation;
 
-    vec3f PP_Tint;
-    float PP_Exposure;
+	vec3f PP_Tint;
+	float PP_Exposure;
 };
 
 
 ConstantBuffer(AnimationBuffer, 7)
 {
-    mat4x4f AB_Bones[MAX_BONES];
+	mat4x4f AB_Bones[MAX_BONES];
 };

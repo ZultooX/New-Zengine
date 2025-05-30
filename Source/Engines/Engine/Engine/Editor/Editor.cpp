@@ -13,6 +13,7 @@
 #include "Windows/InspectorWindow.h"
 #include "Windows/NetworkingWindow.h"
 #include "Windows/AssetsWindow.h"
+#include "Windows/BuildSettingsWindow.h"
 #include <fstream>
 
 std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
@@ -92,6 +93,12 @@ void Editor::UpdateMainMenuBar()
 
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Settings"))
+		{
+			if (ImGui::MenuItem("Build Settings")) OpenWindow("Build Settings", -1);
+
+			ImGui::EndMenu();
+		}
 
 		ImGui::EndMainMenuBar();
 	}
@@ -101,30 +108,13 @@ void Editor::OpenWindow(const std::string& aName, const int& aId)
 {
 	AbstractWindow* window = nullptr;
 
-	if (aName == "Console")
-	{
-		window = new ConsoleWindow(aId);
-	}
-	else if (aName == "Rendering Debugger")
-	{
-		window = new RenderingDebuggerWindow(aId);
-	}
-	else if (aName == "Hiearchy")
-	{
-		window = new HiearchyWindow(aId);
-	}
-	else if (aName == "Inspector")
-	{
-		window = new InspectorWindow(aId);
-	}
-	else if (aName == "Networking")
-	{
-		window = new NetworkingWindow(aId);
-	}
-	else if (aName == "Assets")
-	{
-		window = new AssetsWindow(aId);
-	}
+	if (aName == "Console")					window = new ConsoleWindow(aId);
+	else if (aName == "Rendering Debugger")	window = new RenderingDebuggerWindow(aId);
+	else if (aName == "Hiearchy")			window = new HiearchyWindow(aId);
+	else if (aName == "Inspector")			window = new InspectorWindow(aId);
+	else if (aName == "Networking")			window = new NetworkingWindow(aId);
+	else if (aName == "Assets")				window = new AssetsWindow(aId);
+	else if (aName == "Build Settings")		window = new BuildSettingsWindow(aId);
 
 	if (window == nullptr) return;
 

@@ -54,15 +54,15 @@ shadermodel('5.0')
 
 filter('files:**.hlsl')
 flags('ExcludeFromBuild')
-shaderobjectfileoutput(Dirs.Shaders .. '%{file.basename}.cso')
 
 filter('files:**/PS_**.hlsl')
 removeflags('ExcludeFromBuild')
 shadertype('Pixel')
-
+shaderobjectfileoutput(Dirs.Shaders .. 'Pixel/%{file.basename}.cso')
 
 filter('files:**/VS_**.hlsl')
 removeflags('ExcludeFromBuild')
 shadertype('Vertex')
-
+shaderobjectfileoutput(Dirs.Shaders .. 'Vertex/%{file.basename}.cso')
+--, '/Zpr'
 shaderoptions({ '/WX' })

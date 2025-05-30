@@ -36,12 +36,22 @@ namespace Zengine::ComponentSystem
 		}
 	}
 
+	void ComponentManager::EndFrame()
+	{
+		for (IComponentPool* pool : myComponentPools)
+		{
+			pool->EndFrame();
+		}
+	}
+
 	void ComponentManager::UpdateManager()
 	{
 		Awake();
 		Start();
 		Update();
 		LateUpdate();
+
+		EndFrame();
 	}
 
 	std::vector<Component*> ComponentManager::GetComponents(const int& aGameObjID)

@@ -17,6 +17,7 @@ namespace Zengine::ComponentSystem
 		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void LateUpdate() = 0;
+		virtual void EndFrame() = 0;
 
 		virtual std::vector<Component*> GetComponent(const int& aId) = 0;
 
@@ -33,6 +34,8 @@ namespace Zengine::ComponentSystem
 		void Update() override;
 		void LateUpdate() override;
 
+		void EndFrame() override;
+
 	public:
 		T* AddComponent(const int& aGameObjID);
 		T* GetComponent(const int& aGameObjID, const int& aIdx = 0);
@@ -46,26 +49,27 @@ namespace Zengine::ComponentSystem
 		std::unordered_map<int, int> myCompIdToIdx;
 		std::unordered_map<int, std::vector<int>> myGameObjIdToCompIdList;
 		std::vector<T*> myComponents;
+
+		std::vector<int> myNewComponentsLastFrame;
+		std::vector<int> myNewComponentsThisFrame;
 	};
 
 
 	template<typename T>
 	inline void ComponentPool<T>::Awake()
 	{
-		for (T* comp : myComponents)
+		for (const int& id : myNewComponentsLastFrame)
 		{
-			if (!comp->GetBit(ComponentStates::AWAKENED))
-				comp->Awake();
+			myComponents[id]->Awake();
 		}
 	}
 
 	template<typename T>
 	inline void ComponentPool<T>::Start()
 	{
-		for (T* comp : myComponents)
+		for (const int& id : myNewComponentsLastFrame)
 		{
-			if (!comp->GetBit(ComponentStates::STARTED))
-				comp->Start();
+			myComponents[id]->Start();
 		}
 	}
 
@@ -88,6 +92,13 @@ namespace Zengine::ComponentSystem
 	}
 
 	template<typename T>
+	inline void ComponentPool<T>::EndFrame()
+	{
+		myNewComponentsLastFrame = myNewComponentsThisFrame;
+		myNewComponentsThisFrame.clear();
+	}
+
+	template<typename T>
 	inline T* ComponentPool<T>::AddComponent(const int& aGameObjID)
 	{
 		const int randomID = Random::GetValue<int>(INT_MIN, INT_MAX);
@@ -98,6 +109,7 @@ namespace Zengine::ComponentSystem
 
 		myGameObjIdToCompIdList[aGameObjID].push_back((int)myComponents.size());
 		myCompIdToIdx[comp->GetID()] = (int)myComponents.size();
+		myNewComponentsThisFrame.push_back((int)myComponents.size());
 
 		myComponents.push_back(comp);
 

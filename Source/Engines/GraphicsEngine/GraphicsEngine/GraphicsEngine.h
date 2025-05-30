@@ -14,10 +14,20 @@ public:
 	virtual void OnResize() = 0;
 	virtual void Cleanup() = 0;
 
+public:
+	void UpdateDrawCalls();
+	void UpdateDrawCalls(const int& anAmount);
+	void ClearDrawCalls();
+
+	const int& GetDrawCalls() const;
+
 protected:
 	virtual bool PreUpdate() = 0;
 	virtual bool MainUpdate() = 0;
 	virtual bool PostUpdate() = 0;
+
+private:
+	int myDrawCalls = 0;
 };
 
 

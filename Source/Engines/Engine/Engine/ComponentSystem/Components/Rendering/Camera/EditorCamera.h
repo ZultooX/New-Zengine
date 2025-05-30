@@ -1,15 +1,17 @@
 #pragma once
 
-#include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
+#include <Engine/ComponentSystem/Component.h>
 #include <Zultools/Math/Vector2.hpp>
 
 namespace Zengine::ComponentSystem
 {
-	class EditorCamera : public Camera
+	class EditorCamera : public Component
 	{
+		COMPONENT_BASICS(EditorCamera)
 		friend class InspectorWindow;
 
 	public:
+		void Start() override;
 		void Update() override;
 
 

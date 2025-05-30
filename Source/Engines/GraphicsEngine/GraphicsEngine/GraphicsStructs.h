@@ -58,7 +58,6 @@ struct SubMesh {
 
 struct MeshData
 {
-	std::string path; // TO REMOVE
 	std::vector<SubMesh> meshes;
 	Skeleton* skeleton;
 };

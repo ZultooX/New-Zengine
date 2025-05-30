@@ -10,6 +10,8 @@ namespace Zengine::ComponentSystem
 {
 	class Camera : public Component
 	{
+		COMPONENT_BASICS(Camera)
+
 	public:
 		bool isMainCamera = false;
 

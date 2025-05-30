@@ -19,7 +19,7 @@
 #include <string>
 
 #include <Client.h>
-#include <Engine/New AssetManagement/Manager/AssetManager.hpp>
+#include <Engine/AssetManagement/AssetManager.h>
 
 EngineSettings Engine::Settings;
 NetworkManager Engine::networkManager;
@@ -33,7 +33,6 @@ bool Engine::Initialize()
 	MetaFileRegistry::Load();
 
 	MainSingleton::Setup();
-	AssetManager::Init();
 	networkManager.Init();
 
 	return true;
@@ -52,6 +51,9 @@ bool Engine::LateInitialize()
 #ifdef _DEBUG
 	Editor::Init();
 #endif
+
+	int age = MetaFileRegistry::GetMetaData<int>("This Cool path", "age");
+	MetaFileRegistry::SetMetaData("This Cool path", "name", "Simon");
 
 	return true;
 }
@@ -90,22 +92,19 @@ void Engine::Cleanup()
 
 bool Engine::PreUpdate()
 {
+	Zengine::ComponentSystem::GameObjectManager::BeginFrame();
 #ifdef _DEBUG
 	Editor::PreUpdate();
+	Editor::Update();
 #endif
 
 	MainSingleton::GetInstance<CommonUtilities::Timer>().Update();
 
-	Zengine::ComponentSystem::GameObjectManager::BeginFrame();
 
-#ifdef _DEBUG
-	Editor::Update();
-#endif
 
 	Zengine::ComponentSystem::ComponentManager::UpdateManager();
 
 	GraphicsEngine->Update();
-
 
 	return true;
 }

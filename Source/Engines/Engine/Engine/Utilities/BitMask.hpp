@@ -10,6 +10,7 @@ namespace Zengine
 		{
 		public:
 			BitMask();
+			BitMask(const T& aOther);
 
 		public:
 			bool GetBit(const int& aBit) const;
@@ -21,6 +22,9 @@ namespace Zengine
 
 			static bool GetBit(const int& aValue, const int& aBit);
 
+			void operator=(const BitMask<T>& other) { myBits = other.myBits; }
+			void operator=(const T& other) { myBits = other; }
+
 		private:
 			const int myCapacity = -1;
 			T myBits = 0;
@@ -29,6 +33,12 @@ namespace Zengine
 		template<typename T>
 		inline BitMask<T>::BitMask() : myCapacity(sizeof(T) * 8)
 		{}
+
+		template<typename T>
+		inline BitMask<T>::BitMask(const T & aOther)
+		{
+			myBits = aOther;
+		}
 
 		template<typename T>
 		inline bool BitMask<T>::GetBit(const int& aBit) const

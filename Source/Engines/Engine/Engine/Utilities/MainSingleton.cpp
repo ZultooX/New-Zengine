@@ -4,15 +4,11 @@
 
 #include <Zultools/InputManager.h>
 
-#include <Engine/AssetManagement/PixelShaderManager.h>
-#include <Engine/AssetManagement/VertexShaderManager.h>
-#include <Engine/AssetManagement/MaterialManager.h>
-#include <Engine/AssetManagement/TextureManager.h>
-#include <GraphicsEngine/DX11/Drawers/MeshDrawer.h>
-#include <GraphicsEngine/DX11/Buffers/BufferManager.h>
+#include <GraphicsEngine/Drawers/MeshDrawer.h>
+#include <GraphicsEngine/Buffers/BufferManager.h>
 #include <Zultools/Timer.h>
 
-#include <GraphicsEngine/DX11/Rendering/RenderPass/RenderPassManager.h>
+#include <GraphicsEngine/Rendering/RenderPass/RenderPassManager.h>
 
 std::unordered_map<std::string, void*> MainSingleton::mySingletons;
 bool MainSingleton::myIsInitialized = false;
@@ -23,12 +19,6 @@ void MainSingleton::Setup()
 	myIsInitialized = true;
 
 	RegisterInstance<RenderPassManager>();
-
-
-	RegisterInstance<PixelShaderManager>();
-	RegisterInstance<VertexShaderManager>();
-	RegisterInstance<MaterialManager>();
-	RegisterInstance<TextureManager>();
 
 	RegisterInstance<Zengine::Buffers::BufferManager>();
 

@@ -4,11 +4,13 @@
 
 #include "GameObject.h"
 #include <typeindex>
+#include <string>
 
-#define COMP(ComponentType)							\
-	public: \
-ComponentType() : Component() { myType = typeid(Transform); } \
-~ComponentType() override = default; \
+#define COMPONENT_BASICS(ComponentType)											\
+public:																\
+friend class SceneExporter; \
+	ComponentType() : Component() { myName = #ComponentType; myType = typeid(ComponentType); }	\
+	~ComponentType() override = default;							
 
 namespace Zengine::ComponentSystem
 {
@@ -43,12 +45,19 @@ namespace Zengine::ComponentSystem
 		void SetBit(const int& aBit, const bool& aState);
 		bool GetBit(const int& aBit);
 
+		const std::string& GetTypeName() const;
+		std::string& GetTypeName();
+
+		const std::type_index& GetTypeIdx() const;
+		std::type_index& GetTypeIdx();
+
 		GameObject* gameobject;
 
 	protected:
 		Zengine::Util::BitMask<> myMask;
 		int myId;
 		std::type_index myType;
+		std::string myName = "";
 	};
 
 }

@@ -11,7 +11,7 @@ namespace Zengine::ComponentSystem
 {
 	class Transform final : public Component
 	{
-		COMP(Transform)
+		COMPONENT_BASICS(Transform)
 
 	public:
 		void UpdateTransformMatricies();
