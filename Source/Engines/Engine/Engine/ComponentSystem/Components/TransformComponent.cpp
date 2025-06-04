@@ -39,16 +39,26 @@ namespace Zengine::ComponentSystem
 		UpdateRotationMatrix(myQuaternion.toRotationMatrix());
 		UpdateDirectionVectors();
 
-		myTransformMatrix = Matrix4x4f();
-		myTransformMatrix *= Matrix4x4f::CreateScaleMatrix(myScale);
-		myTransformMatrix *= myRotationMatrix;
-		myTransformMatrix *= Matrix4x4f::CreateTranslation(myPosition);
+		
+		{ // Transform
+			myTransformMatrix = Matrix4x4f();
 
+			myTransformMatrix *= Matrix4x4f::CreateScaleMatrix(myScale);
+			myTransformMatrix *= myRotationMatrix;
+			myTransformMatrix *= Matrix4x4f::CreateTranslation(myPosition);
 
-		myTransformMatrixNoScale = Matrix4x4f();
+			if (myParent) myTransformMatrix *= myParent->GetTransformMatrix();
+		}
 
-		myTransformMatrixNoScale *= myRotationMatrix;
-		myTransformMatrixNoScale *= Matrix4x4f::CreateTranslation(myPosition);
+		{ // Transform no scale
+			myTransformMatrixNoScale = Matrix4x4f();
+
+			myTransformMatrixNoScale *= myRotationMatrix;
+			myTransformMatrixNoScale *= Matrix4x4f::CreateTranslation(myPosition);
+
+			if (myParent) myTransformMatrixNoScale *= myParent->GetTransformMatrixNoScale();
+		}
+
 
 		SetBit(IsDirty, false);
 	}
@@ -167,5 +177,8 @@ namespace Zengine::ComponentSystem
 		return myRotationMatrix;
 	}
 
+
 #pragma endregion
+
+	void Transform::SetParent(Transform* aTransform) { myParent = aTransform; }
 }

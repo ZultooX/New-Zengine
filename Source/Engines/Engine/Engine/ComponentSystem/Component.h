@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include <typeindex>
 #include <string>
+#include <Engine/ComponentSystem/Base/ComponentData.h>
 
 #define COMPONENT_BASICS(ComponentType)											\
 public:																\

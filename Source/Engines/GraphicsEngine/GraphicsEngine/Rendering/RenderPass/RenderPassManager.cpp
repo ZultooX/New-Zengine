@@ -4,6 +4,7 @@ void RenderPassManager::Init()
 {
 	myBasePass.Start();
 	myLightPass.Start();
+	myForwardPass.Start();
 }
 
 void RenderPassManager::Render()

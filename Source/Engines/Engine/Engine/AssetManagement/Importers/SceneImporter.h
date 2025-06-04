@@ -1,5 +1,8 @@
 #pragma once
 
+#include <fstream>
+
+
 class Scene;
 class SceneImporter
 {

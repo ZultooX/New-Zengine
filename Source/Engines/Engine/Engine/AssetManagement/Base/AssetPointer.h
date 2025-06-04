@@ -39,6 +39,9 @@ public:
 	const T* operator ->() const { return pAssetList->Get(myAssetID); }
 	AssetPointer<T>& operator=(const AssetPointer<T>& aOther);
 
+    explicit operator bool() const noexcept {
+        return pAssetList != nullptr;
+    }
 private:
 	size_t myAssetID = 0;
     AssetList<T>* pAssetList = nullptr;

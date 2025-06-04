@@ -44,25 +44,17 @@ void BasePass::Render()
 	{
 		renderer->gameobject->transform->UpdateTransformMatricies();
 		MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateObjectBuffer(renderer->gameobject->transform->GetTransformMatrix());
-		
 
-		for (const SubMesh& sub : renderer->GetMesh()->GetSubmeshes())
+		AssetPointer<Mesh> mesh = renderer->GetMesh();
+		if (mesh && renderer->GetMaterial())
 		{
-			if (sub.materialIndex < renderer->GetMaterials().size())
-			{
-				AssetPointer<Material> mat = renderer->GetMaterials()[sub.materialIndex];
+			AssetPointer<Material> mat = renderer->GetMaterial();
 
-				//if (mat->GetPixelShader()->GetID() != PS)
-				//{
-				//	MainSingleton::GetInstance<RenderPassManager>().GetForwardPass().AddRenderer()
-				//}
+			BindMaterial(mat.Get());
+			MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateMaterialBuffer(mat.Get()->GetMaterialData());
+			MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Bind();
 
-				BindMaterial(mat.Get());
-				MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().UpdateMaterialBuffer(mat.Get()->GetMaterialData());
-				MainSingleton::GetInstance<Zengine::Buffers::BufferManager>().Bind();
-
-				drawer.Draw(sub, myPS.Get(), mat->GetVertexShader().Get());
-			}
+			drawer.Draw(mesh, myPS.Get(), mat->GetVertexShader().Get());
 		}
 	}
 

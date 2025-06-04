@@ -46,10 +46,15 @@ namespace Zengine::ComponentSystem
 		const Matrix4x4f& GetRotationMatrix();
 		const Matrix4x4f& GetRotationMatrix() const;
 
+	public:
+		void SetParent(Transform* aTransform);
+
 	private:
 		void UpdateRotationMatrix(Eigen::Matrix3f aMatrix);
 
 	private:
+		Transform* myParent = nullptr;
+
 		Vector3f myPosition = { 0.f, 0.f, 0.f };
 		Vector3f myScale = { 1.f, 1.f, 1.f };
 		Vector3f myEulerAngles = { 0.f, 0.f, 0.f };

@@ -5,6 +5,17 @@
 #include <ImGui/imgui.h>
 #include "HiearchyWindow.h"
 
+#define COMPONENT(Component) { #Component, [](Zengine::ComponentSystem::GameObject* obj){obj->AddComponent<Component>(); } },
+
+namespace {
+	std::unordered_map<const char*, std::function<void(Zengine::ComponentSystem::GameObject*)>> info = {
+		COMPONENT(Zengine::ComponentSystem::Transform)
+		COMPONENT(Zengine::ComponentSystem::MeshRenderer)
+		COMPONENT(Zengine::ComponentSystem::EditorCamera)
+		COMPONENT(Zengine::ComponentSystem::Camera)
+	};
+}
+
 InspectorWindow::InspectorWindow(const int& aId)
 {
 	myWindowName = "Inspector";
@@ -27,6 +38,28 @@ void InspectorWindow::Update()
 	for (Zengine::ComponentSystem::Component* comp : Zengine::ComponentSystem::ComponentManager::GetComponents(HiearchyWindow::ActiveGameObject))
 	{
 		DrawComponent(comp);
+	}
+
+
+
+
+	if (ImGui::Button("Add Component"))
+	{
+		ImGui::OpenPopup("AddComponentPopup");
+	}
+
+	if (ImGui::BeginPopup("AddComponentPopup"))
+	{
+		for (const auto& [name, type] : info)
+		{
+			if (ImGui::MenuItem(name))
+			{
+				type(obj);
+				ImGui::CloseCurrentPopup();
+			}
+		}
+
+		ImGui::EndPopup();
 	}
 }
 

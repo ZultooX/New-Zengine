@@ -9,6 +9,9 @@
 
 #include <Engine/AssetManagement/JsonUtils.h>
 
+std::vector<BinaryExporter::AssetIndex> MaterialImporter::myLoadedMeshes;
+
+
 void MaterialImporter::Load(const size_t& aID, Material& aOutAsset)
 {
 	std::ifstream in(ZENGINE_ASSETS_PATH "materials.bundle", std::ios::binary);
@@ -99,4 +102,24 @@ void MaterialImporter::Load(const char* aPath, Material& aOutAsset)
 
 void MaterialImporter::Unload(Material& aOutAsset)
 {
+}
+
+void MaterialImporter::LoadmportedAssets()
+{
+	std::ifstream in(ZENGINE_ASSETS_PATH "materials.bundle", std::ios::binary);
+	BinaryExporter::AssetHeader header;
+	in.read(reinterpret_cast<char*>(&header), sizeof(BinaryExporter::AssetHeader));
+
+	BinaryExporter::AssetIndex index{};
+	bool found = false;
+	for (int i = 0; i < header.totalAmount; i++)
+	{
+		in.read(reinterpret_cast<char*>(&index), sizeof(BinaryExporter::AssetIndex));
+		myLoadedMeshes.push_back(index);
+	}
+}
+
+std::vector<BinaryExporter::AssetIndex>& MaterialImporter::GetImportedAssets()
+{
+	return myLoadedMeshes;
 }

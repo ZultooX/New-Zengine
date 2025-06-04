@@ -10,7 +10,9 @@
 #include <Engine/Engine.h>
 
 #include <fstream>
-#include <Engine/AssetManagement/AssetsCommon.hpp>
+
+std::vector<BinaryExporter::MeshIndex> MeshImporter::myLoadedMeshes;
+
 
 enum class Importers
 {
@@ -20,16 +22,29 @@ enum class Importers
 void MeshImporter::Load(const size_t& aID, Mesh& aOutAsset)
 {
 	std::ifstream in(ZENGINE_ASSETS_PATH "meshes.bundle", std::ios::binary);
-	BinaryExporter::AssetHeader header;
-	in.read(reinterpret_cast<char*>(&header), sizeof(BinaryExporter::AssetHeader));
+	if (!in.is_open()) {
+		std::cerr << "Failed to open mesh bundle file for reading." << std::endl;
+		return;
+	}
 
-	BinaryExporter::AssetIndex index{};
+	BinaryExporter::AssetHeader header{};
+	in.read(reinterpret_cast<char*>(&header), sizeof(header));
+	if (!in) return;
+
+	BinaryExporter::MeshIndex index{};
 	bool found = false;
-	for (int i = 0; i < header.totalAmount; i++)
-	{
-		in.read(reinterpret_cast<char*>(&index), sizeof(BinaryExporter::AssetIndex));
-		if (index.id == aID)
-		{
+
+	for (int i = 0; i < header.totalAmount; ++i) {
+		in.read(reinterpret_cast<char*>(&index.id), sizeof(size_t));
+		in.read(reinterpret_cast<char*>(&index.offset), sizeof(int));
+		in.read(reinterpret_cast<char*>(&index.size), sizeof(int));
+
+		int nameLength = 0;
+		in.read(reinterpret_cast<char*>(&nameLength), sizeof(int));
+		index.name.resize(nameLength);
+		in.read(index.name.data(), nameLength);
+
+		if (index.id == aID) {
 			found = true;
 			break;
 		}
@@ -38,18 +53,52 @@ void MeshImporter::Load(const size_t& aID, Mesh& aOutAsset)
 	if (!found) return;
 
 	in.seekg(index.offset);
+	if (!in) return;
 
 	BinaryExporter::MeshData data;
-
-	int vertSize = 0, indiciesCount = 0;
+	int vertSize = 0, indexSize = 0;
 	in.read(reinterpret_cast<char*>(&vertSize), sizeof(int));
-	in.read(reinterpret_cast<char*>(&indiciesCount), sizeof(int));
+	in.read(reinterpret_cast<char*>(&indexSize), sizeof(int));
 
 	data.verts.resize(vertSize);
-	data.indicies.resize(indiciesCount);
+	data.indicies.resize(indexSize);
 
 	in.read(reinterpret_cast<char*>(data.verts.data()), sizeof(Vertex) * vertSize);
-	in.read(reinterpret_cast<char*>(data.indicies.data()), sizeof(unsigned) * indiciesCount);
+	in.read(reinterpret_cast<char*>(data.indicies.data()), sizeof(unsigned) * indexSize);
+
+	if (!in) return;
+
+	DX11GraphicsEngine* ge = static_cast<DX11GraphicsEngine*>(Engine::GetGraphicsEngine());
+
+	
+	aOutAsset.indicies= data.indicies;
+	aOutAsset.verticies = data.verts;
+
+	// Create index buffer
+	{
+		D3D11_BUFFER_DESC indexBufferDesc = {};
+		indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+		indexBufferDesc.ByteWidth = static_cast<UINT>(sizeof(unsigned) * aOutAsset.indicies.size());
+		indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA indexSubData = {};
+		indexSubData.pSysMem = aOutAsset.indicies.data();
+
+		ge->GetDevice()->CreateBuffer(&indexBufferDesc, &indexSubData, &aOutAsset.indexBuffer);
+	}
+
+	// Create vertex buffer
+	{
+		D3D11_BUFFER_DESC vertexBufferDesc = {};
+		vertexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+		vertexBufferDesc.ByteWidth = static_cast<UINT>(sizeof(Vertex) * aOutAsset.verticies.size());
+		vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA vertexSubData = {};
+		vertexSubData.pSysMem = aOutAsset.verticies.data();
+
+		ge->GetDevice()->CreateBuffer(&vertexBufferDesc, &vertexSubData, &aOutAsset.vertexBuffer);
+	}
 }
 
 void MeshImporter::Load(const char* aPath, Mesh& aOutAsset)
@@ -73,6 +122,31 @@ void MeshImporter::Unload(Mesh& aOutAsset)
 {
 	aOutAsset.Release();
 }
+
+void MeshImporter::LoadmportedAssets()
+{
+	std::ifstream in(ZENGINE_ASSETS_PATH "meshes.bundle", std::ios::binary);
+	BinaryExporter::AssetHeader header;
+	in.read(reinterpret_cast<char*>(&header), sizeof(BinaryExporter::AssetHeader));
+
+	BinaryExporter::MeshIndex index{};
+	bool found = false;
+	for (int i = 0; i < header.totalAmount; i++)
+	{
+		in.read(reinterpret_cast<char*>(&index.id), sizeof(size_t));
+		in.read(reinterpret_cast<char*>(&index.offset), sizeof(int));
+		in.read(reinterpret_cast<char*>(&index.size), sizeof(int));
+
+		int nameLength = 0;
+		in.read(reinterpret_cast<char*>(&nameLength), sizeof(int));
+		index.name.resize(nameLength);
+		in.read(index.name.data(), nameLength);
+		myLoadedMeshes.push_back(index);
+	}
+}
+
+std::vector<BinaryExporter::MeshIndex>& MeshImporter::GetImportedAssets() { return myLoadedMeshes; }
+
 
 
 // TGA FBX
@@ -107,18 +181,12 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 
 	for (const TGA::FBX::Mesh::Element& element : aMesh.Elements)
 	{
-		aOutMesh.AddSubmesh();
-		SubMesh& sub = aOutMesh.GetLastSubmesh();
+		aOutMesh.meshName = element.MeshName;
 
-		sub.materialIndex = element.MaterialIndex;
+		aOutMesh.indicies.resize(element.Indices.size());
+		memcpy(aOutMesh.indicies.data(), element.Indices.data(), sizeof(unsigned) * element.Indices.size());
 
-
-		sub.meshName = element.MeshName;
-
-		sub.indicies.resize(element.Indices.size());
-		memcpy(sub.indicies.data(), element.Indices.data(), sizeof(unsigned) * element.Indices.size());
-
-		sub.verticies.reserve(element.Vertices.size());
+		aOutMesh.verticies.reserve(element.Vertices.size());
 
 		for (const TGA::FBX::Vertex& vert : element.Vertices)
 		{
@@ -142,13 +210,13 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 			vertex.uv2 = Vector2f(vert.UVs[2][0], vert.UVs[2][1]);
 			vertex.uv3 = Vector2f(vert.UVs[3][0], vert.UVs[3][1]);
 
-			sub.verticies.push_back(vertex);
+			aOutMesh.verticies.push_back(vertex);
 		}
 
 		unsigned size = 0;
 
 		{ // Indicies
-			size = (sizeof(unsigned) * sub.indicies.size());
+			size = (sizeof(unsigned) * aOutMesh.indicies.size());
 
 			D3D11_BUFFER_DESC indexBufferDesc = {};
 			indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
@@ -156,14 +224,14 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 			indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 			D3D11_SUBRESOURCE_DATA data;
-			data.pSysMem = sub.indicies.data();
+			data.pSysMem = aOutMesh.indicies.data();
 
-			ge->GetDevice()->CreateBuffer(&indexBufferDesc, &data, &sub.indexBuffer);
+			ge->GetDevice()->CreateBuffer(&indexBufferDesc, &data, &aOutMesh.indexBuffer);
 		}
 
 
 		{ // Vertex Buffer
-			size = sizeof(Vertex) * sub.verticies.size();
+			size = sizeof(Vertex) * aOutMesh.verticies.size();
 
 			D3D11_BUFFER_DESC vertexBufferDesc = {};
 			vertexBufferDesc.ByteWidth = size;
@@ -171,10 +239,10 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 			D3D11_SUBRESOURCE_DATA data;
-			data.pSysMem = sub.verticies.data();
+			data.pSysMem = aOutMesh.verticies.data();
 
 
-			ge->GetDevice()->CreateBuffer(&vertexBufferDesc, &data, &sub.vertexBuffer);
+			ge->GetDevice()->CreateBuffer(&vertexBufferDesc, &data, &aOutMesh.vertexBuffer);
 		}
 	}
 }

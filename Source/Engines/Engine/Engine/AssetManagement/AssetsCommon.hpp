@@ -25,9 +25,15 @@ namespace BinaryExporter
 		int height; 
 	};
 
-	struct MeshData
-	{
+	struct MeshIndex : public AssetIndex {
+		std::string name;
+		int meshCount;
+	};
+
+	struct MeshData {
+		int vertCount;
 		std::vector<Vertex> verts;
+		int indiCount;
 		std::vector<unsigned> indicies;
 	};
 

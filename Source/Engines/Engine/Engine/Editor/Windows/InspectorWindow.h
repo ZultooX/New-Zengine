@@ -6,6 +6,7 @@
 #include <Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
 #include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/ComponentSystem/Components/Rendering/Camera/EditorCamera.h>
+#include <Engine/AssetManagement/Importers/MeshImporter.h>
 
 #define stringify(v) #v
 
@@ -116,11 +117,80 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::MeshRendere
 	aComponent->SetBit(Zengine::ComponentSystem::EditorDrawn, wasDrawn);
 	if (!wasDrawn) return;
 
-	ImGui::Text("This is not final.");
+	{
+		int selectedIdx = 0;
+		const auto& importedMeshes = MeshImporter::GetImportedAssets();
 
-	//ImGui::Text(aComponent->GetMesh()->GetName().c_str());
+		size_t currentMeshID = aComponent->GetMesh() ? aComponent->GetMesh()->GetID() : 0;
 
-	ImGui::Text("THIS IS A MESH RENDERER");
+		std::vector<std::string> stringData = { "No Mesh" };
+		for (const auto& mesh : importedMeshes)
+		{
+			stringData.push_back(mesh.name);
+		}
+
+		std::vector<const char*> comboItems;
+		for (const auto& str : stringData)
+		{
+			comboItems.push_back(str.c_str());
+		}
+
+		// Determine selected index
+		if (currentMeshID != 0)
+		{
+			for (size_t i = 0; i < importedMeshes.size(); ++i)
+			{
+				if (importedMeshes[i].id == currentMeshID)
+				{
+					selectedIdx = static_cast<int>(i + 1); // +1 because "No Mesh" is at index 0
+					break;
+				}
+			}
+		}
+
+		if (ImGui::Combo("Mesh##9q0j0j0j0", &selectedIdx, comboItems.data(), static_cast<int>(comboItems.size())))
+		{
+			if (selectedIdx > 0)
+				aComponent->SetMesh(importedMeshes[selectedIdx - 1].id);
+		}
+	}
+
+	{
+		int selectedIdx = 0;
+		const auto& importedMaterials = MaterialImporter::GetImportedAssets();
+
+		size_t currentMatID = aComponent->GetMaterial() ? aComponent->GetMaterial()->GetID() : 0;
+
+		std::vector<std::string> stringData = { "No Material" };
+		for (const auto& mat : importedMaterials)
+		{
+			stringData.push_back(std::to_string(mat.id));
+		}
+
+		std::vector<const char*> comboItems;
+		for (const auto& str : stringData)
+		{
+			comboItems.push_back(str.c_str());
+		}
+
+		if (currentMatID != 0)
+		{
+			for (size_t i = 0; i < importedMaterials.size(); ++i)
+			{
+				if (importedMaterials[i].id == currentMatID)
+				{
+					selectedIdx = static_cast<int>(i + 1);
+					break;
+				}
+			}
+		}
+
+		if (ImGui::Combo("Material##eja09fj0989y978yt", &selectedIdx, comboItems.data(), static_cast<int>(comboItems.size())))
+		{
+			if (selectedIdx > 0)
+				aComponent->SetMaterial(importedMaterials[selectedIdx - 1].id);
+		}
+	}
 }
 
 template<>

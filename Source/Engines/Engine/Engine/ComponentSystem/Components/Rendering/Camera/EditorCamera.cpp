@@ -30,6 +30,13 @@ namespace Zengine::ComponentSystem
 		}
 	}
 
+	const float& EditorCamera::GetMovementSpeedMultiplier() const { return myMovementSpeedMultiplier; }
+	void EditorCamera::SetMovementSpeedMultiplier(const float& aMultiplier) { myMovementSpeedMultiplier = aMultiplier; }
+
+	const float& EditorCamera::GetScrollMultiplier() const { return myMovementSpeedScrollMultiplier; }
+	void EditorCamera::SetScrollMultiplier(const float& aMultiplier) { myMovementSpeedScrollMultiplier = aMultiplier; }
+
+
 	void EditorCamera::HandleNonMovement()
 	{
 		POINT point = InputManager::GetInstance()->GetMousePosition();

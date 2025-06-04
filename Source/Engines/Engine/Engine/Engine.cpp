@@ -9,6 +9,8 @@
 #include <GraphicsEngine/GraphicsEngine.h>
 
 #include <External/nlohmann/json.hpp>
+#include <Engine/AssetManagement/Importers/MeshImporter.h>
+#include <Engine/AssetManagement/Importers/MaterialImporter.h>
 
 #ifdef _DEBUG
 #include <Editor/Editor.h>
@@ -52,8 +54,8 @@ bool Engine::LateInitialize()
 	Editor::Init();
 #endif
 
-	int age = MetaFileRegistry::GetMetaData<int>("This Cool path", "age");
-	MetaFileRegistry::SetMetaData("This Cool path", "name", "Simon");
+	MeshImporter::LoadmportedAssets();
+	MaterialImporter::LoadmportedAssets();
 
 	return true;
 }

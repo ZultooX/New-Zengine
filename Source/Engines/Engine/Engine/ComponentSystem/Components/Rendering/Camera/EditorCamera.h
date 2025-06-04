@@ -14,6 +14,12 @@ namespace Zengine::ComponentSystem
 		void Start() override;
 		void Update() override;
 
+	public:
+		const float& GetMovementSpeedMultiplier() const;
+		void SetMovementSpeedMultiplier(const float& aMultiplier);
+
+		const float& GetScrollMultiplier() const;
+		void SetScrollMultiplier(const float& aMultiplier);
 
 	private:
 		void HandleNonMovement();

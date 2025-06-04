@@ -28,53 +28,72 @@ void SceneExporter::SaveScene(const char* aOutDst)
 		out.write(reinterpret_cast<const char*>(&obj->GetBitmask().GetMask()), sizeof(int));
 	}
 
-	const std::vector<Transform*> transforms = ComponentManager::GetComponents<Transform>();
-	int size = (int)transforms.size();
-	out.write(reinterpret_cast<const char*>(&size), sizeof(int));
-	for (const Transform* trans : transforms)
-	{
-		Vector3f position = trans->GetPosition();
-		Vector3f scale = trans->GetScale();
-		Vector3f eulerAngles = trans->GetEulerAngles();
-		int owner= trans->gameobject->GetID();
-		
-		out.write(reinterpret_cast<const char*>(&owner), sizeof(int));
-		out.write(reinterpret_cast<const char*>(&position), sizeof(Vector3f));
-		out.write(reinterpret_cast<const char*>(&scale), sizeof(Vector3f));
-		out.write(reinterpret_cast<const char*>(&eulerAngles), sizeof(Vector3f));
-	}
-
-	out.write(reinterpret_cast<const char*>(&ComponentManager::GetComponents<MeshRenderer>()), sizeof(int));
-	for (MeshRenderer* mRenderer : ComponentManager::GetComponents<MeshRenderer>())
-	{
-		out.write(reinterpret_cast<const char*>(&mRenderer->gameobject->GetID()), sizeof(size_t));
-
-		for (const AssetPointer<Material>& mat : mRenderer->GetMaterials())
+	{ // Transforms
+		const std::vector<Transform*> compList = ComponentManager::GetComponents<Transform>();
+		int size = (int)compList.size();
+		out.write(reinterpret_cast<const char*>(&size), sizeof(int));
+		for (const Transform* comp : compList)
 		{
-			out.write(reinterpret_cast<const char*>(&mat->GetID()), sizeof(size_t));
+			const Vector3f& position = comp->GetPosition();
+			const Vector3f& scale = comp->GetScale();
+			const Vector3f& eulerAngles = comp->GetEulerAngles();
+			const int& owner = comp->gameobject->GetID();
+
+			out.write(reinterpret_cast<const char*>(&owner), sizeof(int));
+			out.write(reinterpret_cast<const char*>(&position), sizeof(Vector3f));
+			out.write(reinterpret_cast<const char*>(&scale), sizeof(Vector3f));
+			out.write(reinterpret_cast<const char*>(&eulerAngles), sizeof(Vector3f));
 		}
-
-		out.write(reinterpret_cast<const char*>(&mRenderer->GetMesh()->GetID()), sizeof(size_t));
 	}
 
-	out.write(reinterpret_cast<const char*>(&ComponentManager::GetComponents<EditorCamera>()), sizeof(int));
-	for (EditorCamera* eCam : ComponentManager::GetComponents<EditorCamera>())
-	{
-		out.write(reinterpret_cast<const char*>(&eCam->gameobject->GetID()), sizeof(size_t));
-		out.write(reinterpret_cast<const char*>(&eCam->myMovementSpeedScrollMultiplier), sizeof(float));
-		out.write(reinterpret_cast<const char*>(&eCam->myMovementSpeedMultiplier), sizeof(float));
+
+	{ // Meshrenderers
+		//const std::vector<MeshRenderer*> compList = ComponentManager::GetComponents<MeshRenderer>();
+		//int size = (int)compList.size();
+		//out.write(reinterpret_cast<const char*>(&size), sizeof(int));
+		//for (const MeshRenderer* comp : compList)
+		//{
+		//	out.write(reinterpret_cast<const char*>(&comp->gameobject->GetID()), sizeof(int));
+
+		//	int materialCount = (int)comp->GetMaterials().size();
+		//	out.write(reinterpret_cast<const char*>(&materialCount), sizeof(int));
+		//	for (const AssetPointer<Material>& mat : comp->GetMaterials())
+		//	{
+		//		out.write(reinterpret_cast<const char*>(&mat->GetID()), sizeof(size_t));
+		//	}
+
+		//	out.write(reinterpret_cast<const char*>(&comp->GetMesh()->GetID()), sizeof(size_t));
+		//}
 	}
 
-	out.write(reinterpret_cast<const char*>(&ComponentManager::GetComponents<Camera>()), sizeof(int));
-	for (Camera* cam : ComponentManager::GetComponents<Camera>())
-	{
-		out.write(reinterpret_cast<const char*>(&cam->gameobject->GetID()), sizeof(size_t));
-		out.write(reinterpret_cast<const char*>(&cam->isMainCamera), sizeof(bool));
-		out.write(reinterpret_cast<const char*>(&cam->fov), sizeof(float));
-		out.write(reinterpret_cast<const char*>(&cam->nearPlane), sizeof(float));
-		out.write(reinterpret_cast<const char*>(&cam->farPlane), sizeof(float));
-		out.write(reinterpret_cast<const char*>(&cam->resolution), sizeof(Vector2f));
-		out.write(reinterpret_cast<const char*>(&cam->size), sizeof(Vector2f));
-		out.write(reinterpret_cast<const char*>(&cam->isOrhographics), sizeof(bool));
+
+	{ // Editor Camera
+		const std::vector<EditorCamera*> compList = ComponentManager::GetComponents<EditorCamera>();
+		int size = (int)compList.size();
+		out.write(reinterpret_cast<const char*>(&size), sizeof(int));
+		for (const EditorCamera* comp : compList)
+		{
+			out.write(reinterpret_cast<const char*>(&comp->gameobject->GetID()), sizeof(int));
+			out.write(reinterpret_cast<const char*>(&comp->myMovementSpeedScrollMultiplier), sizeof(float));
+			out.write(reinterpret_cast<const char*>(&comp->myMovementSpeedMultiplier), sizeof(float));
+		}
+	}
+
+
+	{ // Camera
+		const std::vector<Camera*> compList = ComponentManager::GetComponents<Camera>();
+		int size = (int)compList.size();
+		out.write(reinterpret_cast<const char*>(&size), sizeof(int));
+		for (const Camera* comp : compList)
+		{
+				out.write(reinterpret_cast<const char*>(&comp->gameobject->GetID()), sizeof(int));
+				out.write(reinterpret_cast<const char*>(&comp->isMainCamera), sizeof(bool));
+				out.write(reinterpret_cast<const char*>(&comp->fov), sizeof(float));
+				out.write(reinterpret_cast<const char*>(&comp->nearPlane), sizeof(float));
+				out.write(reinterpret_cast<const char*>(&comp->farPlane), sizeof(float));
+				out.write(reinterpret_cast<const char*>(&comp->resolution), sizeof(Vector2f));
+				out.write(reinterpret_cast<const char*>(&comp->size), sizeof(Vector2f));
+				out.write(reinterpret_cast<const char*>(&comp->isOrhographics), sizeof(bool));
+		}
 	}
 }

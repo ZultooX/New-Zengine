@@ -39,7 +39,7 @@ namespace Zengine::Graphics
 		//Draw(aMeshrenderer, nullptr, aMeshrenderer->GetVertexShader());
 	}
 
-	void MeshDrawer::Draw(const SubMesh& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader)
+	void MeshDrawer::Draw(AssetPointer<Mesh>& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader)
 	{
 		DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
 
@@ -52,10 +52,10 @@ namespace Zengine::Graphics
 		constexpr unsigned int stride = sizeof(Vertex);
 		constexpr unsigned int offset = 0;
 
-		ge->GetContext()->IASetVertexBuffers(0, 1, &aMesh.vertexBuffer, &stride, &offset);
-		ge->GetContext()->IASetIndexBuffer(aMesh.indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		ge->GetContext()->IASetVertexBuffers(0, 1, aMesh->GetVertexBufferAddr(), &stride, &offset);
+		ge->GetContext()->IASetIndexBuffer(aMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
 
-		ge->GetContext()->DrawIndexed(aMesh.indicies.size(), 0, 0);
+		ge->GetContext()->DrawIndexed(aMesh->GetIndicies().size(), 0, 0);
 
 		ge->UpdateDrawCalls();
 	}

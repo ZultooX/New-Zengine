@@ -16,21 +16,24 @@ namespace Zengine::ComponentSystem
 		COMPONENT_BASICS(MeshRenderer)
 
 	public:
-		void SetMesh(const char* aPixelShaderName);
+#pragma region [MESH]
+		void SetMesh(const char* aMeshName);
+		void SetMesh(const size_t& aMeshID);
+		const AssetPointer<Mesh>& GetMesh() const;
 		AssetPointer<Mesh>& GetMesh();
+#pragma endregion
+
+#pragma region [MATERIAL]
+		void SetMaterial(const std::string& aMaterialPath);
+		void SetMaterial(const size_t& aMaterialID);
+
+		const AssetPointer<Material>& GetMaterial() const;
+#pragma endregion
 
 
-		void AddMaterial(const std::string& aMaterialPath);
-		void SetMaterial(const unsigned& aIdx, const std::string& aMaterialPath);
-
-		const AssetPointer<Material>& GetMaterialAtIndex(const unsigned& aIdx) const;
-		const std::vector<AssetPointer<Material>>& GetMaterials();
-
-		void RemoveMaterialAtIndex(const unsigned& aIdx);
-		void ClearMaterials();
 
 	private:
-		std::vector<AssetPointer<Material>> myMaterials;
+		AssetPointer<Material> myMaterial;
 		AssetPointer<Mesh> myMesh;
 	};
 }

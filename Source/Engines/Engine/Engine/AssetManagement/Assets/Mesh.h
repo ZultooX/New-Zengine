@@ -8,22 +8,33 @@
 #include <GraphicsEngine/GraphicsStructs.h>
 #include <vector>
 
+struct ID3D11Buffer;
 class Mesh : public Asset
 {
 	BASE_ASSET(Mesh, MeshImporter, MeshExporter)
 
 public:
-	const SubMesh& GetLastSubmesh() const;
-	SubMesh& GetLastSubmesh();
+	const std::string& GetName() const;
+	void SetName(const std::string& aName);
 
-	const std::vector<SubMesh>& GetSubmeshes() const;
-	std::vector<SubMesh>& GetSubmeshes();
+	const std::vector<Vertex>& GetVerticies() const;
+	const std::vector<unsigned>& GetIndicies() const;
 
-	void AddSubmesh();
+	ID3D11Buffer* GetVertexBuffer();
+	ID3D11Buffer* const* GetVertexBufferAddr();
+
+	ID3D11Buffer* GetIndexBuffer();
+	ID3D11Buffer* const* GetIndexBufferAddr();
 
 private:
 	void Release();
 
 private:
-	std::vector<SubMesh> myMeshes;
+	std::string meshName;
+
+	std::vector<Vertex> verticies;
+	std::vector<unsigned> indicies;
+
+	ID3D11Buffer* vertexBuffer;
+	ID3D11Buffer* indexBuffer;
 };

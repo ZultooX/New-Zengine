@@ -15,6 +15,8 @@ namespace Zengine
 	}
 }
 
+#include <Engine/AssetManagement/Base/AssetPointer.h>
+#include <Engine/AssetManagement/Assets/Mesh.h>
 #include <Engine/AssetManagement/Assets/PixelShader.h>
 #include <Engine/AssetManagement/Assets/VertexShader.h>
 
@@ -24,7 +26,7 @@ namespace Zengine::Graphics
 	{
 	public:
 		static void Draw(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer);
-		static void Draw(const SubMesh& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader);
+		static void Draw(AssetPointer<Mesh>& aMesh, PixelShader* aPixelShader, VertexShader* aVertexShader);
 
 		void BindMaterial(Zengine::ComponentSystem::MeshRenderer* aMeshrenderer, const unsigned& aIdx);
 

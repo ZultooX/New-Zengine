@@ -1,22 +1,11 @@
 #include "Component.h"
 
+#include <Engine/ComponentSystem/Base/ComponentData.h>
+#include <Engine/ComponentSystem/GameObjectManager.h>
+#include <fstream>
+
 namespace Zengine::ComponentSystem
 {
-	//bool Component::operator==(const ComponentState& aState)
-	//{
-	//	return myMask.GetBit(aState);
-	//}
-
-	//bool Component::operator==(const Component& aComp)
-	//{
-	//	return myId == aComp.myId;
-	//}
-
-	//bool Component::IsNull()
-	//{
-	//	return myMask.GetBit(ComponentState::NULL);
-	//}
-
 	Component::Component()
 		: myMask(),
 		myId(-1),

@@ -11,42 +11,14 @@
 
 void GameWorld::Init()
 {
-	//{
-	//	CS::GameObject* obj = CS::GameObject::Create();
-	//	obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
-	//	obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
+	{
+		CS::GameObject* obj = CS::GameObject::Create();
+		obj->AddComponent<CS::EditorCamera>();
 
-	//	obj->SetName("Reaper");
+		obj->SetName("Editor Camera");
 
-	//	CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-	//	rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
-
-	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
-	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
-	//}
-
-	//{
-	//	CS::GameObject* obj = CS::GameObject::Create();
-	//	obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
-	//	obj->transform->SetPosition(Vector3f(-0.75f, 0.f, 0.f));
-
-	//	obj->SetName("Genji");
-
-	//	CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-	//	rend->SetMesh(ZENGINE_MODELS_PATH"Divine monkey.fbx");
-
-	//	rend->AddMaterial("Assets/Materials/Monkey.mat");
-	//	rend->AddMaterial("Assets/Materials/Monkey.mat");
-	//}
-
-	//{
-	//	CS::GameObject* obj = CS::GameObject::Create();
-	//	obj->AddComponent<CS::EditorCamera>();
-
-	//	obj->SetName("Editor Camera");
-
-	//	obj->transform->SetPosition(Vector3f(0.19f, 0.67f, -2.8f));
-	//}
+		obj->transform->SetPosition(Vector3f(0.19f, 0.67f, -2.8f));
+	}
 }
 
 void GameWorld::Update()

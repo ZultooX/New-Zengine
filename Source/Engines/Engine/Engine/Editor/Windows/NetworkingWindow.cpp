@@ -29,26 +29,26 @@ void NetworkingWindow::Update()
 	else if (myIsConnected && ImGui::Button("Disconnect")) DisconnectToServer();
 
 
-	else if (myIsConnected && ImGui::Button("Spawn Player"))
-	{
-		CS::GameObject* obj = CS::GameObject::Create();
-		obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
-		obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
+	//else if (myIsConnected && ImGui::Button("Spawn Player"))
+	//{
+	//	CS::GameObject* obj = CS::GameObject::Create();
+	//	obj->transform->SetEulerAngles(Vector3f(PI * 0.5F, 0.f, PI));
+	//	obj->transform->SetPosition(Vector3f(0.75f, 0.f, 0.f));
 
 
-		obj->SetName("Reaper");
+	//	obj->SetName("Reaper");
 
-		CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
+	//	CS::MeshRenderer* rend = obj->AddComponent<CS::MeshRenderer>();
+	//	rend->SetMesh(ZENGINE_MODELS_PATH"Reaper Anubis.fbx");
 
-		rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
-		rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
+	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Body.mat");
+	//	rend->AddMaterial("Assets/Materials/ReaperAnubis_Head.mat");
 
-		obj->AddComponent<CS::NetworkSyncer>();
+	//	obj->AddComponent<CS::NetworkSyncer>();
 
-		Encoder* encoder = Engine::GetNetworkManager().GetClient()->GetEncoder();
-		encoder->Write(MessageIdentifier::SpawnPlayer, obj->GetID());
-	}
+	//	Encoder* encoder = Engine::GetNetworkManager().GetClient()->GetEncoder();
+	//	encoder->Write(MessageIdentifier::SpawnPlayer, obj->GetID());
+	//}
 }
 
 void NetworkingWindow::Close()

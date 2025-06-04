@@ -15,6 +15,12 @@ namespace Zengine::ComponentSystem
 		myMesh = AssetManager::Get<Mesh>(aMeshName);
 	}
 
+	void MeshRenderer::SetMesh(const size_t& aMeshID)
+	{
+		myMesh = AssetManager::Get<Mesh>(aMeshID);
+	}
+
+	const AssetPointer<Mesh>& MeshRenderer::GetMesh() const { return myMesh; }
 	AssetPointer<Mesh>& MeshRenderer::GetMesh() { return myMesh; }
 
 #pragma endregion
@@ -22,41 +28,17 @@ namespace Zengine::ComponentSystem
 
 #pragma region [MATERIALS]
 
-	void MeshRenderer::AddMaterial(const std::string& aMaterialPath)
+	void MeshRenderer::SetMaterial(const std::string& aMaterialPath)
 	{
-		AssetPointer<Material> mat = AssetManager::Get<Material>(aMaterialPath.c_str());
-		myMaterials.push_back(mat);
+		myMaterial = AssetManager::Get<Material>(aMaterialPath.c_str());
 	}
 
-	void MeshRenderer::SetMaterial(const unsigned& aIdx, const std::string& aMaterialPath)
+	void MeshRenderer::SetMaterial(const size_t& aMaterialID)
 	{
-		if (myMaterials.size() >= aIdx) return;
-
-		myMaterials[aIdx] = AssetManager::Get<Material>(aMaterialPath.c_str());
+		myMaterial = AssetManager::Get<Material>(aMaterialID);
 	}
 
-	inline const AssetPointer<Material>& MeshRenderer::GetMaterialAtIndex(const unsigned& aIdx) const
-	{
-		if (myMaterials.size() >= aIdx) return {};
-
-		return myMaterials[aIdx];
-	}
-
-	const std::vector<AssetPointer<Material>>& MeshRenderer::GetMaterials() { return myMaterials; }
-
-	void MeshRenderer::RemoveMaterialAtIndex(const unsigned& aIdx)
-	{
-		if (myMaterials.size() >= aIdx) return;
-		
-		myMaterials.erase(myMaterials.begin() + aIdx);
-	}
-
-	void MeshRenderer::ClearMaterials()
-	{
-		myMaterials.clear();
-	}
+	const AssetPointer<Material>& MeshRenderer::GetMaterial() const { return myMaterial; }
 
 #pragma endregion
-
-
 }
