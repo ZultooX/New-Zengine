@@ -2,7 +2,7 @@
 
 #include <Shaders/Common/ConstantBuffers.h>
 
-#include <Engine/Utilities/BitMask.hpp>
+#include <Zultools/BitMask.hpp>
 
 struct ID3D11Buffer;
 namespace Zengine::Buffers

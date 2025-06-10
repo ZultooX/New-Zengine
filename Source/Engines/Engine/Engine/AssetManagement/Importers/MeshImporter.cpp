@@ -213,10 +213,8 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 			aOutMesh.verticies.push_back(vertex);
 		}
 
-		unsigned size = 0;
-
 		{ // Indicies
-			size = (sizeof(unsigned) * aOutMesh.indicies.size());
+			 unsigned size = (sizeof(unsigned) * aOutMesh.indicies.size());
 
 			D3D11_BUFFER_DESC indexBufferDesc = {};
 			indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
@@ -231,7 +229,7 @@ void MeshImporter::ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMes
 
 
 		{ // Vertex Buffer
-			size = sizeof(Vertex) * aOutMesh.verticies.size();
+			unsigned size = sizeof(Vertex) * aOutMesh.verticies.size();
 
 			D3D11_BUFFER_DESC vertexBufferDesc = {};
 			vertexBufferDesc.ByteWidth = size;

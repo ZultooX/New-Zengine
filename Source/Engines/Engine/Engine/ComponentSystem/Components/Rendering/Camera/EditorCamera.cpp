@@ -9,17 +9,23 @@
 #include <Engine/Editor/DebugLogger.h>
 #include <ImGui/imgui.h>
 #include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
+#include <Engine/Engine.h>
+#include <Zultools/Input/InputMapper.h>
+#include <Zultools/Input/Input.h>
 
 namespace Zengine::ComponentSystem
 {
 	void EditorCamera::Start()
 	{
 		gameobject->AddComponent<Camera>();
+
+		InputMapper& mapper = Engine::GetInputMapper();
+		//mapper.Map({})
 	}
 
 	void EditorCamera::Update()
 	{
-		if (InputManager::GetInstance()->GetMouseButton(MouseButton::Right))
+		if (Input::GetKey(Keycode::RightMouseButton))
 		{
 			HandleMovement();
 			HandleLookAround();
@@ -65,9 +71,9 @@ namespace Zengine::ComponentSystem
 	{
 		float deltaTime = MainSingleton::GetInstance<CommonUtilities::Timer>().GetDeltaTime();
 
-		float x = InputManager::GetInstance()->GetKey(KeyCode::D) - InputManager::GetInstance()->GetKey(KeyCode::A);
+		float x = Input::GetAxis("Horizontal");
+		float z = Input::GetAxis("Vertical");
 		float y = InputManager::GetInstance()->GetKey(KeyCode::E) - InputManager::GetInstance()->GetKey(KeyCode::Q);
-		float z = InputManager::GetInstance()->GetKey(KeyCode::W) - InputManager::GetInstance()->GetKey(KeyCode::S);
 
 		Vector3f movement = (gameobject->transform->GetRight() * x) +
 			(gameobject->transform->GetUp() * y) +

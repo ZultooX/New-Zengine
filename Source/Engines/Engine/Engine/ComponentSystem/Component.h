@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Utilities/BitMask.hpp>
+#include <Zultools/BitMask.hpp>
 
 #include "GameObject.h"
 #include <typeindex>

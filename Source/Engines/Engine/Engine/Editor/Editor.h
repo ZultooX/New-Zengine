@@ -24,7 +24,7 @@ private:
 	static void OpenWindow(const std::string& aName, const int& aId);
 
 private:
-	static std::unordered_map<unsigned, AbstractWindow*> IdToWindow;
+	static std::unordered_map<int, AbstractWindow*> IdToWindow;
 };
 
 template<typename T>

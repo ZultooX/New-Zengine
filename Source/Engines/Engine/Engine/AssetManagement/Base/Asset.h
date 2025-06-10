@@ -9,7 +9,7 @@
 #include <Engine/AssetManagement/Base/CommonAssetUtils.h>
 #include <Engine/AssetManagement/Base/AssetMacros.h>
 
-#include <Engine/Utilities/BitMask.hpp>
+#include <Zultools/BitMask.hpp>
 
 class Asset
 {

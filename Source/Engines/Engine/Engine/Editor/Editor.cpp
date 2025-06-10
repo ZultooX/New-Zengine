@@ -14,9 +14,10 @@
 #include "Windows/NetworkingWindow.h"
 #include "Windows/AssetsWindow.h"
 #include "Windows/BuildSettingsWindow.h"
+#include "Windows/InputManagerWindow.h"
 #include <fstream>
 
-std::unordered_map<unsigned, AbstractWindow*> Editor::IdToWindow;
+std::unordered_map<int, AbstractWindow*> Editor::IdToWindow;
 
 
 void Editor::Init()
@@ -48,7 +49,7 @@ void Editor::Update()
 
 	for (auto it = IdToWindow.begin(); it != IdToWindow.end(); )
 	{
-		const unsigned& id = it->first;
+		const int& id = it->first;
 		AbstractWindow* window = it->second;
 
 		if (window->myWasLastOpen != window->myIsOpen)
@@ -96,6 +97,7 @@ void Editor::UpdateMainMenuBar()
 		if (ImGui::BeginMenu("Settings"))
 		{
 			if (ImGui::MenuItem("Build Settings")) OpenWindow("Build Settings", -1);
+			if (ImGui::MenuItem("Input Manager")) OpenWindow("InputManager", -1);
 
 			ImGui::EndMenu();
 		}
@@ -115,6 +117,7 @@ void Editor::OpenWindow(const std::string& aName, const int& aId)
 	else if (aName == "Networking")			window = new NetworkingWindow(aId);
 	else if (aName == "Assets")				window = new AssetsWindow(aId);
 	else if (aName == "Build Settings")		window = new BuildSettingsWindow(aId);
+	else if (aName == "InputManager")		window = new InputManagerWindow(aId);
 
 	if (window == nullptr) return;
 

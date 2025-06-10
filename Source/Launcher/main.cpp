@@ -82,7 +82,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR,
 	bool shouldRun = true;
 	while (shouldRun)
 	{
-		gGameWorld.Update();
 		Engine::Update();
 
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -104,6 +103,8 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wPara
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	gHWND = hWnd;
+
+	Engine::ProcessMessage(hWnd, message, wparam, lparam);
 
 	InputManager::GetInstance()->UpdateEvents(message, wparam, lparam);
 	InputManager::GetInstance()->Update();

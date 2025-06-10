@@ -12,6 +12,10 @@
 #include <Engine/AssetManagement/Importers/MeshImporter.h>
 #include <Engine/AssetManagement/Importers/MaterialImporter.h>
 
+#include <Zultools/Input/Input.h>
+
+#include <Engine/Editor/DebugLogger.h>
+
 #ifdef _DEBUG
 #include <Editor/Editor.h>
 #include <ImGui/imgui.h>
@@ -27,8 +31,16 @@ EngineSettings Engine::Settings;
 NetworkManager Engine::networkManager;
 IGraphicsAPI* Engine::GraphicsEngine;
 
+UINT Engine::message;
+WPARAM Engine::Wparam;
+LPARAM Engine::Lparam;
+
+InputMapper Engine::mapper;
+
 bool Engine::Initialize()
 {
+	Input::Initialize();
+
 	Settings.Load();
 
 	MetaFileRegistry::ValidateFiles();
@@ -58,6 +70,12 @@ bool Engine::LateInitialize()
 	MaterialImporter::LoadmportedAssets();
 
 	return true;
+}
+
+void Engine::ProcessMessage(const HWND& aHwnd, const UINT& aMessage, const WPARAM& aWparam, const LPARAM& aLparam)
+{
+	Input::ProcessMessage(aHwnd, aMessage, aWparam, aLparam);
+	mapper.Update();
 }
 
 bool Engine::Update()
@@ -94,7 +112,10 @@ void Engine::Cleanup()
 
 bool Engine::PreUpdate()
 {
+	Input::Update();
+
 	Zengine::ComponentSystem::GameObjectManager::BeginFrame();
+
 #ifdef _DEBUG
 	Editor::PreUpdate();
 	Editor::Update();
@@ -132,3 +153,5 @@ bool Engine::PostUpdate()
 EngineSettings& Engine::GetSettings() { return Settings; }
 IGraphicsAPI* Engine::GetGraphicsEngine() { return GraphicsEngine; }
 NetworkManager& Engine::GetNetworkManager() { return networkManager; }
+
+InputMapper& Engine::GetInputMapper() { return mapper; }

@@ -98,7 +98,7 @@ enum class KeyCode : int
 	ADD = 0x6B,
 	SEPARATOR = 0x6C,
 	SUBTRACT = 0x6D,
-	DECIMAL = 0x6E,
+	//DECIMAL = 0x6E,
 	DIVIDE = 0x6F,
 	F1 = 0x70,
 	F2 = 0x71,

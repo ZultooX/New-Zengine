@@ -33,6 +33,7 @@ function loadFiles()
        Dirs.Projects.Externals.Root .. "/PhysX/*",
        Dirs.Projects.Externals.Root .. "/ImGui/*",
        Dirs.Projects.Externals.Root .. "/OpenGL/*",
+       Dirs.Projects.Externals.Root .. "/SDL3/*",
     }
     
     files { 
@@ -87,6 +88,7 @@ links {
     "PhysXVehicle2_static_64",
     "SceneQuery_static_64",
     "SimulationController_static_64",
+    "SDL3",
 }
 runtime "Debug"
 symbols "On"
@@ -104,6 +106,7 @@ filter "configurations:Release"
     "PhysX_64",
     "PhysXCommon_64",
     "PhysXFoundation_64",
+    "SDL3",
     }
     runtime "Release"
     optimize "On"
