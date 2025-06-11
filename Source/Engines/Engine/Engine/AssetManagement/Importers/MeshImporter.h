@@ -7,6 +7,7 @@ class Mesh;
 class MeshImporter
 {
 public:
+public:
 	static void Load(const size_t& aID, Mesh& aOutAsset);
 	static void Load(const char* aPath, Mesh& aOutAsset);
 	static void Unload(Mesh& aOutAsset);

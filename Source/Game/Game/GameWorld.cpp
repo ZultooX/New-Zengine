@@ -13,15 +13,6 @@ void GameWorld::Init()
 {
 	using namespace CS;
 
-
-
-	{
-		GameObject* obj = GameObject::Create();
-		MeshRenderer* rend = obj->AddComponent<MeshRenderer>();
-		rend->SetMesh(ZENGINE_MODELS_PATH "Reaper Anubis.fbx");
-		rend->SetMaterial(ZENGINE_MATERIALS_PATH "Monkey.mat");
-	}
-
 	{
 		CS::GameObject* obj = CS::GameObject::Create();
 		obj->AddComponent<CS::EditorCamera>();

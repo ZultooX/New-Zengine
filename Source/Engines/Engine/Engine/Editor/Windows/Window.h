@@ -10,8 +10,8 @@ public:
 	virtual void Close() = 0;
 
 public:
-	const unsigned& GetID();
-	const unsigned& GetID() const;
+	const int& GetID();
+	const int& GetID() const;
 
 	const std::string& GetWindowName();
 	const std::string& GetWindowName() const;

@@ -118,8 +118,13 @@ inline void InspectorWindow::DrawComponent(Zengine::ComponentSystem::MeshRendere
 	if (!wasDrawn) return;
 
 	{
+
+
+
+
+
 		int selectedIdx = 0;
-		const auto& importedMeshes = MeshImporter::GetImportedAssets();
+		const std::vector<BinaryExporter::MeshIndex>& importedMeshes = MeshImporter::GetImportedAssets();
 
 		size_t currentMeshID = aComponent->GetMesh() ? aComponent->GetMesh()->GetID() : 0;
 
