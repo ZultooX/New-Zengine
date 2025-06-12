@@ -66,9 +66,6 @@ bool Engine::LateInitialize()
 	Editor::Init();
 #endif
 
-	MeshImporter::LoadmportedAssets();
-	MaterialImporter::LoadmportedAssets();
-
 	return true;
 }
 

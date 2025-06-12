@@ -14,7 +14,10 @@ class AssetManager
 {
 public:
 	template<typename T>
-	static AssetPointer<T> Get(const size_t& anID);
+	static AssetPointer<T> GetFromPath(const char* aPath);
+
+	template<typename T>
+	static AssetPointer<T> GetFromID(const size_t& anID);
 
 	template <typename T>
 	static AssetPointer<T> LoadAsset(const size_t& anID);
@@ -26,14 +29,21 @@ private:
 	static std::unordered_map<std::type_index, BaseList*> AssetLists;
 };
 
+template<typename T>
+AssetPointer<T> AssetManager::GetFromPath(const char* aPath)
+{
+	const size_t id = std::hash<std::string>{}(std::string(aPath));
+	AssetPointer<T> ptr = AssetManager::LoadAsset<T>(id);
+	return ptr;
+}
+
 
 template<typename T>
-inline AssetPointer<T> AssetManager::Get(const size_t& anID)
+inline AssetPointer<T> AssetManager::GetFromID(const size_t& anID)
 {
 	AssetPointer<T> ptr = AssetManager::LoadAsset<T>(anID);
 	return ptr;
 }
-
 
 
 

@@ -48,14 +48,14 @@ void MaterialImporter::Load(const size_t& aID, Material& aOutAsset)
 	in.read(reinterpret_cast<char*>(&data.vertexShaderID), sizeof(size_t));
 
 	aOutAsset.SetMaterialData(data.data);
-	aOutAsset.myPS = AssetManager::Get<PixelShader>(data.pixelShaderID);
-	aOutAsset.myVS = AssetManager::Get<VertexShader>(data.vertexShaderID);
+	aOutAsset.myPS = AssetManager::GetFromID<PixelShader>(data.pixelShaderID);
+	aOutAsset.myVS = AssetManager::GetFromID<VertexShader>(data.vertexShaderID);
 
 	for (const BinaryExporter::MaterialData::Texture& tex : data.textures)
 	{
 		TextureData t;
 		t.bindPoint = tex.bindPoint;
-		t.texture = AssetManager::Get<Texture>(tex.textureID);
+		t.texture = AssetManager::GetFromID<Texture>(tex.textureID);
 		aOutAsset.myTextures.push_back(std::move(t));
 	}
 }
@@ -75,7 +75,7 @@ void MaterialImporter::Load(const char* aPath, Material& aOutAsset)
 		aOutAsset.myTextures.back().name = element[0];
 
 		std::string path = element[1];
-		aOutAsset.myTextures.back().texture = AssetManager::Get<Texture>(path.c_str());
+		aOutAsset.myTextures.back().texture = AssetManager::GetFromPath<Texture>(path.c_str());
 		aOutAsset.myTextures.back().bindPoint = element[2];
 
 		bit.SetBit(aOutAsset.myTextures.back().bindPoint, true);
@@ -85,8 +85,8 @@ void MaterialImporter::Load(const char* aPath, Material& aOutAsset)
 
 	std::string vsPath = jsonFile.value(Json::VertexShaderKey, Json::VertexShaderDefault).c_str();
 	std::string psPath = jsonFile.value(Json::PixelShaderKey, Json::PixelShaderDefault).c_str();
-	aOutAsset.myVS = AssetManager::Get<VertexShader>(vsPath.c_str());
-	aOutAsset.myPS = AssetManager::Get<PixelShader>(psPath.c_str());
+	aOutAsset.myVS = AssetManager::GetFromPath<VertexShader>(vsPath.c_str());
+	aOutAsset.myPS = AssetManager::GetFromPath<PixelShader>(psPath.c_str());
 
 
 	if (jsonFile.contains(Json::Color::Key))

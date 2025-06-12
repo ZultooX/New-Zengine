@@ -12,8 +12,8 @@ namespace Zengine::Graphics
 {
 	FullscreenSprite::FullscreenSprite(const std::string& aPixelShaderPath) : myPixelShaderPath(aPixelShaderPath)
 	{
-		myPS = AssetManager::Get<PixelShader>(myPixelShaderPath.c_str());
-		myVS = AssetManager::Get<VertexShader>(ZENGINE_VERTEX_SHADERS_PATH"VS_FullscreenEffect.cso");
+		myPS = AssetManager::GetFromPath<PixelShader>(myPixelShaderPath.c_str());
+		myVS = AssetManager::GetFromPath<VertexShader>(ZENGINE_VERTEX_SHADERS_PATH"VS_FullscreenEffect.cso");
 	}
 
 	void FullscreenSprite::Render()

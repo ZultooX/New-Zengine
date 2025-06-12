@@ -12,12 +12,12 @@ namespace Zengine::ComponentSystem
 
 	void MeshRenderer::SetMesh(const char* aMeshName)
 	{
-		myMesh = AssetManager::Get<Mesh>(aMeshName);
+		myMesh = AssetManager::GetFromPath<Mesh>(aMeshName);
 	}
 
 	void MeshRenderer::SetMesh(const size_t& aMeshID)
 	{
-		myMesh = AssetManager::Get<Mesh>(aMeshID);
+		myMesh = AssetManager::GetFromID<Mesh>(aMeshID);
 	}
 
 	const AssetPointer<Mesh>& MeshRenderer::GetMesh() const { return myMesh; }
