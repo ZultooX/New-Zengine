@@ -9,14 +9,6 @@
 #include <vector>
 
 struct ID3D11Buffer;
-struct MeshData {
-	std::string meshName;
-
-	std::vector<Vertex> verticies;
-	std::vector<unsigned> indicies;
-};
-
-
 class Mesh : public Asset
 {
 	BASE_ASSET(Mesh, MeshImporter, MeshExporter)
@@ -38,11 +30,11 @@ private:
 	void Release();
 
 private:
-	std::string meshName;
+	std::string meshName = "";
 
 	std::vector<Vertex> verticies;
 	std::vector<unsigned> indicies;
 
-	ID3D11Buffer* vertexBuffer;
-	ID3D11Buffer* indexBuffer;
+	ID3D11Buffer* vertexBuffer = nullptr;
+	ID3D11Buffer* indexBuffer = nullptr;
 };

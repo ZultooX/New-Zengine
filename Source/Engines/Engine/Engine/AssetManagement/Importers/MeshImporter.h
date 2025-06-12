@@ -8,8 +8,10 @@ namespace TGA::FBX { struct Mesh; }
 class Mesh;
 class MeshImporter
 {
+#pragma region [LOAD FROM PATH]
+
 public:
-	static void Load(const char* aPath, std::vector<MeshData>& aOutAssetList);
+	static void LoadAllMeshes(const char* aPath, std::vector<MeshData>& aOutAssetList);
 
 private:
 	static void Load_FBX(const char* aPath, std::vector<MeshData>& aOutAssetList);
@@ -17,23 +19,21 @@ private:
 
 	static void ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, std::vector<MeshData>& aOutAssetList);
 
+#pragma endregion
 
-
-
-
-
+#pragma region [LOAD FROM ID]
 
 public:
 	static void Load(const size_t& aID, Mesh& aOutAsset);
-	static void Load(const char* aPath, Mesh& aOutAsset);
-	static void Unload(Mesh& aOutAsset);
 
-	static void LoadmportedAssets();
+
+#pragma endregion
+
+	static void LoadExportedAssets();
 	static std::vector<BinaryExporter::MeshIndex>& GetImportedAssets();
 
-private:
-	static void Load_FBX(const char* aPath, Mesh& aOutAsset);
-	static void Load_OBJ(const char* aPath, Mesh& aOutAsset);
+	static void Unload(Mesh& aOutAsset);
+
 
 private:
 	static void ConvertFromTGAMesh(const TGA::FBX::Mesh& aMesh, Mesh& aOutMesh);

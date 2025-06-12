@@ -14,13 +14,7 @@ class AssetManager
 {
 public:
 	template<typename T>
-	static AssetPointer<T> Get(const char* anAssetPath);
-
-	template<typename T>
 	static AssetPointer<T> Get(const size_t& anID);
-
-	template <typename T>
-	static AssetPointer<T> LoadAsset(const char* anAssetPath);
 
 	template <typename T>
 	static AssetPointer<T> LoadAsset(const size_t& anID);
@@ -34,13 +28,6 @@ private:
 
 
 template<typename T>
-inline AssetPointer<T> AssetManager::Get(const char* anAssetPath)
-{
-	AssetPointer<T> ptr = AssetManager::LoadAsset<T>(anAssetPath);
-	return ptr;
-}
-
-template<typename T>
 inline AssetPointer<T> AssetManager::Get(const size_t& anID)
 {
 	AssetPointer<T> ptr = AssetManager::LoadAsset<T>(anID);
@@ -49,23 +36,6 @@ inline AssetPointer<T> AssetManager::Get(const size_t& anID)
 
 
 
-
-
-template<typename T>
-inline AssetPointer<T> AssetManager::LoadAsset(const char* anAssetPath)
-{
-	std::type_index type = typeid(T);
-
-	AssetList<T>* assetList = static_cast<AssetList<T>*>(AssetLists[type]);
-	if (!assetList->Exists(anAssetPath))
-	{
-		T* asset = new T(anAssetPath);
-		assetList->Add(asset);
-	}
-
-	T* addedAsset = assetList->Get(anAssetPath);
-	return AssetPointer<T>(addedAsset, assetList);
-}
 
 template<typename T>
 inline AssetPointer<T> AssetManager::LoadAsset(const size_t& anID)

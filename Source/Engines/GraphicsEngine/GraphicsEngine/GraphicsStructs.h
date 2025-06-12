@@ -56,3 +56,9 @@ struct SubMesh {
 	ID3D11Buffer* indexBuffer;
 };
 
+struct MeshData {
+	std::string meshName;
+
+	std::vector<Vertex> verticies;
+	std::vector<unsigned> indicies;
+};

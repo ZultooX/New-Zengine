@@ -19,20 +19,24 @@ enum class Importers
 	FBX, OBJ
 };
 
-void MeshImporter::Load(const char* aPath, std::vector<MeshData>& aOutAssetList)
+void MeshImporter::LoadAllMeshes(const char* aPath, std::vector<MeshData>& aOutAssetList)
 {
 	static std::unordered_map<std::string, Importers> supportedFiles = {
 		{ ".fbx" , Importers::FBX },
 		{ ".obj" , Importers::OBJ },
 	};
-	Importers importer = supportedFiles[std::filesystem::path(aPath).extension().string()];
-
-	switch (importer)
+	
+	for (auto& it : std::filesystem::directory_iterator(ZENGINE_MODELS_PATH))
 	{
-	case Importers::FBX: Load_FBX(aPath, aOutAssetList); break;
-	case Importers::OBJ: Load_OBJ(aPath, aOutAssetList); break;
+		Importers importer = supportedFiles[it.path().extension().string()];
 
-	default: DebugLogger::LogWarning("Not supported format."); break;
+		switch (importer)
+		{
+		case Importers::FBX: Load_FBX(aPath, aOutAssetList); break;
+		case Importers::OBJ: Load_OBJ(aPath, aOutAssetList); break;
+
+		default: DebugLogger::LogWarning("Not supported format."); break;
+		}
 	}
 }
 
@@ -194,29 +198,12 @@ void MeshImporter::Load(const size_t& aID, Mesh& aOutAsset)
 	}
 }
 
-void MeshImporter::Load(const char* aPath, Mesh& aOutAsset)
-{
-	static std::unordered_map<std::string, Importers> supportedFiles = {
-	{ ".fbx" , Importers::FBX },
-	{ ".obj" , Importers::OBJ },
-	};
-	Importers importer = supportedFiles[std::filesystem::path(aPath).extension().string()];
-
-	switch (importer)
-	{
-	case Importers::FBX: Load_FBX(aPath, aOutAsset); break;
-	case Importers::OBJ: Load_OBJ(aPath, aOutAsset); break;
-
-	default: DebugLogger::LogWarning("Not supported format."); break;
-	}
-}
-
 void MeshImporter::Unload(Mesh& aOutAsset)
 {
 	aOutAsset.Release();
 }
 
-void MeshImporter::LoadmportedAssets()
+void MeshImporter::LoadExportedAssets()
 {
 	std::ifstream in(ZENGINE_ASSETS_PATH "meshes.bundle", std::ios::binary);
 	BinaryExporter::AssetHeader header;
@@ -239,33 +226,6 @@ void MeshImporter::LoadmportedAssets()
 }
 
 std::vector<BinaryExporter::MeshIndex>& MeshImporter::GetImportedAssets() { return myLoadedMeshes; }
-
-
-
-// TGA FBX
-void MeshImporter::Load_FBX(const char* aPath, Mesh& aOutAsset)
-{
-	static bool importerInitialized = false;
-	if (!importerInitialized)
-	{
-		TGA::FBX::Importer::InitImporter();
-		importerInitialized = true;
-	}
-
-	TGA::FBX::Mesh tgaMesh;
-	TGA::FBX::FbxImportStatus status = TGA::FBX::Importer::LoadMesh(aPath, tgaMesh);
-
-	if (!status) DebugLogger::LogError("Loading of mesh failed.");
-
-	ConvertFromTGAMesh(tgaMesh, aOutAsset);
-}
-
-// ?
-void MeshImporter::Load_OBJ(const char* aPath, Mesh& aOutAsset)
-{
-}
-
-
 
 
 

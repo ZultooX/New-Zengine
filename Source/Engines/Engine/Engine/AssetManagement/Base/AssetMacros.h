@@ -3,7 +3,6 @@
 #define BASE_ASSET(assetType, assetImporterClass, assetExporterClass)									\
 public:																									\
 assetType() = default;																					\
-assetType(const char* aPath) : Asset(aPath) { assetImporterClass::Load(aPath, *this); }					\
 assetType(const size_t& aID) : Asset(aID)   { assetImporterClass::Load(aID, *this); }					\
 assetType(const assetType&) = default;																	\
 assetType& operator=(const assetType&) = default;														\

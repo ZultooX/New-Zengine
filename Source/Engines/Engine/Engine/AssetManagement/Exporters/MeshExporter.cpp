@@ -15,20 +15,21 @@ void MeshExporter::ExportAllToBinaryFile(const char* aOutDst)
 	std::vector<BinaryExporter::MeshData> myBinaryData;
 	std::vector<BinaryExporter::MeshIndex> myIndex;
 
-	// Load meshes
-	for (const auto& entry : std::filesystem::directory_iterator(ZENGINE_MODELS_PATH))
-	{
-		Mesh mesh(entry.path().string().c_str());
+	std::vector<MeshData> meshData;
+	MeshImporter::LoadAllMeshes("", meshData);
 
+	// Load meshes
+	for (const MeshData& mData : meshData)
+	{
 		BinaryExporter::MeshData data;
-		data.verts = mesh.GetVerticies();
-		data.indicies = mesh.GetIndicies();
-		data.vertCount = static_cast<int>(mesh.GetVerticies().size());
-		data.indiCount = static_cast<int>(mesh.GetIndicies().size());
+		data.verts = mData.verticies;
+		data.indicies = mData.indicies;
+		data.vertCount = static_cast<int>(mData.verticies.size());
+		data.indiCount = static_cast<int>(mData.indicies.size());
 
 		BinaryExporter::MeshIndex index;
-		index.id = std::hash<std::string>{}(mesh.GetName());
-		index.name = mesh.GetName();
+		index.id = std::hash<std::string>{}(mData.meshName);
+		index.name = mData.meshName;
 		index.size = sizeof(int) * 2 + sizeof(Vertex) * data.verts.size() + sizeof(unsigned) * data.indicies.size();
 
 		myBinaryData.emplace_back(std::move(data));
