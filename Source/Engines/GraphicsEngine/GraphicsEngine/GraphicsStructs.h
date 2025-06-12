@@ -56,9 +56,3 @@ struct SubMesh {
 	ID3D11Buffer* indexBuffer;
 };
 
-struct MeshData
-{
-	std::vector<SubMesh> meshes;
-	Skeleton* skeleton;
-};
-
