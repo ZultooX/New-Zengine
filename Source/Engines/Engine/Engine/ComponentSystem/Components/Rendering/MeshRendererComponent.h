@@ -17,14 +17,12 @@ namespace Zengine::ComponentSystem
 
 	public:
 #pragma region [MESH]
-		void SetMesh(const char* aMeshName);
 		void SetMesh(const size_t& aMeshID);
 		const AssetPointer<Mesh>& GetMesh() const;
 		AssetPointer<Mesh>& GetMesh();
 #pragma endregion
 
 #pragma region [MATERIAL]
-		void SetMaterial(const std::string& aMaterialPath);
 		void SetMaterial(const size_t& aMaterialID);
 
 		const AssetPointer<Material>& GetMaterial() const;

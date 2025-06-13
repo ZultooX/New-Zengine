@@ -3,6 +3,7 @@
 class Mesh;
 class MeshExporter
 {
+
 public:
 	/// <summary>
 	/// Exports the shader to a binary file.

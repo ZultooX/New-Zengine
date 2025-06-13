@@ -16,7 +16,7 @@ void MeshExporter::ExportAllToBinaryFile(const char* aOutDst)
 	std::vector<BinaryExporter::MeshIndex> myIndex;
 
 	std::vector<MeshData> meshData;
-	MeshImporter::LoadAllMeshes("", meshData);
+	MeshImporter::LoadAllMeshes(meshData);
 
 	// Load meshes
 	for (const MeshData& mData : meshData)
