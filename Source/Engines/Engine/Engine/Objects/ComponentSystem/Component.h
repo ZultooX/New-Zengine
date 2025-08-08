@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include <typeindex>
 #include <string>
-#include <Engine/ComponentSystem/Base/ComponentData.h>
 
 #define COMPONENT_BASICS(ComponentType)											\
 public:																\
@@ -13,7 +12,7 @@ friend class SceneExporter; \
 	ComponentType() : Component() { myName = #ComponentType; myType = typeid(ComponentType); }	\
 	~ComponentType() override = default;							
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	enum BitFlags
 	{

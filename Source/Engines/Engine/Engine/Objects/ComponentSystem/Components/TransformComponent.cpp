@@ -1,6 +1,6 @@
 #include "TransformComponent.h"
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	void Transform::UpdateRotationMatrix(Eigen::Matrix3f aMatrix)
 	{

@@ -6,7 +6,7 @@
 #include <d3d11.h>
 #include <Engine/ComponentSystem/Components/TransformComponent.h>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	Camera* Camera::MainCamera;
 

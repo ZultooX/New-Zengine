@@ -15,6 +15,8 @@ namespace Zengine
 		const std::string& GetPath() const;
 		void SetPath(const std::string& _path);
 
+		inline void SetDirty() { __noop; }
+
 	protected:
 		std::string path = "";
 		unsigned references = 0;

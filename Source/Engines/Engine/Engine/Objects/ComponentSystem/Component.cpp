@@ -1,10 +1,10 @@
 #include "Component.h"
 
-#include <Engine/ComponentSystem/Base/ComponentData.h>
-#include <Engine/ComponentSystem/GameObjectManager.h>
+#include <Engine/Objects/ComponentSystem/Base/ComponentData.h>
+#include <Engine/Objects/ComponentSystem/GameObjectManager.h>
 #include <fstream>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	Component::Component()
 		: myMask(),

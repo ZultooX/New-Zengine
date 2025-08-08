@@ -1,15 +1,15 @@
 #pragma once
 
-#include <Engine/ComponentSystem/Component.h>
+#include <Engine/Objects/ComponentSystem/Component.h>
 
 #include <GraphicsEngine/GraphicsStructs.h>
 #include <GraphicsEngine/Model/Model.h>
 
-#include <Engine/AssetManagement/Assets/Mesh.h>
-#include <Engine/AssetManagement/Assets/Material.h>
-#include <Engine/AssetManagement/Base/AssetPointer.h>
+#include <Engine/Objects/AssetManagement/Assets/Mesh.h>
+#include <Engine/Objects/AssetManagement/Assets/Material.h>
+#include <Engine/Objects/Base/AssetPointer.hpp>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	class MeshRenderer final : public Component
 	{

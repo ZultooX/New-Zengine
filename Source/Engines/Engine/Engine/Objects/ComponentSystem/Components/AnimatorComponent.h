@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/ComponentSystem/Component.h>
+#include <Engine/Objects/ComponentSystem/Component.h>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	class Animator : public Component
 	{

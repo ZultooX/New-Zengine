@@ -1,9 +1,9 @@
 #include "MeshRendererComponent.h"
 
 #include <Engine/Utilities/MainSingleton.h>
-#include <Engine/AssetManagement/AssetManager.h>
+#include <Engine/Objects/AssetManagement/Base/AssetManager.hpp>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 
 
@@ -12,6 +12,7 @@ namespace Zengine::ComponentSystem
 
 	void MeshRenderer::SetMesh(const size_t& aMeshID)
 	{
+		MainSingleton::GetInstance<Zengine::AssetManager>().Get();
 		myMesh = AssetManager::GetFromID<Mesh>(aMeshID);
 	}
 

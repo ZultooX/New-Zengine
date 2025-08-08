@@ -1,25 +1,23 @@
 #include "ForwardPass.h"
 
-#include <Engine/AssetManagement/AssetManager.h>
-
 #include <GraphicsEngine/GBuffer.h>
 
 #include <Engine/EngineSettings.h>
-#include <Engine/ComponentSystem/Components/TransformComponent.h>
-#include <Engine/ComponentSystem/ComponentManager.h>
-#include <Engine/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
-#include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
+#include <Engine/Objects/ComponentSystem/Components/TransformComponent.h>
+#include <Engine/Objects/ComponentSystem/ComponentManager.h>
+#include <Engine/Objects/ComponentSystem/Components/Rendering/MeshRendererComponent.h>
+#include <Engine/Objects/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <GraphicsEngine/Drawers/MeshDrawer.h>
 #include <GraphicsEngine/Buffers/BufferManager.h>
 
 #include <Engine/Engine.h>
 #include <GraphicsEngine/GraphicsEngine.h>
-#include <Engine/AssetManagement/Assets/Material.h>
-#include <Engine/AssetManagement/Assets/PixelShader.h>
-#include <Engine/AssetManagement/Assets/Texture.h>
-#include <Engine/AssetManagement/Assets/Mesh.h>
-#include <Engine/AssetManagement/AssetManager.h>
+#include <Engine/Objects/AssetManagement/Assets/Material.h>
+#include <Engine/Objects/AssetManagement/Assets/Shaders/PixelShader.h>
+#include <Engine/Objects/AssetManagement/Assets/Texture.h>
+#include <Engine/Objects/AssetManagement/Assets/Mesh.h>
+#include <Engine/Objects/AssetManagement/Base/AssetManager.hpp>
 
 #include <Shaders/Common/ConstantBuffers.h>
 

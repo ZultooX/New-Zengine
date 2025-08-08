@@ -105,10 +105,10 @@ namespace Zengine
 
     enum PipelineStage : int
     {
-        VertexShader = 1 << 0,
-        PixelShader = 1 << 1,
-        ComputeShader = 1 << 2,
-        HullShader = 1 << 3
+        eVertexShader = 1 << 0,
+        ePixelShader = 1 << 1,
+        eComputeShader = 1 << 2,
+        eHullShader = 1 << 3
     };
 
 	class Texture : public virtual Asset

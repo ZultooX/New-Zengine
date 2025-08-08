@@ -9,6 +9,7 @@
 #include <Zultools/Timer.h>
 
 #include <GraphicsEngine/Rendering/RenderPass/RenderPassManager.h>
+#include <Engine/Objects/AssetManagement/Base/AssetManager.hpp>
 
 std::unordered_map<std::string, void*> MainSingleton::mySingletons;
 bool MainSingleton::myIsInitialized = false;
@@ -19,6 +20,7 @@ void MainSingleton::Setup()
 	myIsInitialized = true;
 
 	RegisterInstance<RenderPassManager>();
+	RegisterInstance<Zengine::AssetManager>();
 
 	RegisterInstance<Zengine::Buffers::BufferManager>();
 

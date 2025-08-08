@@ -15,10 +15,10 @@ namespace Zengine
 	}
 }
 
-#include <Engine/AssetManagement/Base/AssetPointer.h>
-#include <Engine/AssetManagement/Assets/Mesh.h>
-#include <Engine/AssetManagement/Assets/PixelShader.h>
-#include <Engine/AssetManagement/Assets/VertexShader.h>
+#include <Engine/Objects/Base/AssetPointer.hpp>
+#include <Engine/Objects/AssetManagement/Assets/Mesh.h>
+#include <Engine/Objects/AssetManagement/Assets/Shaders/PixelShader.h>
+#include <Engine/Objects/AssetManagement/Assets/Shaders/VertexShader.h>
 
 namespace Zengine::Graphics
 {

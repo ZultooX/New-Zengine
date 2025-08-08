@@ -13,7 +13,7 @@ namespace Zengine
 		FBX, OBJ
 	};
 
-	void MeshLoader::Load(const char* path, Mesh& mesh, const unsigned& idx)
+	void MeshLoader::Load(const char* path, Zengine::Mesh& mesh, const unsigned& idx)
 	{
 		static std::unordered_map<const char*, Importers> supportedFiles = {
 			{ ".fbx" , Importers::FBX },
@@ -33,6 +33,7 @@ namespace Zengine
 		mesh.SetIndicies(meshList[idx].indicies);
 		mesh.SetVerticies(meshList[idx].verticies);
 		mesh.SetName(meshList[idx].meshName);
+		mesh.SetPath(path);
 	}
 
 	void MeshLoader::Load_FBX(const char* aPath, std::vector<MeshData>& aOutAssetList)

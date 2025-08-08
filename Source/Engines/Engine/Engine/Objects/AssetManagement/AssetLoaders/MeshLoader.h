@@ -1,6 +1,8 @@
 #pragma once
 
+#include <vector>
 #include <Engine/Objects/AssetManagement/Assets/Mesh.h>
+#include <GraphicsEngine/GraphicsStructs.h>
 
 namespace TGA::FBX
 {

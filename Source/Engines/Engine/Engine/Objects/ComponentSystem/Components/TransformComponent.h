@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Engine/ComponentSystem/Component.h>
+#include <Engine/Objects/ComponentSystem/Component.h>
 
 #include <Zultools/Math/Vector3.hpp>
 #include <Zultools/Math/Matrix4x4.hpp>
 
 #include <Eigen/Dense>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	class Transform final : public Component
 	{

@@ -2,18 +2,18 @@
 
 #include <Engine/Editor/DebugLogger.h>
 #include <Zultools/InputManager.h>
-#include <Engine/ComponentSystem/Components/TransformComponent.h>
+#include <Engine/Objects/ComponentSystem/Components/TransformComponent.h>
 
 #include <Zultools/Timer.h>
 #include <Engine/Utilities/MainSingleton.h>
 #include <Engine/Editor/DebugLogger.h>
 #include <ImGui/imgui.h>
-#include <Engine/ComponentSystem/Components/Rendering/Camera/Camera.h>
+#include <Engine/Objects/ComponentSystem/Components/Rendering/Camera/Camera.h>
 #include <Engine/Engine.h>
 #include <Zultools/Input/InputMapper.h>
 #include <Zultools/Input/Input.h>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	void EditorCamera::Start()
 	{

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Engine/ComponentSystem/Component.h>
+#include <Engine/Objects/ComponentSystem/Component.h>
 #include <Zultools/Math/Vector2.hpp>
 
-namespace Zengine::ComponentSystem
+namespace Zengine
 {
 	class EditorCamera : public Component
 	{

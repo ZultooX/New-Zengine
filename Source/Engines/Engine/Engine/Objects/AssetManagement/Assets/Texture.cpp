@@ -14,16 +14,16 @@ namespace Zengine
 	{
 		DX11GraphicsEngine* ge = (DX11GraphicsEngine*)Engine::GetGraphicsEngine();
 
-		if (stage & PipelineStage::VertexShader)
+		if (stage & PipelineStage::eVertexShader)
 			ge->GetContext()->VSSetShaderResources(slot, 1, &srv);
 
-		if (stage & PipelineStage::PixelShader)
+		if (stage & PipelineStage::ePixelShader)
 			ge->GetContext()->PSSetShaderResources(slot, 1, &srv);
 
-		if (stage & PipelineStage::HullShader)
+		if (stage & PipelineStage::eHullShader)
 			ge->GetContext()->HSSetShaderResources(slot, 1, &srv);
 
-		if (stage & PipelineStage::ComputeShader)
+		if (stage & PipelineStage::eComputeShader)
 			ge->GetContext()->CSSetShaderResources(slot, 1, &srv);
 	}
 
